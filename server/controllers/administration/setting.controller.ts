@@ -29,7 +29,7 @@ export class SettingController extends BaseController {
                         setting: {
                             name: 'InvoSite',
                             description: 'Sistema de Facturación y Promoción',
-                            logo: 'assest/images/logo.png',
+                            logo: 'assests/images/logo.png',
                             email: 'invosite@gmail.com',
                             address: `C: Sanchez #14 Ap. 102, 30 de Mayo, Distrito Nacional, RD`,
                             twitter: "invositerd",
@@ -60,7 +60,7 @@ export class SettingController extends BaseController {
                         setting: {
                             name: 'InvoSite',
                             description: 'Sistema de Facturación y Promoción',
-                            logo: 'assest/images/logo.png',
+                            logo: 'assests/images/logo.png',
                             email: 'invosite@gmail.com',
                             address: 'C: Sanchez #14 Ap. 102, 30 de Mayo, Distrito Nacional, RD',
                             twitter: "invositerd",

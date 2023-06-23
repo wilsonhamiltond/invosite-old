@@ -9,7 +9,7 @@ export class SettingRoute extends BaseRoute{
         this.controller = settingController;
         const route = Router();
         
-        route.get( `/api/v1/setting/get/current`, (req: Request, res:Response) =>{
+        route.get( `/api/v0/setting/get/current`, (req: Request, res:Response) =>{
             (this.controller as any)['current'](req, res)
         })
         app.use(route)

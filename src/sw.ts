@@ -28,13 +28,13 @@ import { Promise } from "core-js/library/web/timers";
     '/bootstrap/dist/css/bootstrap.css',
     '/material-design-icons/iconfont/material-icons.css',
     '/@angular/material/prebuilt-themes/deeppurple-amber.css',
-    '/assest/css/main.css',
+    'assests/css/main.css',
     'https://fonts.googleapis.com/css?family=Josefin+Slab',
     
     //Othes
     '/favicon.ico',
-    '/assest/images/loading_spinner.gif',
-    '/assest/images/avatar.png'
+    'assests/images/loading_spinner.gif',
+    'assests/images/avatar.png'
     ];
 
     // The install handler takes care of precaching the resources we always need.

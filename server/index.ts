@@ -43,7 +43,6 @@ import { ProductionGenerationRoute } from "./routes/production/generation.route"
 import { StockRoute } from "./routes/inventory/stock.route";
 
 import { BaseController } from "./controllers/base.controller";
-import * as session from 'express-session'
 declare const process: any;
 
 import { Utils, Config } from "./utils/utils";
@@ -54,6 +53,8 @@ import { BoxSchema } from "./schemas/administration/box.schema";
 import { ActiveBoxSchema } from "./schemas/administration/active.box.schema";
 import { NcfController } from "./controllers/administration/ncf.controller";
 import * as cors from "cors";
+
+import { expressjwt } from "express-jwt";
 
 class AppServer {
   public app: any;
@@ -74,10 +75,16 @@ class AppServer {
   }
 
   config() {
-    this.app.use(session(this.sessionConfig));
-
     const path = process.cwd();
-    this.app.use(cors());
+    this.app.use(
+      cors({
+        origin: "*",
+      })
+    );
+    this.app.use(
+      "/api/v1",
+      expressjwt({ secret: this.sessionConfig.secret, algorithms: ["HS256"] })
+    );
     this.app.use(json({ limit: this.max_file_size }));
     this.app.use(urlencoded({ limit: this.max_file_size, extended: true }));
     this.app.use(express.static(join(path, "/public")));
@@ -111,9 +118,18 @@ class AppServer {
       this.app,
       new BaseController(undefined, "eventLog", EventLogSchema)
     );
-    new BaseRoute(this.app, new BaseController(undefined, "module", ModuleSchema));
-    new BaseRoute(this.app, new BaseController(undefined, "widget", WidgetSchema));
-    new BaseRoute(this.app, new BaseController(undefined, "client", ClientSchema));
+    new BaseRoute(
+      this.app,
+      new BaseController(undefined, "module", ModuleSchema)
+    );
+    new BaseRoute(
+      this.app,
+      new BaseController(undefined, "widget", WidgetSchema)
+    );
+    new BaseRoute(
+      this.app,
+      new BaseController(undefined, "client", ClientSchema)
+    );
     new BaseRoute(
       this.app,
       new BaseController(undefined, "employee", EmployeeSchema)
@@ -122,12 +138,18 @@ class AppServer {
       this.app,
       new BaseController(undefined, "clientType", ClientTypeSchema)
     );
-    new BaseRoute(this.app, new BaseController(undefined, "payment", PaymentSchema));
+    new BaseRoute(
+      this.app,
+      new BaseController(undefined, "payment", PaymentSchema)
+    );
     new BaseRoute(
       this.app,
       new BaseController(undefined, "paymentMethod", PaymentMethodSchema)
     );
-    new BaseRoute(this.app, new BaseController(undefined, "office", OfficeSchema));
+    new BaseRoute(
+      this.app,
+      new BaseController(undefined, "office", OfficeSchema)
+    );
     new BaseRoute(
       this.app,
       new BaseController(undefined, "serviceType", ServiceTypeSchema)

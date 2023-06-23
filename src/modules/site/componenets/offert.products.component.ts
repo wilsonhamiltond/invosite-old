@@ -22,7 +22,7 @@ import { OnLoadedChange } from '../../../services/utils/util.service';
                                     <!-- SLIDE  -->
                                     <li data-transition="random" data-slotamount="7" data-masterspeed="300" data-saveperformance="off" *ngFor="let product of product_offerts">
                                         <!-- MAIN IMAGE -->
-                                        <a [routerLink]="['/site/product/'+ product._id + '/details']"><img style="height: 100%" [src]="product.image" onerror="this.src='assest/images/empty.png';" alt="slider" data-bgposition="center bottom" data-bgfit="contain" data-bgrepeat="no-repeat"></a>
+                                        <a [routerLink]="['/site/product/'+ product._id + '/details']"><img style="height: 100%" [src]="product.image" onerror="this.src='assests/images/empty.png';" alt="slider" data-bgposition="center bottom" data-bgfit="contain" data-bgrepeat="no-repeat"></a>
 
                                         <!-- LAYER NR. 1 -->
                                         <div class="tp-caption sfl tp-resizeme" data-x="left" data-hoffset="60" data-y="center" data-voffset="-110" data-speed="800"

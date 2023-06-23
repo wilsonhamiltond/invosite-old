@@ -1,17 +1,18 @@
 ﻿import { HttpClient } from "@angular/common/http";
 import { logoffTrigger } from "./utils/util.service";
 import { Observable } from "rxjs";
-import { map } from "rxjs/operators";
-import { environment } from "src/environments/environment";
+import { environment } from "../environments/environment";
 
 export class BaseService {
   public http: HttpClient;
   public document_name: string;
   public base_url: string = "";
+  public base_url_v0: string = "";
   constructor(http: HttpClient, document_name: string) {
     this.http = http;
     this.document_name = document_name;
     this.base_url = `${environment.apiv1}${document_name}`;
+    this.base_url_v0 = `${environment.apiv0}${document_name}`;
   }
 
   list() {
@@ -49,9 +50,11 @@ export class BaseService {
   }
   request(method: string, url: string, _object?: any) {
     return new Observable<any>((subscriber) => {
+      const token: string | null = sessionStorage.getItem('invo_site_token');
       const requestOptions = {
-        'Content-Type': 'application/json'
-    }
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+      };
       let httpRequest;
       if (_object)
         httpRequest = this.http.request(method, url, {

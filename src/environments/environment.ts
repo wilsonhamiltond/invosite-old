@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  apiv1: 'http://localhost:8530/api/v1/'
+  apiv1: 'http://localhost:8530/api/v1/',
+  apiv0: 'http://localhost:8530/api/v0/',
 };
 
 /*

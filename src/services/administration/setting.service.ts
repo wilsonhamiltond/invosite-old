@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ISetting } from '../../models/administration/setting.model';
-import { requestOptions } from '../utils/util.service';
 import { Observable } from 'rxjs'
-import { share, map } from 'rxjs/operators';
+import { share } from 'rxjs/operators';
 import { BaseService } from '../base.service'
 let changeSettingTrigger: any;
 export const OnChangeSetting: Observable<any> = new Observable((observable: any) => {
@@ -135,6 +134,6 @@ export class SettingService extends BaseService {
         document.body.appendChild(sheet);
     }
     current() {
-        return this.request('get', `${this.base_url}/get/current`);
+        return this.request('get', `${this.base_url_v0}/get/current`);
     }
 }

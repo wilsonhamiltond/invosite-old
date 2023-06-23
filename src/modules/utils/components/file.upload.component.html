@@ -8,7 +8,7 @@
         (change)="changeFile($event)" /> 
     <input type="hidden" name="image" [(ngModel)]="image_url" />
     <img #image class="logo" [src]="image_url"
-    onerror="this.src='assest/images/empty.png';"  />
+    onerror="this.src='assests/images/empty.png';"  />
     <button class="upload_button" type="button" (click)="input_file.click()">
         <span style="top: -5px;position: relative;">Seleccione un archivo</span> <mat-icon class="link">file_upload</mat-icon> 
     </button>

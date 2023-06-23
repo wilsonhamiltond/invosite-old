@@ -79,7 +79,7 @@ export class LoginComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    let user: IUser = this.userService.getUser();
+    const user: IUser = this.userService.getUser();
     if (user) {
       this.router.navigate(["admin/home/home"]);
       this.notify.info("Su sessión aun esta activa.", "Aviso");
@@ -90,10 +90,15 @@ export class LoginComponent implements AfterViewInit {
     this.loading.showLoading("Iniciando session...");
     this.userService.login(this.user).subscribe((response) => {
       if (response.result == true) {
+        const token: string = response.token;
+        this.userService.setUser(undefined, token);
         this.notify.success("Inicí­o sección corectamente.", "Usuario");
-        let user: IUser = <IUser>response.user;
-        this.userService.setUser(user);
-        this.router.navigate(["admin/home/home"]);
+        this.notify.success('Inicí­o sección corectamente.', 'Usuario' );
+        this.userService.logged().subscribe((response) =>{
+            const user: IUser = <IUser>response.user;
+            this.userService.setUser(user);
+            this.router.navigate(["admin/home/home"]);
+        })
       } else {
         this.loading.hiddenLoading();
         this.notify.warning(

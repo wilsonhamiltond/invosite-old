@@ -95,7 +95,7 @@ export class BaseModel {
         );
       _object[this.config.upload_name] =
         _object[this.config.upload_name] ||
-        `${process.cwd()}/assest/images/empty.png`;
+        `${process.cwd()}/assests/images/empty.png`;
       if (!fs.existsSync(path)) {
         fs.mkdirSync(path);
       }

@@ -6,7 +6,7 @@
                 <mat-card-title>{{fav.name}}</mat-card-title>
                 <mat-card-subtitle>{{fav.value | currency:'':'$':'1.2-2'}}</mat-card-subtitle>
             </mat-card-header>
-            <img mat-card-image [src]="fav.image" onerror="this.src='assest/images/empty.png'" />
+            <img mat-card-image [src]="fav.image" onerror="this.src='assests/images/empty.png'" />
         </mat-card>
     </div>
     <div class="col-md-12 no-padding" style="padding-top: 20px">
@@ -30,7 +30,7 @@
                 <mat-card-title>{{product.name}}</mat-card-title>
                 <mat-card-subtitle>{{product.value | currency:'':'$':'1.2-2'}}</mat-card-subtitle>
             </mat-card-header>
-            <img mat-card-image [src]="product.image" onerror="this.src='assest/images/empty.png'" />
+            <img mat-card-image [src]="product.image" onerror="this.src='assests/images/empty.png'" />
         </mat-card>
     </div>
     <div class="col-md-12 no-padding">
@@ -41,7 +41,7 @@
                 <ng-container matColumnDef="image">
                     <th mat-header-cell *matHeaderCellDef></th>
                     <td mat-cell *matCellDef="let element">
-                        <img style="height: 32px;" [src]="element.image" onerror="this.src='assest/images/empty.png';" />
+                        <img style="height: 32px;" [src]="element.image" onerror="this.src='assests/images/empty.png';" />
                     </td>
                 </ng-container>
 

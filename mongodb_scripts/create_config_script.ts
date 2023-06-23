@@ -15,7 +15,7 @@ const dbConfig = Config()["dbConfig"];
 const application_setting: any = {
   name: "Loan Suite",
   description: "Sistema de manejo de prestamos",
-  logo: "assest/images/logo.png",
+  logo: "assests/images/logo.png",
   email: "@loansuite.net",
   address: "C: Sanchez #14, 30 de Mayo, D.N, Republica dominicana",
   phone: "(829)-494-9665",
@@ -65,7 +65,7 @@ const runConfig = async () => {
         password: "63ebdc9c353b0ec1",
         roles: rol,
         account: {
-          image_url: "assest/images/avatar.png",
+          image_url: "assests/images/avatar.png",
           document: "000-0000000-0",
           gender: "Masculino",
           name: "Administrator",

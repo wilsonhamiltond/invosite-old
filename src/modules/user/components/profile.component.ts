@@ -33,7 +33,7 @@ import { LoadingComponent } from '../../utils/components/loading.component'
                         <mat-icon class="link">mode_edit</mat-icon> 
                     </button>
                     <img #image_url_img class="avatar" [src]="user.account.image_url" 
-                    (error)="user.account.image_url='assest/images/avatar.png'"  />
+                    (error)="user.account.image_url='assests/images/avatar.png'"  />
                 </div>
                 <div class="col-md-12 no-padding">
                     <div class="col-md-6">

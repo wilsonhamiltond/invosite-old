@@ -29,7 +29,7 @@ import { OnLoadedChange } from "../../../services/utils/util.service";
             <img
               [src]="category.image"
               style="height: 48px;"
-              onerror="this.src='assest/images/empty.png';"
+              onerror="this.src='assests/images/empty.png';"
             />
             <br />
             {{ category.name }}
@@ -40,7 +40,7 @@ import { OnLoadedChange } from "../../../services/utils/util.service";
       <!-- Tab panes -->
       <div class="tab-content" *ngIf="category">
         <div role="tabpanel" class="tab-pane fade active in" *ngIf="!category">
-          <img src="assest/images/loading_spinner.gif" />
+          <img src="assests/images/loading_spinner.gif" />
         </div>
         <div role="tabpanel" class="tab-pane fade active in" *ngIf="category">
           <!-- Items -->
@@ -52,7 +52,7 @@ import { OnLoadedChange } from "../../../services/utils/util.service";
                   ><img
                     class="img-responsive"
                     [src]="product.image"
-                    onerror="this.src='assest/images/empty.png';"
+                    onerror="this.src='assests/images/empty.png';"
                     alt=""
                 /></a>
                 <!-- Content -->

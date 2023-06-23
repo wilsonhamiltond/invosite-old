@@ -90,7 +90,7 @@
         <input type="file" class="hidden" [name]="'custom_field' + field._id" type="file" accept="field.file_type" #file (change)="changeFile($event)"
         />
         <div class="col-md-12 no-padding image">
-            <img class="field-image" [src]="field.value" onerror="this.src='assest/images/empty.png';" />
+            <img class="field-image" [src]="field.value" onerror="this.src='assests/images/empty.png';" />
             <button type="button" class="field-image-delete" (click)="delete_instance()">
                 <mat-icon class="icon">close</mat-icon>
             </button>
