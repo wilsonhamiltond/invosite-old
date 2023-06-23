@@ -205,8 +205,9 @@ class AppServer {
     });
 
     this.app.get("/api/v1/session/keepalive", (req: Request, res: Response) => {
-      if (Utils.keepAlive(req, res))
+      const token = Utils.keepAlive(req, res)
         res.json({
+          token,
           result: true,
         });
     });

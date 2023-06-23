@@ -93,7 +93,7 @@ export class UserService extends BaseService {
   public logoff() {
     sessionStorage.removeItem("invo_site_user");
     sessionStorage.removeItem("invo_site_token");
-    return this.http.post(`${this.base_url}/logout`, requestOptions);
+    return this.http.post(`${this.base_url_v0}/logout`, requestOptions);
   }
 
   logged() {

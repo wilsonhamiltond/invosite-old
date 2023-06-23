@@ -1,13 +1,6 @@
-import {IUser, UserModel} from '../security/user.model'
-import {IProduct, ProductModel} from '../inventory/product.model'
+import {IUser} from '../security/user.model'
 import { ISetting } from '../administration/setting.model'
-import { INcf, NcfModel } from '../administration/ncf.model'
-import {IClient, ClientModel} from './client.model'
-import { IOffice, OfficeModel} from './office.model'
 import { BaseModel } from "../base.model";
-import { IPayment } from './payment.model';
-import { IEmployee } from './employee.model';
-import { ITax } from './tax.model';
 import { IBox, BoxModel } from './box.model';
 import { IPaymentMethod } from './payment.method.model';
 

@@ -15,10 +15,10 @@ export class StockController extends BaseController{
             const object:any = req.body
             delete object['_id']
             object.create_user = {
-                user_name: req['session'].user.name,
-                account: req['session'].user.account,
+                user_name: req.auth.name,
+                account: req.auth.account,
             };
-            object.setting = req['session'].user.setting;
+            object.setting = req.auth.setting;
             object.create_date = new Date();      
             object.update_date = new Date()
             await (this.model as StockModel)['transfer'](object);

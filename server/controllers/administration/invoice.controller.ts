@@ -14,7 +14,7 @@ export class InvoiceController extends BaseController{
     async return_invoice(req: Request| any, res:Response){
         try{
             const invoice:any = req.body,
-                user:any = req['session'].user,
+                user:any = req.auth,
                 i = await this.model.return_invoice(invoice, user);
             res.json({
                 result: true,
@@ -34,13 +34,13 @@ export class InvoiceController extends BaseController{
     async from_quotation(req: Request| any, res:Response){
         try{
             const quotation:any = req.body,
-                user:any = req['session'].user;
+                user:any = req.auth;
             if(!quotation._id){
                 quotation.create_user = {
-                    user_name: req['session'].user.name,
-                    account: req['session'].user.account,
+                    user_name: req.auth.name,
+                    account: req.auth.account,
                 };
-                quotation.setting = req['session'].user.setting;
+                quotation.setting = req.auth.setting;
                 quotation.create_date = new Date();      
                 quotation.update_date = new Date()
             }
@@ -63,7 +63,7 @@ export class InvoiceController extends BaseController{
     async from_acknowledgment(req: Request| any, res:Response){
         try{
             const ids:any = req.body,
-                user:any = req['session'].user;
+                user:any = req.auth;
             const i = await this.model.from_acknowledgment(ids, user);
             res.json({
                 result: true,
@@ -84,7 +84,7 @@ export class InvoiceController extends BaseController{
         try{
             const params:any = super.add_object_id(req.body) || {};
             params['$or'] = [{
-                "setting._id": new mongo.ObjectId( req['session'].user.setting._id)
+                "setting._id": new mongo.ObjectId( req.auth.setting._id)
             },
             {
                 "setting": { $exists: false }

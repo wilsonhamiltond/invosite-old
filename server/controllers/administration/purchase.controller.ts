@@ -15,7 +15,7 @@ export class PurchaseController extends BaseController{
     async return_purchase(req: Request | any, res:Response){
         try{
             const purchase:any = req.body,
-                user:any = req['session'].user,
+                user:any = req.auth,
                 i = await this.model.return_purchase(purchase, user);
             res.json({
                 result: true,
@@ -36,7 +36,7 @@ export class PurchaseController extends BaseController{
         try{
             const params:any = req.body || {};
             params['$or'] = [{
-                "setting._id": new mongo.ObjectId( req['session'].user.setting._id)
+                "setting._id": new mongo.ObjectId( req.auth.setting._id)
             },
             {
                 "setting": { $exists: false }

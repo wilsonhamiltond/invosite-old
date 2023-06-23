@@ -13,7 +13,7 @@ export class ProductionGenerationController extends BaseController{
     async cancel(req: Request | any, res:Response){
         try{
             const generation:any = req.body,
-                user:any = req['session'].user,
+                user:any = req.auth,
                 g = await this.model.cancel(generation, user);
             res.json({
                 result: true,

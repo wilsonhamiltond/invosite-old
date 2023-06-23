@@ -34,10 +34,10 @@ export class ServiceController extends BaseController{
                 _id: string = req.params._id;
                 
             payment.create_user = {
-                user_name: req['session'].user.name,
-                account: req['session'].user.account,
+                user_name: req.auth.name,
+                account: req.auth.account,
             };
-            payment.setting = req['session'].user.setting;
+            payment.setting = req.auth.setting;
             payment.create_date = new Date();      
             payment.update_date = new Date();
 

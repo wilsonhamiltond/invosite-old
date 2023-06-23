@@ -11,23 +11,23 @@ export class BaseRoute{
 
         const route = Router();
         route.get( `/api/v1/${this.controller.document_name}`, (req: Request, res:Response) =>{
-            if( Utils.keepAlive(req, res) )
+            
                 this.controller.list(req, res)
         })
         route.get( `/api/v1/${this.controller.document_name}/:_id`, (req: Request, res:Response) =>{
-            if( Utils.keepAlive(req, res) )
+            
                 this.controller.get(req, res)
         })
         route.post( `/api/v1/${this.controller.document_name}`, (req: Request, res:Response) =>{
-            if( Utils.keepAlive(req, res) )
+            
                 this.controller.save(req, res)
         })
         route.put( `/api/v1/${this.controller.document_name}/:_id`, (req: Request, res:Response) =>{
-            if( Utils.keepAlive(req, res) )
+            
                 this.controller.update(req, res)
         })
         route.delete( `/api/v1/${this.controller.document_name}/:_id`, (req: Request, res:Response) =>{
-            if( Utils.keepAlive(req, res) )
+            
                 this.controller.delete(req, res)
         })
 
@@ -35,11 +35,11 @@ export class BaseRoute{
          * Advance services
          */
         route.post( `/api/v1/${this.controller.document_name}/size`, (req: Request, res:Response) =>{
-            if( Utils.keepAlive(req, res) )
+            
                 this.controller.size(req, res)
         })
         route.post( `/api/v1/${this.controller.document_name}/filter`, (req: Request, res:Response) =>{
-            if( Utils.keepAlive(req, res) )
+            
                 this.controller.filter(req, res)
         })
         route.post( `/api/v1/${this.controller.document_name}/unauthorizad_filter`, (req: Request, res:Response) =>{
@@ -49,7 +49,7 @@ export class BaseRoute{
             this.controller.unauthorizad_size(req, res)
         })
         route.post( `/api/v1/${this.controller.document_name}/aggregate`, (req: Request, res:Response) =>{
-            if( Utils.keepAlive(req, res) )
+            
                 this.controller.aggregate(req, res)
         })
 
@@ -57,7 +57,7 @@ export class BaseRoute{
             dest: join(process.cwd(), '/public/files/temps/') 
         }).single(this.controller.document_name),  (req: any, res) => {
             const file = req['file'];
-            if( Utils.keepAlive(req, res) )
+            
                 res.json({
                     file: file,
                     result: true
@@ -65,11 +65,11 @@ export class BaseRoute{
         });
         
         route.post( `/api/v1/${this.controller.document_name}/send_mail`, (req: Request, res:Response) =>{
-            if( Utils.keepAlive(req, res) )
+            
                 this.controller.send_mail(req, res)
         })
         route.post( `/api/v1/${this.controller.document_name}/excel`, (req: Request, res:Response) =>{
-            if( Utils.keepAlive(req, res) )
+            
                 this.controller.excel(req, res)
         })
         app.use(route)

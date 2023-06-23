@@ -25,7 +25,7 @@ export class BaseController{
         try{
             const params:any = {};
             params['$or'] = [{
-                'setting._id': req['session'].user.setting._id
+                'setting._id': req.auth.setting._id
             },
             {
                 setting: { $exists: false }
@@ -66,11 +66,11 @@ export class BaseController{
             const object:any = req.body
             delete object['_id']
             object.create_user = {
-                _id: req['session'].user._id,
-                user_name: req['session'].user.name,
-                account: req['session'].user.account,
+                _id: req.auth._id,
+                user_name: req.auth.name,
+                account: req.auth.account,
             };
-            object.setting = req['session'].user.setting;
+            object.setting = req.auth.setting;
             object.create_date = new Date();      
             object.update_date = new Date()
             const doc = await this.model.save(object);
@@ -94,7 +94,7 @@ export class BaseController{
             object:any = req.body    
             object.update_date = new Date()
             if( !object.setting )
-                object.setting = req['session'].user.setting;
+                object.setting = req.auth.setting;
             const message = await this.model.update(_id, object);
             res.json({
                 result: true,
@@ -150,9 +150,9 @@ export class BaseController{
                 sort = req.body.sort || {},
                 limit = req.body.limit || 0,
                 skip = req.body.skip;
-                
+
             params['$or'] = [{
-                'setting._id': req['session'].user.setting._id
+                'setting._id': req.auth.setting._id
             },
             {
                 setting: { $exists: false }
@@ -211,7 +211,7 @@ export class BaseController{
         try{
             const params:any = this.replaceRegEx(req.body.params) || {};
             params['$or'] = [{
-                'setting._id': req['session'].user.setting._id
+                'setting._id': req.auth.setting._id
             },
             {
                 setting: { $exists: false }
@@ -254,7 +254,7 @@ export class BaseController{
                 disk_usage:any = req.body.disk_usage || false;
             
             $match['$or'] = [{
-                'setting._id': new mongo.ObjectId( req['session'].user.setting._id )
+                'setting._id': new mongo.ObjectId( req.auth.setting._id )
             },
             {
                 setting: { $exists: false }
@@ -289,8 +289,8 @@ export class BaseController{
                 action: action,
                 object: req.body? body : req.params,
                 create_date: new Date(),
-                create_user: req['session']? req['session'].user : {},
-                setting: req['session']? req['session'].user? req['session'].user.setting : {} : {}
+                create_user: req['session']? req.auth : {},
+                setting: req['session']? req.auth? req.auth.setting : {} : {}
             };
             const eventLogModel = new BaseModel(EventLogSchema, 'eventLog');
             eventLogModel.save( event_log )
@@ -327,14 +327,14 @@ export class BaseController{
             config = req.body.config || {},
             path = process.cwd(),
             settingModel = new BaseModel(SettingSchema, 'setting'),
-            setting: any = await settingModel.get(req['session'].user.setting._id);
+            setting: any = await settingModel.get(req.auth.setting._id);
         params['$or'] = [{
-            'setting._id': req['session'].user.setting._id
+            'setting._id': req.auth.setting._id
         },
         {
             setting: { $exists: false }
         }]
-        config.logo = join(path, 'public', 'files', req['session'].user.setting._id, 'logo.png')
+        config.logo = join(path, 'public', 'files', req.auth.setting._id, 'logo.png')
         const docs = await this.model.filter(params, fields, sort, skip, limit),
             data = this.parse_invoice(docs);
         config.fields[config.fields.length-1][2] = data.total_invoice.toString();

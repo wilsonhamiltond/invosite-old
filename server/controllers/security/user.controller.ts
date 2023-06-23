@@ -49,10 +49,10 @@ export class UserController extends BaseController {
       const _user: any = req.body,
         user = await this.model.login(_user),
         profile = {
-          user_name: user.user_name,
-          name: `${user.name} ${user.last_name}`,
+          user_name: user.name,
+          name: `${user.account.name} ${user.account.last_name}`,
           _id: user._id.toString(),
-          setting: user.setting.toString(),
+          setting: { _id: user.setting._id.toString()},
         },
         options = Object.assign({}, this.sessionConfig.options);
       const token = jwt.sign(profile, this.sessionConfig.secret, options);

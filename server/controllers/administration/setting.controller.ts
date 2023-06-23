@@ -46,8 +46,8 @@ export class SettingController extends BaseController {
                     });
                 }
             } else {
-                if (req['session'].user) {
-                    const setting = await this.model.get(req['session'].user.setting._id)
+                if (req.auth) {
+                    const setting = await this.model.get(req.auth.setting._id)
                     res.json({
                         result: true,
                         online_shop: online_shop,

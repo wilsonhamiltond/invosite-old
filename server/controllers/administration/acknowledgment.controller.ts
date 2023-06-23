@@ -13,7 +13,7 @@ export class AcknowledgmentController extends BaseController{
     async cancel(req: Request | any, res:Response){
         try{
             const acknowledgment:any = req.body,
-                user:any = req['session'].user,
+                user:any = req.auth,
                 i = await this.model.cancel(acknowledgment, user);
             res.json({
                 result: true,
