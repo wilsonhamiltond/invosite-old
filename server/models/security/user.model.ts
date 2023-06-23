@@ -56,7 +56,7 @@ export class UserModel extends BaseModel {
           _user.account.image_url || ""
         );
       _user.account.image_url =
-        _user.account.image_url || `${process.cwd()}/assests/images/avatar.png`;
+        _user.account.image_url || `${process.cwd()}/assets/images/avatar.png`;
       if (_user.password) _user.password = this.encrypt(_user.password);
       await fs.renameSync(old_path, `${path}${_id}.png`);
 

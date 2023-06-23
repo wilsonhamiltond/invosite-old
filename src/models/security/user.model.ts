@@ -33,7 +33,7 @@ export class AccountModel extends BaseModel implements IAccount{
     document: string;
     constructor(){
         super();
-        this.image_url = 'assetst/images/avatar.png'    
+        this.image_url = 'assets/images/avatar.png'    
     }
 }
 

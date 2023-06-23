@@ -11,6 +11,7 @@ import { ISetting } from "../models/administration/setting.model";
 import { SettingModel } from "../models/administration/setting.model";
 import { LoadingComponent } from "../modules/utils/components/loading.component";
 import { NotifyService } from "../services/utils/notify.service";
+import { environment } from "src/environments/environment";
 
 @Component({
   styles: [
@@ -47,7 +48,7 @@ export class LoginComponent implements AfterViewInit {
   public setting: ISetting = new SettingModel();
   @ViewChild(LoadingComponent)
   public loading!: LoadingComponent;
-
+  url: string = "";
   constructor(
     public notify: NotifyService,
     public userService: UserService,
@@ -56,10 +57,11 @@ export class LoginComponent implements AfterViewInit {
     public titleService: Title
   ) {
     this.user = new UserModel();
+    this.url = environment.url;
   }
 
   getSetting() {
-    //this.loading.showLoading('');
+    this.loading.showLoading("");
     this.settingService.current().subscribe((response: any) => {
       if (response.result == true) {
         this.setting = <ISetting>response.setting;
@@ -84,7 +86,9 @@ export class LoginComponent implements AfterViewInit {
       this.router.navigate(["admin/home/home"]);
       this.notify.info("Su sessión aun esta activa.", "Aviso");
     }
-    this.getSetting();
+    setTimeout(() => {
+      this.getSetting();
+    });
   }
   login() {
     this.loading.showLoading("Iniciando session...");
@@ -93,12 +97,12 @@ export class LoginComponent implements AfterViewInit {
         const token: string = response.token;
         this.userService.setUser(undefined, token);
         this.notify.success("Inicí­o sección corectamente.", "Usuario");
-        this.notify.success('Inicí­o sección corectamente.', 'Usuario' );
-        this.userService.logged().subscribe((response) =>{
-            const user: IUser = <IUser>response.user;
-            this.userService.setUser(user);
-            this.router.navigate(["admin/home/home"]);
-        })
+        this.notify.success("Inicí­o sección corectamente.", "Usuario");
+        this.userService.logged().subscribe((response) => {
+          const user: IUser = <IUser>response.user;
+          this.userService.setUser(user);
+          this.router.navigate(["admin/home/home"]);
+        });
       } else {
         this.loading.hiddenLoading();
         this.notify.warning(

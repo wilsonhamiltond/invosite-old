@@ -1,15 +1,10 @@
-﻿import { Component, AfterViewInit, NgZone } from "@angular/core";
-import { LoadingComponent } from "../../utils/components/loading.component";
+﻿import { Component, OnInit, NgZone } from "@angular/core";
 import { IInvoice } from "../../../models/administration/invoice.model";
 import { IPurchase } from "../../../models/administration/purchase.model";
 import { IPayment } from "../../../models/administration/payment.model";
-import { IProduct } from "../../../models/inventory/product.model";
 import { InvoiceService } from "../../../services/administration/invoice.service";
 import { PurchaseService } from "../../../services/administration/purchase.service";
-import {
-  showLoginChangeTrigger,
-  hideLoginChangeTrigger,
-} from "../../utils/components/loading.component";
+
 import { AcknowledgmentService } from "../../../services/administration/acknowledgment.service";
 import { Observable, forkJoin } from "rxjs";
 import { PaymentService } from "../../../services/administration/payment.service";
@@ -72,7 +67,7 @@ import { PaymentService } from "../../../services/administration/payment.service
     PaymentService,
   ],
 })
-export class GeneralResumeWidget implements AfterViewInit {
+export class GeneralResumeWidget implements OnInit {
   public total: number = 0;
   public payment: number = 0;
   public pending: number = 0;
@@ -89,8 +84,8 @@ export class GeneralResumeWidget implements AfterViewInit {
     public zone: NgZone
   ) {}
 
-  ngAfterViewInit() {
-    this.load_totals();
+  ngOnInit() {
+    this.load_totals({});
   }
 
   load_totals(event?: any) {

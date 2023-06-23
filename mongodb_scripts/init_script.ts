@@ -423,7 +423,7 @@ const application_setting = {
   print_sale_point: true,
   name: "Incentory Suite",
   description: "Sistema para manejo de inventario",
-  logo: "assests/images/logo.png",
+  logo: "assets/images/logo.png",
   email: "info@inventoryshite.net",
   address: "",
   representant_name: "",

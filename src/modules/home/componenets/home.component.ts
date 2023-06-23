@@ -1,4 +1,4 @@
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, AfterViewInit, OnInit } from '@angular/core';
 import { titleTrigger } from '../../../services/utils/util.service';
 import { IUser } from '../../../models/security/user.model';
 import { IWidget } from '../../../models/security/widget.model';
@@ -23,7 +23,7 @@ import { UserService  } from '../../../services/security/user.service';
     selector: 'home',
     templateUrl: './home.component.html'
 })
-export class HomeComponent implements AfterViewInit {
+export class HomeComponent implements OnInit {
     public user:IUser;
     public widgets: Array<IWidget> = [];
     constructor( public userService: UserService) {
@@ -31,7 +31,7 @@ export class HomeComponent implements AfterViewInit {
         this.user = this.userService.getUser()
      }
 
-    ngAfterViewInit() {
+    ngOnInit() {
         this.user.roles.forEach( rol =>{
             rol.widgets.forEach( widget =>{
                 if( this.widgets.some(w => {return w.name == widget.name}) == false)

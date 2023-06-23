@@ -35,6 +35,7 @@ import { Observable, forkJoin } from "rxjs";
 import { BoxService } from "../services/administration/box.service";
 import { IBox } from "../models/administration/box.model";
 import { LoadingComponent } from "../modules/utils/components/loading.component";
+import { environment } from "src/environments/environment";
 
 declare let document: any;
 
@@ -88,6 +89,7 @@ export class TemplateComponent implements AfterViewInit {
   public setting: ISetting;
   public modules: Array<string>;
   public hidden_header: boolean = false;
+  url: string = "";
   constructor(
     public userService: UserService,
     public router: Router,
@@ -103,14 +105,15 @@ export class TemplateComponent implements AfterViewInit {
       return module.url;
     });
     this.setting = new SettingModel();
-
+    this.url = environment.url;
     this.user = userService.getUser();
     this.user.account.image_url =
-      this.user.account.image_url || "files/account/avatar.png";
+      this.user.account.image_url || "assets/images/avatar.png";
     OnTitleChange.subscribe((title) => {
-      this.title = title;
-
-      hiddenHeaderTrigger.next(false);
+      setTimeout(() => {
+        this.title = title;
+        hiddenHeaderTrigger.next(false);
+      });
     });
     OnChangeSetting.subscribe(() => {
       this.getSetting();

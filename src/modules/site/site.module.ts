@@ -52,15 +52,15 @@ import { NotifyService } from "../../services/utils/notify.service";
 })
 export class SiteModule {
   public script_urls: Array<string> = [
-    "assests/js/vendors/jquery/jquery.min.js",
-    "assests/js/vendors/modernizr/modernizr.js",
-    "assests/js/vendors/bootstrap/bootstrap.min.js",
-    "assests/js/vendors/wow/wow.min.js",
-    "assests/js/vendors/own-menu/own-menu.js",
-    "assests/js/vendors/owl-carousel/owl.carousel.min.js",
-    "assests/js/vendors/jquery-tp-t/jquery.themepunch.tools.min.js",
-    "assests/js/vendors/jquery-tp/jquery.themepunch.revolution.js",
-    "assests/js/vendors/jquery.nouislider.min.js",
+    "assets/js/vendors/jquery/jquery.min.js",
+    "assets/js/vendors/modernizr/modernizr.js",
+    "assets/js/vendors/bootstrap/bootstrap.min.js",
+    "assets/js/vendors/wow/wow.min.js",
+    "assets/js/vendors/own-menu/own-menu.js",
+    "assets/js/vendors/owl-carousel/owl.carousel.min.js",
+    "assets/js/vendors/jquery-tp-t/jquery.themepunch.tools.min.js",
+    "assets/js/vendors/jquery-tp/jquery.themepunch.revolution.js",
+    "assets/js/vendors/jquery.nouislider.min.js",
     "https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyAN9Xkj_GN0oIViP27AxnoAmevnF4dXfVY",
   ];
   public loaded_scripts: number = 0;

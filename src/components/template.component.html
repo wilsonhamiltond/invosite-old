@@ -1,6 +1,6 @@
 <mat-sidenav-container>
     <mat-sidenav #sideMenu opened="true" mode="side" class="no-print menu" >
-        <span class="logo" [routerLink]="['/admin/home/home']"><img *ngIf="setting.logo" [src]="setting.logo" />{{setting.name}}</span>
+        <span class="logo" [routerLink]="['/admin/home/home']"><img *ngIf="setting.logo" [src]="url+setting.logo" />{{setting.name}}</span>
         <mat-icon class="link no-print pull-right hidden-sm hidden-md hidden-lg mobil-menu" (click)="sideMenu.toggle()">reorder</mat-icon>
         <ul class="menu" >
             <li [routerLinkActive]="['activate']" [routerLink]="['/admin/home/home']">
@@ -192,32 +192,32 @@
     </mat-sidenav>
     <header #headerContainer [ngClass]="{'no-print': hidden_header}">
         <nav>
-            <span style="display: none" class="logo"><img style="margin-top: -0px" *ngIf="setting.logo" [src]="setting.logo" /></span>
-            <span *ngIf="!sideMenu.opened" class="logo no-print hidden-xs" [routerLink]="['/home/home']"><img *ngIf="setting.logo" [src]="setting.logo" />{{setting.name}}</span>
+            <span style="display: none" class="logo"><img style="margin-top: -0px" *ngIf="setting.logo" [src]="url+setting.logo" /></span>
+            <span *ngIf="!sideMenu.opened" class="logo no-print hidden-xs" [routerLink]="['/home/home']"><img *ngIf="setting.logo" [src]="url+setting.logo" />{{setting.name}}</span>
             <span><mat-icon class="link no-print" style="width: 48px;" (click)="sideMenu.toggle()">reorder</mat-icon></span>
             <mat-menu #quickMenu="matMenu" class="no-print application-menu">
                 <button mat-menu-item [routerLink]="['/admin/invoice/create/0']" *ngIf="verifyUrl('/admin/invoice/create/:_id')">
-                    <img src="assests/images/icons/add-invoice.png" class="icon-image" /><br/>
+                    <img src="assets/images/icons/add-invoice.png" class="icon-image" /><br/>
                     Factura
                 </button>
                 <button mat-menu-item [routerLink]="['/admin/quotation/create/0']" *ngIf="verifyUrl('/admin/quotation/create/:_id')">
-                    <img src="assests/images/icons/add-quotation.png" class="icon-image" /><br/>
+                    <img src="assets/images/icons/add-quotation.png" class="icon-image" /><br/>
                     Cotización
                 </button>
                 <button mat-menu-item [routerLink]="['/admin/product/create/0']" *ngIf="verifyUrl('/admin/product/create/:_id')">
-                    <img src="assests/images/icons/add-product.png" class="icon-image" /><br/>
+                    <img src="assets/images/icons/add-product.png" class="icon-image" /><br/>
                     Producto
                 </button>
                 <button mat-menu-item [routerLink]="['/admin/acknowledgment/create/0']" *ngIf="verifyUrl('/admin/acknowledgment/create/:_id')">
-                    <img src="assests/images/icons/add-invoice.png" class="icon-image" /><br/>
+                    <img src="assets/images/icons/add-invoice.png" class="icon-image" /><br/>
                     Acuse
                 </button>
                 <button mat-menu-item [routerLink]="['/admin/client/create/0']" *ngIf="verifyUrl('/admin/client/create/:_id')">
-                    <img src="assests/images/icons/add-client.png" class="icon-image" /><br/>
+                    <img src="assets/images/icons/add-client.png" class="icon-image" /><br/>
                     Cliente
                 </button>
                 <button mat-menu-item [routerLink]="['/admin/user/create/0']" *ngIf="verifyUrl('/admin/user/create/:_id')">
-                    <img src="assests/images/icons/add-user.png" class="icon-image" /><br/>
+                    <img src="assets/images/icons/add-user.png" class="icon-image" /><br/>
                     Usuario
                 </button>
             </mat-menu>
@@ -242,8 +242,8 @@
             <button class="pull-right no-print" mat-icon-button [matMenuTriggerFor]="appMenu" style="margin-top: -10px;width: auto;">
                 <span style="display: inline-block; top: 5px; position: relative;">{{user.account.name}}</span> <mat-icon>more_vert</mat-icon>
             </button>    
-            <img *ngIf="user.account.image_url" class="avatar no-print pull-right" [src]="user.account.image_url" 
-            (error)="user.account.image_url='assests/images/avatar.png'" />            
+            <img *ngIf="user.account.image_url" class="avatar no-print pull-right" [src]="url+user.account.image_url" 
+            (error)="user.account.image_url='assets/images/avatar.png'" />            
             <button class="pull-right no-print" mat-icon-button style="margin-top: -5px;">
                 <mat-icon style="padding: 0px;">notifications</mat-icon>
             </button>

@@ -8,7 +8,7 @@
                 </mat-toolbar>
                 <mat-card [ngStyle]="{'background-color': setting.background_color, 'color': setting.text_color}">
                     <mat-card-subtitle class="text-center">
-                        <img *ngIf="setting.logo" [src]="setting.logo" style="height: 128px; max-width: 100%;" />
+                        <img *ngIf="setting.logo" [src]="url+setting.logo" style="height: 128px; max-width: 100%;" />
                         <h4 class="text-center">{{setting.description}}</h4>
                     </mat-card-subtitle>
                     <mat-card-content>

@@ -42,10 +42,10 @@ export class BaseRoute{
             
                 this.controller.filter(req, res)
         })
-        route.post( `/api/v1/${this.controller.document_name}/unauthorizad_filter`, (req: Request, res:Response) =>{
+        route.post( `/api/v0/${this.controller.document_name}/unauthorizad_filter`, (req: Request, res:Response) =>{
             this.controller.unauthorizad_filter(req, res)
         })
-        route.post( `/api/v1/${this.controller.document_name}/unauthorizad_size`, (req: Request, res:Response) =>{
+        route.post( `/api/v0/${this.controller.document_name}/unauthorizad_size`, (req: Request, res:Response) =>{
             this.controller.unauthorizad_size(req, res)
         })
         route.post( `/api/v1/${this.controller.document_name}/aggregate`, (req: Request, res:Response) =>{

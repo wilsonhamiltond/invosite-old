@@ -36,10 +36,10 @@ export class BaseService {
   }
 
   unauthorizad_filter(params: any) {
-    return this.request("post", `${this.base_url}/unauthorizad_filter`, params);
+    return this.request("post", `${this.base_url_v0}/unauthorizad_filter`, params);
   }
   unauthorizad_size(params: any) {
-    return this.request("post", `${this.base_url}/unauthorizad_size`, params);
+    return this.request("post", `${this.base_url_v0}/unauthorizad_size`, params);
   }
 
   size(params: any) {
@@ -119,7 +119,9 @@ export class BaseService {
     let trigger: any;
     const xhr = new XMLHttpRequest();
     xhr.open("POST", `${this.base_url}/excel`, true);
+    const token: string | null = sessionStorage.getItem('invo_site_token');
     xhr.setRequestHeader("Content-type", "application/json");
+    xhr.setRequestHeader('Authorization', `Bearer ${token}`);
     xhr.responseType = "blob";
 
     xhr.onreadystatechange = function () {
