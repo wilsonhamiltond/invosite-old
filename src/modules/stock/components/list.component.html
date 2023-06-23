@@ -3,7 +3,7 @@
         <loading></loading>
         <div class="col-md-12">
             <div class="col-md-6 no-padding">
-                <button *ngIf="module.add" mat-raised-button color="success" [routerLink]="['/admin/product/0/stock' ]">
+                <button *ngIf="module && module.add" mat-raised-button color="success" [routerLink]="['/admin/product/0/stock' ]">
                     <mat-icon class="md-16">add_box</mat-icon> Ajuste del almacén</button>
             </div>
             <div class="col-md-6 no-padding">

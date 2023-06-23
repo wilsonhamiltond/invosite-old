@@ -61,7 +61,7 @@
                             <th>ITBis</th>
                             <th>Total</th>
                             <th style="width: 160px;" *ngIf="module.edit || module.delete">
-                                <button type="button" *ngIf="module.add" mat-button color="success" (click)="edit()">
+                                <button type="button" *ngIf="module && module.add" mat-button color="success" (click)="edit()">
                                     <mat-icon class="md-16">add_box</mat-icon> Agregar
                                 </button>
                             </th>

@@ -22,7 +22,7 @@ export class ActivityListComponent implements AfterViewInit {
 
     @ViewChild(LoadingComponent)
     public loading: LoadingComponent;
-    module: any;
+    module!: any;
     custome_headers: string[] = [];
     public query: string = '';
     public size: number = 0;
@@ -59,7 +59,7 @@ export class ActivityListComponent implements AfterViewInit {
     paginate() {
         this.loading.showLoading();
         if (this.query) {
-            let or:any = [{
+            const or:any = [{
                 'name': `/${this.query}/`
             },{
                 'type.description': `/${this.query}/`,
@@ -105,7 +105,7 @@ export class ActivityListComponent implements AfterViewInit {
     }
 
     delete(activity: IActivity) {
-        let dialogRef = this.dialog.open(ConfirmDialog);
+        const dialogRef = this.dialog.open(ConfirmDialog);
         dialogRef.componentInstance.load({
             message: '¿Desea borrar esta actividad?',
             title: 'CONFIRMACIÓN',

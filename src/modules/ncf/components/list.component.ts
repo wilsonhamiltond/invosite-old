@@ -15,7 +15,7 @@ import { LoadingComponent } from '../../utils/components/loading.component';
           <loading></loading>
           <div class="col-md-12">
               <div class="col-md-6 no-padding">
-                <button *ngIf="module.add" mat-raised-button color="success" [routerLink]="['/admin/ncf/create']">
+                <button *ngIf="module && module.add" mat-raised-button color="success" [routerLink]="['/admin/ncf/create']">
                 <mat-icon class="md-16">add_box</mat-icon> Agregar secuencia</button>
               </div>
               <div  class="col-md-6 no-padding">

@@ -22,7 +22,7 @@ import { MatDialog } from '@angular/material/dialog';
           <loading></loading>
           <div class="margin-bottom-xs col-md-12">
             <div class="col-md-6 no-padding">
-                <button mat-raised-button color="success" *ngIf="module.add" (click)="create()">
+                <button mat-raised-button color="success" *ngIf="module && module.add" (click)="create()">
                     <mat-icon class="md-16">add_box</mat-icon> Agregar pago
                 </button>
             </div>

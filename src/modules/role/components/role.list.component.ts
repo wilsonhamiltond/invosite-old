@@ -3,7 +3,7 @@ import { RoleService } from '../../../services/security/role.service';
 import { ActivatedRoute } from '@angular/router';
 import { IRole } from '../../../models/security/role.model';
 import { titleTrigger } from '../../../services/utils/util.service'; 
-import { paginate, GetCurrentModule } from '../../../services/utils/util.service'; 
+import { GetCurrentModule } from '../../../services/utils/util.service'; 
 
  import { NotifyService } from '../../../services/utils/notify.service';
 import { LoadingComponent } from '../../utils/components/loading.component';
@@ -12,10 +12,10 @@ import { LoadingComponent } from '../../utils/components/loading.component';
     selector: 'role-list',
     template: `
     <loading></loading>
-    <mat-card class="col-md-12">
+    <mat-card class="col-md-12" *ngIf="module">
         <mat-card-content>
             <div class="col-md-12 margin-bottom-xs">
-                <button *ngIf="module.add" mat-raised-button color="success" [routerLink]="['/admin/role/create/0']">
+                <button *ngIf="module && module.add" mat-raised-button color="success" [routerLink]="['/admin/role/create/0']">
                 <mat-icon class="md-16">add_box</mat-icon> Nuevo</button>
             </div>
             
@@ -72,9 +72,9 @@ export class RoleListComponent implements AfterViewInit {
 
   roles:Array<IRole> = [];
   visibleRoles:Array<IRole> = [];
-  module:any;
+  module!:any;
   @ViewChild(LoadingComponent)
-  public loading: LoadingComponent;
+  public loading!: LoadingComponent;
   
   constructor(
     public roleService: RoleService,
@@ -100,12 +100,12 @@ export class RoleListComponent implements AfterViewInit {
   }
 
   paginate(params:any){
-      let current_size = params.pageIndex * params.pageSize
+      const current_size = params.pageIndex * params.pageSize
       this.visibleRoles = this.roles.slice( current_size, current_size + params.pageSize)
   }
   
   delete(role:IRole){
-    let result = confirm('¿Desea borrar este permiso?');
+    const result = confirm('¿Desea borrar este permiso?');
     this.loading.showLoading()
     if( result){
       this.roleService.delete(role._id).subscribe( (response) =>{

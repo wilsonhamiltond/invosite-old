@@ -150,7 +150,7 @@ import { MatDialog } from "@angular/material/dialog";
                 <button
                   [disabled]="!purchase.office"
                   type="button"
-                  *ngIf="module.add"
+                  *ngIf="module && module.add"
                   mat-raised-button
                   color="success"
                   (click)="edit()"

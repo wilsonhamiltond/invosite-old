@@ -15,11 +15,11 @@ import { ConfirmDialog} from '../../utils/components/confirm.dialog'
     selector: 'purchase-list',
     template: `
     <mat-card class="col-md-12 no-padding">
-        <mat-card-content>
-          <loading></loading>
+        <loading></loading>
+        <mat-card-content *ngIf="module">
           <div class="margin-bottom-xs col-md-12">
               <div class="col-md-6 no-padding">
-                <button *ngIf="module.add" mat-raised-button color="success" [routerLink]="['/admin/purchase/create/0']">
+                <button *ngIf="module && module.add" mat-raised-button color="success" [routerLink]="['/admin/purchase/create/0']">
                 <mat-icon class="md-16">add_box</mat-icon> Nuevo</button>
               </div>
               <div class="col-md-6 no-padding">

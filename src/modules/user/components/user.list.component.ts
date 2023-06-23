@@ -12,10 +12,10 @@ import { LoadingComponent } from '../../utils/components/loading.component';
     selector: 'user-list',
     template: `
     <loading></loading>
-    <mat-card class="col-md-12">
+    <mat-card class="col-md-12" *ngIf="module">
         <mat-card-content>
             <div class="margin-bottom-xs col-md-12">
-                <button *ngIf="module.add"  mat-raised-button color="success" [routerLink]="['/admin/user/create/0']">
+                <button *ngIf="module && module.add"  mat-raised-button color="success" [routerLink]="['/admin/user/create/0']">
                 <mat-icon class="md-16">add_box</mat-icon> Nuevo</button>
             </div>
             <div class="margin-bottom-xs col-md-12 no-padding">

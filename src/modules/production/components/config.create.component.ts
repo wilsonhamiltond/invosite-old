@@ -60,7 +60,7 @@ import { NotifyService } from '../../../services/utils/notify.service';
                         PRODUCTOS GENERADOS
                     </div>
                     <div class="col-md-6 text-right">
-                        <button [disabled]="!config.office" type="button" *ngIf="module.add" mat-raised-button color="success" (click)="edit('products')">
+                        <button [disabled]="!config.office" type="button" *ngIf="module && module.add" mat-raised-button color="success" (click)="edit('products')">
                             <mat-icon class="md-16">add_box</mat-icon> Productos
                         </button>
                     </div>
@@ -100,7 +100,7 @@ import { NotifyService } from '../../../services/utils/notify.service';
                         INSUMOS PARA PRODUCCIÓN
                     </div>
                     <div class="col-md-6 text-right">
-                        <button [disabled]="!config.office" type="button" *ngIf="module.add" mat-raised-button color="success" (click)="edit('supplys')">
+                        <button [disabled]="!config.office" type="button" *ngIf="module && module.add" mat-raised-button color="success" (click)="edit('supplys')">
                             <mat-icon class="md-16">add_box</mat-icon> Insumos
                         </button>
                     </div>

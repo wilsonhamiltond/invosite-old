@@ -16,7 +16,7 @@ import { NotifyService } from '../../../services/utils/notify.service';
         <mat-card-content>
           <div class="col-md-12">
               <div class="col-md-6 no-padding">
-                <button *ngIf="module.add" mat-raised-button color="success" [routerLink]="['/admin/provider/create/0']">
+                <button *ngIf="module && module.add" mat-raised-button color="success" [routerLink]="['/admin/provider/create/0']">
                 <mat-icon class="md-16">add_box</mat-icon> Nuevo</button>
               </div>
               <div  class="col-md-6 no-padding">
