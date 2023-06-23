@@ -1,0 +1,119 @@
+﻿<mat-card class="col-md-12 col-lg-12 col-sm-12 col-xs-12 no-padding print">
+    <loading></loading>
+    <mat-card-content *ngIf="acknowledgment">
+        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 no-print">
+            <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6 no-padding">
+                <button mat-button [routerLink]="['/admin/acknowledgment/list']">
+                    <mat-icon class="md-16">keyboard_return</mat-icon> Ir a listado de acuse</button>
+            </div>
+            <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6 no-padding text-right">
+                <button *ngIf="module.print" mat-raised-button (click)="print()">
+                    <mat-icon class="md-16">print</mat-icon> Imprimir</button>
+            </div>
+        </div>
+        <div class="margin-bottom-xs col-md-12 col-lg-12 col-sm-12 col-xs-12 no-padding">
+            <div class="col-md-col-md-12 col-lg-12 col-sm-12 col-xs-12 no-padding text-center">
+                <img src="{{acknowledgment.setting.logo}}" style="height: 64px; width: 64px" />
+            </div>
+            <h3 style="margin: 0;" class="col-md-12 col-lg-12 col-sm-12 col-xs-12 no-padding m-0 text-center">{{acknowledgment.setting.name}}</h3>
+            <p class="text-center col-md-12 col-lg-12 col-sm-12 col-xs-12 no-padding m-0">{{acknowledgment.setting.description}}</p>
+            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 no-padding text-center margin-bottom-xs">
+                <p *ngIf="acknowledgment.setting.rnc">RNC:{{acknowledgment.setting.rnc}}</p>
+                <p *ngIf="acknowledgment.setting.phone">Tel.: {{acknowledgment.setting.phone}}</p>
+                <p *ngIf="acknowledgment.setting.email">Email: {{acknowledgment.setting.email}}</p>
+                <p *ngIf="acknowledgment.setting.address">Direcci??n: {{acknowledgment.setting.address}}</p>
+            </div>
+            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 no-padding margin-bottom-sm">
+                <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12 no-padding">
+                    <p>Cliente: {{acknowledgment.client.name}} {{acknowledgment.client.last_name}}</p>
+                    <div *ngFor="let cf of client_fields">
+                        <p *ngIf="acknowledgment.client[cf]" class="col-xs-12 no-padding">
+                            {{cf}}: {{acknowledgment.client[cf]}}
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12 no-padding text-right">
+                    <p>Fecha: {{acknowledgment.date | date:'dd/MM/yyyy'}}</p>
+                    <p>Acuse no.: {{acknowledgment.number}}</p>
+                </div>
+            </div>
+            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 no-padding" *ngFor="let group of productGroup">
+                <h4 style="margin-bottom: 5px; margin-top: 0px;" *ngIf="productGroup.length > 1">{{group.name}}</h4>
+                <table class="table" style="margin-bottom: 0px;">
+                    <thead>
+                        <tr>
+                            <th style="min-width: 40% !important;width: 40% !important;" colspan="(max_fields - group.fields.length)">Producto</th>
+                            <th class="hidden-xs" *ngFor="let field of group.fields">{{field}}</th>
+                            <th class="number_column">Cantidad</th>
+                            <th class="number_column">Precio</th>
+                            <th class="number_column">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let product of group.products">
+                            <td style="min-width: 40%;" colspan="(max_fields - group.fields.length)">{{product.name}}</td>
+                            <td class="hidden-xs" *ngFor="let field of group.fields">{{product[field] || ''}}</td>
+                            <td class="number_column">{{product.quantity | number}}</td>
+                            <td class="number_column">{{product.value | currency:'':'$':'1.2-2'}}</td>
+                            <td class="number_column">{{(product.quantity * product.value) | currency:'':'$':'1.2-2'}}</td>
+                        </tr>
+                    </tbody>
+                    <tfoot style="display:none" *ngIf="productGroup.length > 1">
+                        <tr>
+                            <td colspan="(max_fields - group.fields.length)"></td>
+                            <td class="hidden-xs" *ngFor="let field of group.fields"></td>
+                            <td class="number_column">{{group.quantity | number}}</td>
+                            <td class="number_column">Total</td>
+                            <td class="number_column">{{group.total | currency:'':'$':'1.2-2'}}</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 no-padding">
+                <table class="table">
+                    <tfoot class="total">
+                        <tr>
+                            <th colspan="max_fields"></th>
+                            <th class="number_column" colspan="2">Sub total</th>
+                            <th class="number_column">{{total_value | currency:'':'$':'1.2-2'}}</th>
+                        </tr>
+                        <tr class="no-border">
+                            <th colspan="max_fields"></th>
+                            <th class="number_column" colspan="2">Itbis</th>
+                            <th class="number_column">{{ total_itbis | currency:'':'$':'1.2-2'}}</th>
+                        </tr>
+                        <tr class="no-border">
+                            <th colspan="max_fields"></th>
+                            <th class="number_column" colspan="2">Total</th>
+                            <th class="number_column">{{(total_value + total_itbis) | currency:'':'$':'1.2-2'}}</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 no-padding margin-bottom-xs">
+            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 no-padding">
+                <p class="col-md-12 col-lg-12 col-sm-6 col-xs-12 no-padding" *ngIf="acknowledgment.note || acknowledgment.setting.acknowledgment_message">Nota: {{acknowledgment.note}}
+                    <b *ngIf="acknowledgment.setting.acknowledgment_message">
+                        <br/> {{acknowledgment.setting.acknowledgment_message}}</b>
+                </p>
+                <p class="col-md-12 col-lg-12 col-sm-6 col-xs-12 no-padding">
+                    Entregado Por:
+                    <b>{{acknowledgment.create_user.account.name}} {{acknowledgment.create_user.account.last_name}}</b>
+                </p>
+            </div>
+        </div>
+        <div class="margin-bottom-xs col-md-12 col-lg-12 col-sm-12 col-xs-12 no-print">
+            <div class="col-md-6 no-padding">
+                <button mat-button [routerLink]="['/admin/acknowledgment/list']">
+                    <mat-icon class="md-16">keyboard_return</mat-icon>
+                    Ir a listado de acuse
+                </button>
+            </div>
+            <div class="col-md-6 no-padding text-right">
+                <button *ngIf="module.print" mat-raised-button (click)="print()">
+                    <mat-icon class="md-16">print</mat-icon> Imprimir</button>
+            </div>
+        </div>
+    </mat-card-content>
+</mat-card>

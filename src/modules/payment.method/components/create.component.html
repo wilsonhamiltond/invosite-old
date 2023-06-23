@@ -1,0 +1,17 @@
+﻿<form #methodForm="ngForm" novalidate (ngSubmit)="save()">
+    <mat-card>
+        <mat-card-content *ngIf="method">
+            <div>
+                <mat-form-field style="width: 100%">
+                    <input matInput name="name" #name="ngModel" required [(ngModel)]="method.name" placeholder="Nombre" />
+                </mat-form-field>
+            </div>
+        </mat-card-content>
+        <mat-card-actions>
+            <button type="button" [routerLink]="['/admin/payment/method/list']" mat-raised-button color="warn">
+                <mat-icon class="link">close</mat-icon> Cancelar</button>
+            <button *ngIf="m.edit || m.add" type="subbmit" [disabled]="!methodForm.valid" mat-raised-button color="primary">
+                Guardar <mat-icon class="link">check</mat-icon></button>
+        </mat-card-actions>
+    </mat-card>
+</form>

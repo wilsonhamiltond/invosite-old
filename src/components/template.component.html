@@ -1,0 +1,271 @@
+<mat-sidenav-container>
+    <mat-sidenav #sideMenu opened="true" mode="side" class="no-print menu" >
+        <span class="logo" [routerLink]="['/admin/home/home']"><img *ngIf="setting.logo" [src]="setting.logo" />{{setting.name}}</span>
+        <mat-icon class="link no-print pull-right hidden-sm hidden-md hidden-lg mobil-menu" (click)="sideMenu.toggle()">reorder</mat-icon>
+        <ul class="menu" >
+            <li [routerLinkActive]="['activate']" [routerLink]="['/admin/home/home']">
+                <label class="link" ><mat-icon class="link">dashboard</mat-icon> Inicio </label>
+            </li>
+            <li #serviceMenu>
+                <label class="link" (click)="toggleMenu('serviceMenu')" >
+                    <mat-icon class="link">monetization_on</mat-icon> 
+                    Servicios 
+                    <mat-icon class="down">keyboard_arrow_down</mat-icon>
+                    <mat-icon class="right">keyboard_arrow_right</mat-icon>
+                </label>
+                <ul class="sub-menu">
+                    <li *ngIf="verifyUrl('/admin/service/list')" [routerLinkActive]="['activate']" [routerLink]="['/admin/service/list']">
+                    Servicios
+                    </li>
+                </ul>
+            </li>
+            <li #invoiceMenu class="open">
+                <label class="link" (click)="toggleMenu('invoiceMenu')" ><mat-icon class="link">insert_drive_file</mat-icon> Ventas
+                <mat-icon class="down">keyboard_arrow_down</mat-icon>
+                <mat-icon class="right">keyboard_arrow_right</mat-icon></label>
+                <ul class="sub-menu">
+                    <li *ngIf="verifyUrl('/admin/invoice/list')" [routerLinkActive]="['activate']" [routerLink]="['/admin/invoice/list']">
+                         Facturas
+                    </li>
+                    <li *ngIf="verifyUrl('/admin/quotation/list')" [routerLinkActive]="['activate']" [routerLink]="['/admin/quotation/list']">
+                         Cotización
+                    </li>
+                    <li *ngIf="verifyUrl('/admin/acknowledgment/list')" [routerLinkActive]="['activate']" [routerLink]="['/admin/acknowledgment/list']">
+                         Acuse
+                    </li>
+                    <li *ngIf="verifyUrl('/admin/box/boxes')" [routerLinkActive]="['activate']" [routerLink]="['/admin/box/boxes']">
+                         Cajas
+                    </li>
+                    <li *ngIf="verifyUrl('/admin/box/close/:_id')" [routerLinkActive]="['activate']" [routerLink]="['/admin/box/close/0']">
+                         Cuadre de Cajas
+                    </li>
+                </ul>
+            </li>
+            <li #purchaseMenu class="open">
+                <label class="link" (click)="toggleMenu('purchaseMenu')" ><mat-icon class="link">insert_drive_file</mat-icon> Compras
+                <mat-icon class="down">keyboard_arrow_down</mat-icon>
+                <mat-icon class="right">keyboard_arrow_right</mat-icon></label>
+                <ul class="sub-menu">
+                    <li *ngIf="verifyUrl('/admin/purchase/list')" [routerLinkActive]="['activate']" [routerLink]="['/admin/purchase/list']">
+                         Orden de Compra
+                    </li>
+                </ul>
+            </li>
+            <li #inventoryMenu class="open">
+                <label class="link" (click)="toggleMenu('inventoryMenu')" ><mat-icon class="link">featured_play_list</mat-icon> Inventario
+                <mat-icon class="down">keyboard_arrow_down</mat-icon>
+                <mat-icon class="right">keyboard_arrow_right</mat-icon></label>
+                <ul class="sub-menu">
+                    <li *ngIf="verifyUrl('/admin/product/list')" [routerLinkActive]="['activate']" [routerLink]="['/admin/product/list']">
+                        Productos
+                    </li>
+                    <li *ngIf="verifyUrl('/admin/category/list')" [routerLinkActive]="['activate']" [routerLink]="['/admin/category/list']">
+                        Categorias
+                    </li>
+                    <li *ngIf="verifyUrl('/admin/stock/transfer')" [routerLinkActive]="['activate']" [routerLink]="['/admin/stock/transfer']">
+                        Transferencia de Productos
+                    </li>
+                    <li *ngIf="verifyUrl('/admin/stock/list')" [routerLinkActive]="['activate']" [routerLink]="['/admin/stock/list']">
+                        Almacén
+                    </li>
+                </ul>
+            </li>
+            <li #productionMenu class="open">
+                <label class="link" (click)="toggleMenu('productionMenu')" >
+                    <mat-icon class="link">settings_input_component</mat-icon> 
+                    Producción 
+                    <mat-icon class="down">keyboard_arrow_down</mat-icon>
+                    <mat-icon class="right">keyboard_arrow_right</mat-icon>
+                </label>
+                <ul class="sub-menu">
+                    <li *ngIf="verifyUrl('/admin/production/config/list')" [routerLinkActive]="['activate']" [routerLink]="['/admin/production/config/list']">
+                    Configuración
+                    </li>
+                    <li *ngIf="verifyUrl('/admin/production/generation/list')" [routerLinkActive]="['activate']" [routerLink]="['/admin/production/generation/list']">
+                    Generación
+                    </li>
+                </ul>
+            </li>
+            <li #adminMenu >
+                <label class="link" (click)="toggleMenu('adminMenu')" ><mat-icon class="link">settings</mat-icon> Administración
+                <mat-icon class="down">keyboard_arrow_down</mat-icon>
+                <mat-icon class="right">keyboard_arrow_right</mat-icon></label>
+                <ul class="sub-menu">
+                    <li *ngIf="verifyUrl('/admin/client/list')" [routerLinkActive]="['activate']" [routerLink]="['/admin/client/list']">
+                         Clientes
+                    </li>
+                    <li *ngIf="verifyUrl('/admin/box/list')" [routerLinkActive]="['activate']" [routerLink]="['/admin/box/list']">
+                        Cajas
+                    </li>
+                    <li *ngIf="verifyUrl('/admin/chat/list')" [routerLinkActive]="['activate']" [routerLink]="['/admin/chat/list']">
+                        Conversaciones
+                   </li>
+                    <li *ngIf="verifyUrl('/admin/client/type/list')" [routerLinkActive]="['activate']" [routerLink]="['/admin/client/type/list']">
+                        Tipo de Clientes
+                    </li>
+                    <li *ngIf="verifyUrl('/admin/provider/list')" [routerLinkActive]="['activate']" [routerLink]="['/admin/provider/list']">
+                        Proveedores
+                    </li>
+                    <li *ngIf="verifyUrl('/admin/provider/type/list')" [routerLinkActive]="['activate']" [routerLink]="['/admin/provider/type/list']">
+                        Tipo de Proveedores
+                    </li>
+                    <li *ngIf="verifyUrl('/admin/position/list')" [routerLinkActive]="['activate']" [routerLink]="['/admin/position/list']">
+                        Posiciones
+                    </li>
+                    <li *ngIf="verifyUrl('/admin/employee/list')" [routerLinkActive]="['activate']" [routerLink]="['/admin/employee/list']">
+                        Empleados
+                    </li>
+                    <li *ngIf="verifyUrl('/admin/service/type/list')" [routerLinkActive]="['activate']" [routerLink]="['/admin/service/type/list']">
+                        Tipo de Servicios
+                    </li>
+                    <li *ngIf="verifyUrl('/admin/payment/method/list')" [routerLinkActive]="['activate']" [routerLink]="['/admin/payment/method/list']">
+                        Forma de Pago
+                    </li>
+                    <li *ngIf="verifyUrl('/admin/office/list')" [routerLinkActive]="['activate']" [routerLink]="['/admin/office/list']">
+                        Sucursal
+                    </li>
+                    <li *ngIf="verifyUrl('/admin/field/list')" [routerLinkActive]="['activate']" [routerLink]="['/admin/field/list']">
+                        Campos
+                    </li>
+                    <li *ngIf="verifyUrl('/admin/ncf/list')" [routerLinkActive]="['activate']" [routerLink]="['/admin/ncf/list']">
+                        NCF
+                    </li>
+                    <li *ngIf="verifyUrl('/admin/tax/list')" [routerLinkActive]="['activate']" [routerLink]="['/admin/tax/list']">
+                        ITBIS
+                    </li>
+                    <li *ngIf="verifyUrl('/admin/setting')" [routerLinkActive]="['activate']" [routerLink]="['/admin/setting']">
+                        Configuración del Sistema
+                    </li>
+                    <li *ngIf="verifyUrl('/admin/activity/list')" [routerLinkActive]="['activate']" [routerLink]="['/admin/activity/list']">
+                        Actividades
+                    </li>
+                    <li *ngIf="verifyUrl('/admin/activity/type/list')" [routerLinkActive]="['activate']" [routerLink]="['/admin/activity/type/list']">
+                        Tipo de Actividades
+                    </li>
+                    <li *ngIf="verifyUrl('/admin/brand/list')" [routerLinkActive]="['activate']" [routerLink]="['/admin/brand/list']">
+                        Marcas
+                    </li>
+                </ul>
+            </li>
+            <li #securityMenu >
+                <label class="link" (click)="toggleMenu('securityMenu')" ><mat-icon class="link">build</mat-icon>  Seguridad
+                <mat-icon class="down">keyboard_arrow_down</mat-icon>
+                <mat-icon class="right">keyboard_arrow_right</mat-icon></label>
+                <ul class="sub-menu">
+                    <li *ngIf="verifyUrl('/admin/user/list')" [routerLinkActive]="['activate']" [routerLink]="['/admin/user/list']">
+                        Usuarios
+                    </li>
+                    <li *ngIf="verifyUrl('/admin/role/list')" [routerLinkActive]="['activate']" [routerLink]="['/admin/role/list']">
+                        Perfiles
+                    </li>
+                </ul>
+            </li>
+            <li #reportMenu >
+                <label class="link" (click)="toggleMenu('reportMenu')" ><mat-icon class="link">insert_drive_file</mat-icon>  Reportes
+                <mat-icon class="down">keyboard_arrow_down</mat-icon>
+                <mat-icon class="right">keyboard_arrow_right</mat-icon></label>
+                <ul class="sub-menu">
+                    <li *ngIf="verifyUrl('/admin/report/payment')" [routerLinkActive]="['activate']" [routerLink]="['/admin/report/payment']">
+                        Pagos Realizados
+                    </li> 
+                    <li *ngIf="verifyUrl('/admin/report/invoice')" [routerLinkActive]="['activate']" [routerLink]="['/admin/report/invoice']">
+                        Facturas
+                    </li> 
+                    <li *ngIf="verifyUrl('/admin/report/inventory')" [routerLinkActive]="['activate']" [routerLink]="['/admin/report/inventory']">
+                        Inventario
+                    </li> 
+                    <li *ngIf="verifyUrl('/admin/report/commission')" [routerLinkActive]="['activate']" [routerLink]="['/admin/report/commission']">
+                        Comisión
+                    </li> 
+                    <li *ngIf="verifyUrl('/admin/report/acknowledgment')" [routerLinkActive]="['activate']" [routerLink]="['/admin/report/acknowledgment']">
+                        Acuse
+                    </li> 
+                    <li *ngIf="verifyUrl('/admin/report/606')" [routerLinkActive]="['activate']" [routerLink]="['/admin/report/606']">
+                        DGII 606
+                    </li> 
+                    <li *ngIf="verifyUrl('/admin/report/607')" [routerLinkActive]="['activate']" [routerLink]="['/admin/report/607']">
+                        DGII 607
+                    </li> 
+                </ul>
+            </li>
+        </ul>
+    </mat-sidenav>
+    <header #headerContainer [ngClass]="{'no-print': hidden_header}">
+        <nav>
+            <span style="display: none" class="logo"><img style="margin-top: -0px" *ngIf="setting.logo" [src]="setting.logo" /></span>
+            <span *ngIf="!sideMenu.opened" class="logo no-print hidden-xs" [routerLink]="['/home/home']"><img *ngIf="setting.logo" [src]="setting.logo" />{{setting.name}}</span>
+            <span><mat-icon class="link no-print" style="width: 48px;" (click)="sideMenu.toggle()">reorder</mat-icon></span>
+            <mat-menu #quickMenu="matMenu" class="no-print application-menu">
+                <button mat-menu-item [routerLink]="['/admin/invoice/create/0']" *ngIf="verifyUrl('/admin/invoice/create/:_id')">
+                    <img src="assest/images/icons/add-invoice.png" class="icon-image" /><br/>
+                    Factura
+                </button>
+                <button mat-menu-item [routerLink]="['/admin/quotation/create/0']" *ngIf="verifyUrl('/admin/quotation/create/:_id')">
+                    <img src="assest/images/icons/add-quotation.png" class="icon-image" /><br/>
+                    Cotización
+                </button>
+                <button mat-menu-item [routerLink]="['/admin/product/create/0']" *ngIf="verifyUrl('/admin/product/create/:_id')">
+                    <img src="assest/images/icons/add-product.png" class="icon-image" /><br/>
+                    Producto
+                </button>
+                <button mat-menu-item [routerLink]="['/admin/acknowledgment/create/0']" *ngIf="verifyUrl('/admin/acknowledgment/create/:_id')">
+                    <img src="assest/images/icons/add-invoice.png" class="icon-image" /><br/>
+                    Acuse
+                </button>
+                <button mat-menu-item [routerLink]="['/admin/client/create/0']" *ngIf="verifyUrl('/admin/client/create/:_id')">
+                    <img src="assest/images/icons/add-client.png" class="icon-image" /><br/>
+                    Cliente
+                </button>
+                <button mat-menu-item [routerLink]="['/admin/user/create/0']" *ngIf="verifyUrl('/admin/user/create/:_id')">
+                    <img src="assest/images/icons/add-user.png" class="icon-image" /><br/>
+                    Usuario
+                </button>
+            </mat-menu>
+            <span style="margin-right: 32px;" [matMenuTriggerFor]="quickMenu" >
+                <mat-icon class="link no-print">apps</mat-icon>
+            </span>
+            <b class="title-header">{{title}}</b>
+            <mat-menu #appMenu="matMenu" class="no-print user">
+                <button mat-menu-item [routerLink]="['/admin/user/password/change']">
+                    <mat-icon class="link" >lock</mat-icon> Cambiar Contraseña 
+                </button>
+                <button mat-menu-item [routerLink]="['/admin/user/profile']">
+                    <mat-icon class="link" >person</mat-icon> Mi Perfil
+                </button>
+                <button mat-menu-item [routerLink]="['/admin/home/info']">
+                    <mat-icon class="link" >info_outline</mat-icon> Información del Sistema
+                </button>
+                <button mat-menu-item (click)="logoff()">
+                    <mat-icon class="link" >keyboard_return</mat-icon> Cerrar Sessión
+                </button>
+            </mat-menu>
+            <button class="pull-right no-print" mat-icon-button [matMenuTriggerFor]="appMenu" style="margin-top: -10px;width: auto;">
+                <span style="display: inline-block; top: 5px; position: relative;">{{user.account.name}}</span> <mat-icon>more_vert</mat-icon>
+            </button>    
+            <img *ngIf="user.account.image_url" class="avatar no-print pull-right" [src]="user.account.image_url" 
+            (error)="user.account.image_url='assest/images/avatar.png'" />            
+            <button class="pull-right no-print" mat-icon-button style="margin-top: -5px;">
+                <mat-icon style="padding: 0px;">notifications</mat-icon>
+            </button>
+            <button *ngIf="!search_active" class="pull-right no-print" mat-icon-button style="margin-top: -5px;" color="primary" (click)="toggleSearch()">
+                <mat-icon style="padding: 0px;">search</mat-icon>
+            </button>
+            <button *ngIf="search_active" class="pull-right no-print" mat-icon-button style="margin-top: -5px;" color="accent" (click)="toggleSearch()">
+                <mat-icon style="padding: 0px;">cancel</mat-icon>
+            </button>
+            <mat-form-field [ngClass]="{ active: search_active }" class="search_input">
+                <input 
+                    matInput
+                    #search_input
+                    type="search"
+                    (keyup)="search($event)"
+                    (blur)="toggleSearch()"
+                    placeholder="Buscar" />
+            </mat-form-field>  
+        </nav>
+    </header>
+    <section class="main-container" style="height: 87%;" #bodyContainer>
+        <loading></loading>
+        <router-outlet></router-outlet>
+    </section>
+</mat-sidenav-container>

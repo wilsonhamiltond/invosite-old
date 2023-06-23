@@ -1,0 +1,60 @@
+﻿<mat-card class="col-md-12">
+    <loading></loading>
+    <mat-card-content>
+        <div class="col-md-12">
+            <div class="col-md-6 no-padding">
+                <button *ngIf="module.add" mat-raised-button color="success" [routerLink]="['/admin/activity/create/0']">
+                    <mat-icon class="md-16">add_box</mat-icon> Nuevo</button>
+            </div>
+            <div class="col-md-6 no-padding">
+                <mat-form-field style="width: 100%">
+                    <input matInput type="search" [(ngModel)]="query" (keyup)="search($event)" placeholder='Filtrar'
+                    />
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="col-md-12 no-padding">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Tipo de Activitye</th>
+                        <th>Fecha</th>
+                        <th *ngFor="let header of custome_headers">{{header}}</th>
+                        <th class="action" *ngIf="module.print">Imprimir</th>
+                        <th class="action" *ngIf="module.edit || module.delete">Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let activity of activitys">
+                        <td>
+                            {{activity.type.description}}
+                        </td>
+                        <td>{{activity.date | date}}</td>
+                        <td *ngFor="let header of custome_headers; let i = index">{{activity.type.fields[i].value}}</td>
+                        <td class="action" *ngIf="module.print">
+                            <button class="action" mat-button *ngIf="module.edit" color="primary" [routerLink]="['/admin/activity/' + activity._id + '/report']">
+                                <mat-icon class="md-16">print</mat-icon>
+                            </button>
+                        </td>
+                        <td class="action" *ngIf="module.edit || module.delete">
+                            <button class="action" mat-button *ngIf="module.edit" color="accent" [routerLink]="['/admin/activity/create/' + activity._id]">
+                                <mat-icon class="md-16">create</mat-icon>
+                            </button>
+                            <button class="action" mat-button *ngIf="module.delete" color="warn" (click)="delete(activity)">
+                                <mat-icon class="md-16">delete</mat-icon>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="8">
+                            <mat-paginator [length]="size" [pageSize]="10" [pageSizeOptions]="[10, 25, 50, 100]" (page)="onPage($event)">
+                            </mat-paginator>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </mat-card-content>
+</mat-card>

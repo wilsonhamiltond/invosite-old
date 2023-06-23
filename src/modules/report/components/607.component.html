@@ -1,0 +1,125 @@
+﻿<mat-card class="col-md-12 no-padding">
+    <mat-card-content>
+        <loading></loading>
+        <form #filterForm="ngForm" novalidate>
+            <div class="margin-bottom-xs col-md-12 no-print">
+                <div class="col-md-12 no-padding">
+                    <div class="col-md-4 text-ceter">
+                        <mat-form-field style="width: 100%">
+                            <mat-select style="width: 100%" name="ncf_type" [(ngModel)]="filter.ncf_type" placeholder="Tipo de Comprobante">
+                                <mat-option [value]=""> No usar NCF</mat-option>
+                                <mat-option *ngFor="let type of types" [value]="type.value"> {{type.label}} </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-4 text-ceter">
+                        <mat-form-field style="width: 100%">
+                            <mat-select style="width: 100%" name="year" #year="ngModel" [(ngModel)]="filter.year" required placeholder="Año">
+                                <mat-option *ngFor="let year of years" [value]="year">
+                                    {{ year }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-4 text-ceter">
+                        <mat-form-field style="width: 100%">
+                            <mat-select style="width: 100%" name="period" #period="ngModel" [(ngModel)]="filter.period" required placeholder="Periodo">
+                                <mat-option *ngFor="let period of periods" [value]="period">
+                                    {{ period }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col-md-12 no-padding text-ceter">
+                    <button type="button" [disabled]="filterForm.invalid" mat-raised-button (click)="printList()" class="margin-right-sm">
+                        <mat-icon class="md-16">print</mat-icon> Imprimir
+                    </button>
+                    <button type="button" [disabled]="filterForm.invalid" mat-raised-button color="primary" (click)="load()" class="margin-right-sm">
+                        Filtrar
+                        <mat-icon>filter_list</mat-icon>
+                    </button>
+                    <button type="button" [disabled]="filterForm.invalid" mat-raised-button color="info" (click)="excel()" class="margin-right-sm">
+                        Exportar a Excel
+                        <mat-icon>download</mat-icon>
+                    </button>
+                    <mat-checkbox name="detalle" [(ngModel)]="filter.has_ncf">
+                        <span *ngIf="!filter.has_ncf">Todas las facturas</span>
+                        <span *ngIf="filter.has_ncf">Facturas con NCF</span>
+                    </mat-checkbox>
+                </div>
+            </div>
+        </form>
+        <div class="col-md-12 no-padding" *ngIf="setting && invoices.length > 0">
+            <p>
+                <b>RNC o Cédula</b>: {{setting.rnc? setting.rnc: 'No existe'}}</p>
+            <p><b>Periodo</b>: {{filter.year}}{{filter.period}}</p>
+            <p *ngIf="filter.ncf_type"><b>Tipo</b>: {{get_type_description( )}}</p>
+            <div class="col-md-12 no-padding">
+                <div class="col-md-3 no-padding">
+                    <b>Cantidad Registros</b>
+                </div>
+                <div class="col-md-1 no-padding">
+                    {{invoices.length | number}}
+                </div>
+                <div class="col-md-2 no-padding">
+                    <b>Total Monto Facturado</b>
+                </div>
+                <div class="col-md-2 no-padding">
+                    <b>ITBIS Facturado</b>
+                </div>
+                <div class="col-md-2 no-padding">
+                    <b>ITBIS Retenido</b>
+                </div>
+                <div class="col-md-2 no-padding">
+                    <b>ITBIS Retención Renta</b>
+                </div>
+            </div>
+            <div class="col-md-12 no-padding">
+                <div class="col-md-4 no-padding">
+                    <b>Total Monto Facturado</b>
+                </div>
+                <div class="col-md-2 no-padding">
+                    {{total_invoice | currency:'':'$':'1.2-2' }}
+                </div>
+                <div class="col-md-2 no-padding">
+                    {{total_itbis | currency:'':'$':'1.2-2' }}
+                </div>
+                <div class="col-md-2 no-padding">
+                    0
+                </div>
+                <div class="col-md-2 no-padding">
+                    0
+                </div>
+            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Linea</th>
+                        <th>#</th>
+                        <th>RNC o Cédula</th>
+                        <th>Cliente</th>
+                        <th>NCF</th>
+                        <th>Fecha del Comprobante</th>
+                        <th class="text-right">ITBIS Facturado</th>
+                        <th class="text-right">Monto Facturado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let invoice of invoices; let i = index">
+                        <td>{{i + 1 | number }}</td>
+                        <td>{{invoice.number | number }}</td>
+                        <td>{{invoice.rnc}}</td>
+                        <td>{{invoice.client.name}} {{invoice.client.last_name}}</td>
+                        <td>
+                            <span *ngIf="invoice.ncf && invoice.ncf['ncf_string']">{{invoice.ncf['ncf_string']}}</span>
+                        </td>
+                        <td> {{invoice.create_date | date:'dd MMM, yyyy'}}</td>
+                        <td class="text-right">{{invoice.itbis | currency:'':'$':'1.2-2'}}</td>
+                        <td class="text-right">{{invoice.value | currency:'':'$':'1.2-2'}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </mat-card-content>
+</mat-card>

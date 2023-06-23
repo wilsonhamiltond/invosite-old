@@ -1,0 +1,79 @@
+﻿<form #productForm="ngForm" novalidate (ngSubmit)="save()">
+    <mat-card class="col-md-12">
+        <loading></loading>
+        <mat-card-content *ngIf="product">
+            <div class="col-md-12 no-padding">
+                <div class="col-md-6 no-padding">
+                    <file-upload [service]="productService" (upload)="getTempName($event)" [image_url]="product.image"></file-upload>
+                </div>
+                <div class="col-md-6" style="margin-top: 20px;">
+                    <mat-checkbox name="with_tax" [(ngModel)]="product.with_tax">
+                        <span *ngIf="product.with_tax">Inpuestos incluidos</span>
+                        <span *ngIf="!product.with_tax">Inpuestos no incluidos</span>
+                    </mat-checkbox>
+                </div>
+                <div class="col-md-6" style="margin-top: 20px;">
+                    <mat-checkbox name="has_production" [(ngModel)]="product.has_production">
+                        <span *ngIf="product.has_production">Genera producción</span>
+                        <span *ngIf="!product.has_production">No genera producción</span>
+                    </mat-checkbox>
+                </div>
+                <div class="col-lg-6">
+                    <mat-form-field style="width: 100%">
+                        <input matInput type="text" name="code" #code="ngModel" [(ngModel)]="product.code" placeholder="Código" />
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="col-md-12 no-padding" style="margin-top: 32px;">
+                <div class="col-lg-6">
+                    <mat-form-field style="width: 100%">
+                        <input matInput name="name" #name="ngModel" required [(ngModel)]="product.name" placeholder="Nombre" />
+                    </mat-form-field>
+                </div>
+                <div class="col-lg-6">
+                    <mat-form-field style="width: 100%">
+                        <input matInput type="number" name="value" #value="ngModel" required [(ngModel)]="product.value" placeholder="Precio" />
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="col-md-12 no-padding">
+                <div class="col-lg-6">
+                    <mat-form-field style="width: 100%">
+                        <input matInput name="discount_percen" #discount_percen="ngModel" [(ngModel)]="product.discount_percen" placeholder="% de Descuento"
+                        />
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6" style="margin-bottom: 10px;">
+                    <mat-form-field style="width: 100%">
+                        <input matInput type="text" name="category" #category="ngModel" required [(ngModel)]="product.category" (keyup)="filterCategory($event)"
+                            value="{{product.category.name}}" placeholder="Categoria" [matAutocomplete]="categoryAuto" />
+                    </mat-form-field>
+                    <mat-autocomplete #categoryAuto="matAutocomplete" [displayWith]="displayFn">
+                        <mat-option (onSelectionChange)="changeCategory($event)" *ngFor="let c of filteredCategorys" [value]="c">
+                            {{c.name}}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <input type="hidden" name="selectedCategory" [(ngModel)]="selectedCategory" required />
+                </div>
+            </div>
+            <div class="col-md-12 no-padding">
+                <show-field *ngFor="let field of fields" [field]="field" [ngClass]="{ 'col-lg-6':  field.type !='group' && !field.multiple_instance, 'col-lg-12': field.type =='group'}"
+                    [object]="product"></show-field>
+            </div>
+            <div class="col-md-12 no-padding">
+                <ckeditor name="description" [(ngModel)]="product.description" debounce="500">
+                </ckeditor>
+            </div>
+        </mat-card-content>
+        <mat-card-actions>
+            <div class="col-md-12 no-padding margin-top-sm">
+                <button type="button" [routerLink]="['/admin/product/list']" mat-raised-button color="warn">
+                    <mat-icon class="link">close</mat-icon> Cancelar</button>
+                <button *ngIf="m.edit || m.add" type="subbmit" [disabled]="!productForm.valid" mat-raised-button color="primary">
+                    Guardar
+                    <mat-icon class="link">check</mat-icon>
+                </button>
+            </div>
+        </mat-card-actions>
+    </mat-card>
+</form>

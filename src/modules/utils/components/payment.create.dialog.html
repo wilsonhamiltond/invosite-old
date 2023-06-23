@@ -1,0 +1,63 @@
+﻿<form #paymentForm="ngForm" novalidate (ngSubmit)="save()">
+    <div mat-dialog-title>PAGO DE FACTURA</div>
+    <loading></loading>
+    <mat-dialog-content>
+        <div class="col-md-12 no-padding">
+            <div class="col-md-6 no-padding-xs">
+                <mat-form-field style="width: 100%">
+                    <input name="payment_date" #payment_date="ngModel" [(ngModel)]="payment.payment_date" required matInput [matDatepicker]="picker"
+                        placeholder="Fecha del pago">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6 no-padding-xs" *ngIf="payment.client">
+                {{payment.client.name}} {{payment.client.last_name}}
+            </div>
+            <div class="col-md-6 no-padding-xs" *ngIf="payment.provider">
+                {{payment.provider.name}} {{payment.provider.last_name}}
+            </div>
+        </div>
+        <div class="col-md-12 no-padding">
+            <div class="col-md-6 no-padding-xs" *ngIf="!by_quantity">
+                <mat-form-field style="width: 100%">
+                    <input matInput type="number" name="value" #value="ngModel" max="{{payment.restant}}" [disabled]="payment_type && payment_type == 'Contado'"
+                        required [(ngModel)]="payment.value" placeholder="Valor del pago" />
+                </mat-form-field>
+            </div>
+            <div class="col-md-6 no-padding-xs" *ngIf="!!by_quantity">
+                <mat-form-field style="width: 100%">
+                    <input matInput type="number" name="quantity" #quantity="ngModel" required [(ngModel)]="payment.quantity" placeholder="Cantidad de Cuotas"
+                    />
+                </mat-form-field>
+            </div>
+            <div class="col-md-6 no-padding-xs" style="margin-bottom: 10px;">
+                <mat-form-field style="width: 100%">
+                    <input matInput type="text" name="method" #method="ngModel" required [(ngModel)]="payment.method" (keyup)="filterMethod()"
+                        value="{{method.name}}" placeholder="Forma de Pago" [matAutocomplete]="paymentMethodAuto" />
+                </mat-form-field>
+                <mat-autocomplete #paymentMethodAuto="matAutocomplete" [displayWith]="displayFn">
+                    <mat-option (onSelectionChange)="changeMethod($event)" *ngFor="let method of payment_methods" [value]="method">
+                        {{method.name}}
+                    </mat-option>
+                </mat-autocomplete>
+                <input type="hidden" name="selectedMethod" [(ngModel)]="selectedMethod" required />
+            </div>
+        </div>
+        <div class="col-md-12 no-padding" *ngIf="payment.method && payment.method.fields && payment.method.fields.length > 0">
+            <show-field class="col-lg-6" *ngFor="let field of payment.method.fields" [field]="field" [object]="payment"></show-field>
+        </div>
+        <div class="col-md-12">
+            <mat-form-field style="width: 100%">
+                <textarea row="5" matInput name="concept" #concept="ngModel" [(ngModel)]="payment.concept" placeholder="Concepto">Concepto</textarea>
+            </mat-form-field>
+        </div>
+    </mat-dialog-content>
+    <div mat-dialog-actions>
+        <button type="button" [disabled]="payment_type && payment_type == 'Contado'" class="margin-right-sm" (click)="close()" mat-raised-button
+            color="warn">
+            <mat-icon class="link">close</mat-icon> Cancelar</button>
+        <button type="subbmit" [disabled]="!paymentForm.valid" mat-raised-button color="primary">
+            Guardar <mat-icon class="link">check</mat-icon></button>
+    </div>
+</form>

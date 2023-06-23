@@ -1,0 +1,38 @@
+﻿<mat-card class="col-md-12">
+    <mat-card-content>
+        <div class="col-md-12 margin-bottom-xs">
+            <button type="button" [routerLink]="['/admin/payment/method/list']" mat-raised-button>
+                <mat-icon class="link">close</mat-icon> Cancelar</button>
+            <button *ngIf="module.add || module.edit" type="botton" (click)="save()" mat-raised-button color="primary">
+                Guardar <mat-icon class="link">check</mat-icon></button>
+        </div>
+        <div class="margin-bottom-xs col-md-12 no-padding">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Billetes</th>
+                        <th>Instrucciones</th>
+                        <th *ngIf="module.edit">Seleccionar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let ticket of tickets">
+                        <td>{{ticket.text}}</td>
+                        <td>{{ticket.instruction}}</td>
+                        <td *ngIf="module.edit">
+                            <mat-checkbox name="added" [(ngModel)]="ticket.added"></mat-checkbox>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </mat-card-content>
+    <mat-card-actions>
+        <div class="col-md-12">
+            <button type="button" [routerLink]="['/admin/payment/method/list']" mat-raised-button>
+                <mat-icon class="link">close</mat-icon> Cancelar</button>
+            <button *ngIf="module.add || module.edit" type="botton" (click)="save()" mat-raised-button color="primary">
+                Guardar <mat-icon class="link">check</mat-icon></button>
+        </div>
+    </mat-card-actions>
+</mat-card>

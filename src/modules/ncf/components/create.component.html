@@ -1,0 +1,52 @@
+<form #ncfForm="ngForm" novalidate (ngSubmit)="save()">
+    <mat-card class="col-md-12">
+        <loading></loading>
+        <mat-card-content *ngIf="ncf">
+            <div class="col-md-12 no-padding">
+                <div class="col-md-6">
+                    <mat-form-field style="width: 100%">
+                        <mat-select style="width: 100%" name="type" required [(ngModel)]="ncf.type" placeholder="Tipo de Comprobante">
+                            <mat-option *ngFor="let type of types" [value]="type.value"> {{type.label}} </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-md-6">
+                    <mat-form-field style="width: 100%">
+                        <input name="end_date" #invoice_date="ngModel" [(ngModel)]="ncf.end_date" matInput [matDatepicker]="end_date_picker"
+                           required placeholder="Fecha fin">
+                        <mat-datepicker-toggle matSuffix [for]="end_date_picker"></mat-datepicker-toggle>
+                        <mat-datepicker #end_date_picker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="col-md-12 no-padding">
+                <div class="col-md-6">
+                    <mat-form-field style="width: 100%">
+                        <input matInput name="serie" #serie="ngModel" minlength="1" required [(ngModel)]="ncf.serie" placeholder="Serie" />
+                    </mat-form-field>
+                </div>
+                <div class="col-md-3">
+                    <mat-form-field style="width: 100%">
+                        <input matInput type="number" name="sequencial_from" #sequencial_from="ngModel" min="1" max="{{ncf.sequencial_to}}" step="any"
+                            required [(ngModel)]="ncf.sequencial_from" placeholder="Desde" />
+                    </mat-form-field>
+                </div>
+                <div class="col-md-3">
+                    <mat-form-field style="width: 100%">
+                        <input matInput type="number" name="sequencial_to" #sequencial_to="ngModel" required min="{{ncf.sequencial_from}}" max="99999999"
+                            [(ngModel)]="ncf.sequencial_to" placeholder="Hasta" />
+                    </mat-form-field>
+                </div>
+            </div>
+        </mat-card-content>
+        <mat-card-actions>
+            <button type="button" [routerLink]="['/admin/ncf/list']" mat-raised-button color="warn">
+                <mat-icon class="link">close</mat-icon> Cancelar</button>
+            <button *ngIf="m.edit || m.add" type="subbmit" [disabled]="!ncfForm.valid" mat-raised-button color="primary">
+                Guardar
+                <mat-icon class="link">check</mat-icon>
+            </button>
+        </mat-card-actions>
+    </mat-card>
+</form>

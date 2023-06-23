@@ -1,0 +1,35 @@
+<form #taxForm="ngForm" novalidate (ngSubmit)="save()">
+    <mat-card class="col-md-12">
+        <loading></loading>
+        <mat-card-content *ngIf="tax">
+            <div class="col-md-12 no-padding">
+                <div class="col-md-6">
+                    <mat-form-field style="width: 100%">
+                        <input matInput name="name" #name="ngModel" required [(ngModel)]="tax.name" placeholder="Descripción" />
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field style="width: 100%">
+                        <input type="number" step="any" matInput name="value" #value="ngModel" required [(ngModel)]="tax.value" placeholder="Porcentaje" />
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="col-md-12 no-padding">
+                <div class="col-md-6">
+                    <mat-checkbox name="default" [(ngModel)]="tax.default">
+                        <span *ngIf="tax.default">Agregar por defecto</span>
+                        <span *ngIf="!tax.default">No agregar por defecto</span>
+                    </mat-checkbox>
+                </div>
+            </div>
+        </mat-card-content>
+        <mat-card-actions>
+            <button type="button" [routerLink]="['/admin/tax/list']" mat-raised-button color="warn">
+                <mat-icon class="link">close</mat-icon> Cancelar</button>
+            <button *ngIf="m.edit || m.add" type="subbmit" [disabled]="!taxForm.valid" mat-raised-button color="primary">
+                Guardar
+                <mat-icon class="link">check</mat-icon>
+            </button>
+        </mat-card-actions>
+    </mat-card>
+</form>

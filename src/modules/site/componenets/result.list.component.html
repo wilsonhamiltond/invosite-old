@@ -1,0 +1,48 @@
+<!-- Product -->
+<div class="product" *ngFor="let product of products">
+    <article>
+        <!-- Product img -->
+        <div class="media-left">
+            <div class="item-img">
+                <img class="img-responsive" [src]="product.image" onerror="this.src='assest/images/empty.png';" alt=""> </div>
+        </div>
+        <!-- Content -->
+        <div class="media-body">
+            <div class="row">
+                <!-- Content Left -->
+                <div class="col-sm-7">
+                        <a [routerLink]="['/site/product/'+ product._id + '/details']"><span class="tag">{{product.category.name}}</span></a>
+                    <a [routerLink]="['/site/product/'+ product._id + '/details']" class="tittle">{{product.name}}</a>
+                    <!-- Reviews -->
+                    <p class="rev hidden">
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <span class="margin-left-10">5 Review(s)</span>
+                    </p>
+                    
+                    <div class="col-sm-12 description-short" [innerHTML]="product.description"></div>
+                </div>
+                <!-- Content Right -->
+                <div class="col-sm-5 text-center">
+                    <a href="#." class="heart">
+                        <i class="fa fa-heart"></i>
+                    </a>
+                    <a href="#." class="heart navi">
+                        <i class="fa fa-navicon"></i>
+                    </a>
+                    <div class="position-center-center" style="max-width: 226px;">
+                        <div class="price">{{product.value | currency:'':'$':'1.2-2'}}</div>
+                        <p>Disponible en:
+                            <span class="in-stock">Almacen</span>
+                        </p>
+                        <a [routerLink]="['/site/product/'+ product._id + '/details']" class="btn-round">
+                            Ver</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </article>
+</div>

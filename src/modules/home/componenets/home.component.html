@@ -1,0 +1,13 @@
+﻿<div class="col-md-12 col-xs-12 no-padding widget-container">
+    <div *ngFor="let widget of widgets" class="wid {{widget.size}} no-padding-xs margin-bottom-sm">
+        <div class="col-md-12 col-xs-12 no-padding">
+            <invoice-general-resume class="widget col-md-12 col-xs-12 no-padding" *ngIf="widget.name == 'invoice-general-resume'"></invoice-general-resume>
+            <pending-widget class="widget col-md-12 col-xs-12 no-padding" *ngIf="widget.name == 'pending-widget'"></pending-widget>
+            <pending-purchase-widget class="widget col-md-12 col-xs-12 no-padding" *ngIf="widget.name == 'pending-purchase-widget'"></pending-purchase-widget>
+            <type-list-widget class="widget col-md-12 col-xs-12 no-padding" *ngIf="widget.name == 'type-list-widget'"></type-list-widget>
+            <type-activity-widget class="widget col-md-12 col-xs-12 no-padding" *ngIf="widget.name == 'type-activity-widget'"></type-activity-widget>
+            <sale-order-widget class="widget col-md-12 col-xs-12 no-padding" *ngIf="widget.name == 'sale-order-widget'">
+                </sale-order-widget>
+        </div>
+    </div>
+</div>

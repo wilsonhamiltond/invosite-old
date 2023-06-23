@@ -1,0 +1,101 @@
+<mat-card class="col-md-12 no-padding">
+    <mat-card-content>
+        <loading></loading>
+        <div class="margin-bottom-xs col-md-12 no-print">
+            <div class="col-md-12 no-padding">
+                <div class="col-md-3  no-padding-xs">
+                    <mat-form-field style="width: 100%">
+                        <input name="start_date" #start_date="ngModel" [(ngModel)]="filter.start_date" [max]="filter.end_date"
+                            matInput [matDatepicker]="start_date_picker" placeholder="Fecha de inicio">
+                        <mat-datepicker-toggle matSuffix [for]="start_date_picker"></mat-datepicker-toggle>
+                        <mat-datepicker #start_date_picker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-3 no-padding-xs">
+                    <mat-form-field style="width: 100%">
+                        <input name="end_date" #end_date="ngModel" [(ngModel)]="filter.end_date" [min]="filter.start_date"
+                            matInput [matDatepicker]="end_date_picker" placeholder="Fecha fin">
+                        <mat-datepicker-toggle matSuffix [for]="end_date_picker"></mat-datepicker-toggle>
+                        <mat-datepicker #end_date_picker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-3 no-padding-xs" style="margin-bottom: 20px;">
+                    <mat-form-field style="width: 100%">
+                        <input matInput type="text" name="client" #client="ngModel" [(ngModel)]="filter.client" value="{{client}}"
+                            (keyup)="filterClient($event)" placeholder="Cliente" [matAutocomplete]="auto" />
+                    </mat-form-field>
+                    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                        <mat-option *ngFor="let client of filteredClients" [value]="client">
+                            {{client.name}} {{client.last_name}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </div>
+                <div class="col-md-3 no-padding-xs" style="margin-bottom: 10px;">
+                    <mat-form-field style="width: 100%">
+                        <mat-select style="width: 100%" name="status" #status="ngModel" [(ngModel)]="filter.status"
+                            placeholder="Estado de la factura">
+                            <mat-option [value]="" > Todos </mat-option>
+                            <mat-option *ngFor="let status of statuses" [value]="status">
+                                {{ status }}
+                            </mat-option>
+                        </mat-select>
+
+                    </mat-form-field>
+                </div>
+                <div class="col-md-3 no-padding-xs" style="margin-bottom: 10px;">
+                    <mat-form-field style="width: 100%">
+                        <mat-select style="width: 100%" name="ncf_type" [(ngModel)]="filter.ncf_type" placeholder="Tipo de Comprobante">
+                            <mat-option [value]=""> No usar NCF</mat-option>
+                            <mat-option *ngFor="let type of types" [value]="type.value"> {{type.label}} </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="col-md-12 no-padding text-ceter">
+                <button mat-raised-button (click)="printList()" class="margin-right-sm">
+                    <mat-icon class="md-16">print</mat-icon> Imprimir
+                </button>
+                <button mat-raised-button color="primary" (click)="load()">
+                    Filtrar <mat-icon>filter_list</mat-icon>
+                </button>
+            </div>
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>NCF</th>
+                    <th>Fecha</th>
+                    <th>Cliente</th>
+                    <th>RNC o Cédula</th>
+                    <th>Sucursal</th>
+                    <th>Estado</th>
+                    <th>Valor</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let invoice of invoices">
+                    <td>{{invoice.number}}</td>
+                    <td><span *ngIf="invoice.ncf && invoice.ncf['ncf_string']">{{invoice.ncf['ncf_string']}}</span></td>
+                    <td>{{invoice.invoice_date | date:'dd MMM yyyy hh:mm a'}}</td>
+                    <td>{{invoice.client.name}} {{invoice.client.last_name}}</td>
+                    <td>{{invoice.rnc}}</td>
+                    <td>{{invoice.office.name}} </td>
+                    <td>{{invoice.status}} </td>
+                    <td class="text-right">{{invoice.value | currency:'':'$':'1.2-2'}}</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th>{{invoices.length}}</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th class="text-right">{{total_invoice | currency:'':'$':'1.2-2'}}</th>
+                </tr>
+            </tfoot>
+        </table>
+    </mat-card-content>
+</mat-card>

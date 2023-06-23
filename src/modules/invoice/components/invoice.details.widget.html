@@ -1,0 +1,30 @@
+﻿<div class="col-md-12 no-padding" *ngIf="invoice">
+    <table class="table" style="margin-bottom: 0px;">
+        <tbody>
+            <tr *ngFor="let p of invoice.products" [ngClass]="{'active': p._id == product._id}" (click)="change(p)">
+                <td style="min-width: 60%;">{{p.name}}
+                    <br/> {{p.quantity | number}} X {{p.value | currency:'':'$':'1.2-2'}}</td>
+                <td class="text-right">{{p.category.itbis | number}}%</td>
+                <td class="text-right">{{p.total_value | currency:'':'$':'1.2-2'}}</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr *ngIf="invoice.total_itbis > 0">
+                <th class="text-right" style="width: 60%;">Sub total</th>
+                <th class="text-right" colspan="2">{{invoice.value | currency:'':'$':'1.2-2'}}</th>
+            </tr>
+            <tr class="no-border" *ngIf="invoice.total_itbis > 0">
+                <th class="text-right" style="width: 60%;">Itbis</th>
+                <th class="text-right" colspan="2">{{ invoice.total_itbis | currency:'':'$':'1.2-2'}}</th>
+            </tr>
+            <tr class="no-border" *ngFor="let tax of invoice.taxes">
+                <th class="number_column">{{tax.name}}</th>
+                <th class="number_column" colspan="2">{{ tax.total_value | currency:'':'$':'1.2-2'}}</th>
+            </tr>
+            <tr class="no-border">
+                <th class="text-right" style="width: 60%;">Total</th>
+                <th class="text-right" colspan="2">{{invoice.total_value | currency:'':'$':'1.2-2'}}</th>
+            </tr>
+        </tfoot>
+    </table>
+</div>

@@ -1,0 +1,76 @@
+<!-- Contact -->
+<section class="contact-sec padding-top-40 padding-bottom-80">
+    <div class="container">
+
+        <!-- MAP -->
+        <section class="map-block margin-bottom-40">
+            <div class="map-wrapper" id="map-canvas" data-lat="-69.619235" data-lng="19.233719" data-zoom="8" data-style="1"></div>
+        </section>
+
+        <!-- Conatct -->
+        <div class="contact">
+            <div class="contact-form">
+                <!-- FORM  -->
+                <form role="form" id="contact_form" class="contact-form" method="post" onSubmit="return false">
+                    <div class="row">
+                        <div class="col-md-8">
+
+                            <!-- Payment information -->
+                            <div class="heading">
+                                <h2>Para comunicarte con nosotros.</h2>
+                            </div>
+                            <ul class="row">
+                                <li class="col-sm-6">
+                                    <label>Nombre
+                                        <input type="text" class="form-control" name="name" id="name" placeholder="">
+                                    </label>
+                                </li>
+                                <li class="col-sm-6">
+                                    <label>Correo Eléctronico
+                                        <input type="text" class="form-control" name="email" id="email" placeholder="">
+                                    </label>
+                                </li>
+                                <li class="col-sm-12">
+                                    <label>Mensage
+                                        <textarea class="form-control" name="message" id="message" rows="5" placeholder=""></textarea>
+                                    </label>
+                                </li>
+                                <li class="col-sm-12 no-margin">
+                                    <button type="submit" value="submit" class="btn-round" id="btn_submit" onClick="proceed();">Enviar</button>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Conatct Infomation -->
+                        <div class="col-md-4">
+                            <div class="contact-info" *ngIf="setting">
+                                <h5>{{setting.name}}</h5>
+                                <p>{{setting.description}}</p>
+                                <hr>
+                                <h6> Dirección:</h6>
+                                <p>{{setting.address}}</p>
+                                <h6>Teléfono:</h6>
+                                <p *ngFor="let phone of phones">{{phone}}</p>
+                                <h6>Correo Eléctronico:</h6>
+                                <p>{{setting.email}}</p>
+                                <h6 *ngIf="setting.facebook || setting.twitter || setting.instagram">Redes:</h6>
+                                <p *ngIf="setting.facebook">
+                                    <i class="fa fa-facebook"></i>
+                                     <a target="__blank" href="https://www.facebook.com/{{setting.facebook}}">@{{setting.facebook}}</a>
+                                </p>
+                                <p *ngIf="setting.twitter">
+                                    <i class="fa fa-twitter"></i>
+                                     <a target="__blank" href="https://twitter.com/{{setting.twitter}}">@{{setting.twitter}}</a>
+                                </p>
+                                <p *ngIf="setting.instagram">
+                                    <i class="fa fa-instagram"></i> 
+                                    <a target="__blank" href="https://www.instagram.com/{{setting.instagram}}">@{{setting.instagram}}</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

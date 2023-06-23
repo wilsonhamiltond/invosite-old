@@ -1,0 +1,35 @@
+{
+    "dbConfig":{
+        "host": "54.149.57.54",
+        "port": "27800",
+        "dbName": "is_asf",
+        "user": "sa",
+        "password": "Aa@123456"
+    },
+    "port":"8530",
+    "is_saas": false,
+    "online_shop": false,
+    "invoice_generattion_hour": 7,
+    "invoice_generattion_minute": 50,
+    "max_file_size": "2mb",
+    "sessionConfig": {
+        "secret": "is-a@123456-asf",
+        "resave": false,
+        "saveUninitialized": true,
+        "cookie": { 
+            "path": "/",
+            "httpOnly": true,
+            "secure": false,
+            "maxAge": 900000
+        }
+    },
+    "mail_config": {
+        "host": "smtp.gmail.com",
+        "port": 465,
+        "secure": true,
+        "auth": {
+            "user": "wilsonhamiltond@gmail.com",
+            "pass": "DruHamilton1987"
+        }
+    }
+}

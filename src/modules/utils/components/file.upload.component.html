@@ -1,0 +1,15 @@
+<div  class="col-md-12" style="height: 200px;">
+    <loading></loading>
+    <input style="width: 100%" class="hide"
+        name="input_file"
+        type="file"
+        accept="image/*"
+        #input_file
+        (change)="changeFile($event)" /> 
+    <input type="hidden" name="image" [(ngModel)]="image_url" />
+    <img #image class="logo" [src]="image_url"
+    onerror="this.src='assest/images/empty.png';"  />
+    <button class="upload_button" type="button" (click)="input_file.click()">
+        <span style="top: -5px;position: relative;">Seleccione un archivo</span> <mat-icon class="link">file_upload</mat-icon> 
+    </button>
+</div>

@@ -1,0 +1,163 @@
+﻿<form #connectionForm="ngForm" novalidate (ngSubmit)="save()">
+    <loading></loading>
+    <mat-card class="col-md-12" *ngIf="setting">
+        <mat-card-content>
+            <mat-tab-group style="margin-top: -15px;">
+                <mat-tab label="Información">
+                    <div class="col-md-6 no-padding margin-bottom-sm">
+                        <file-upload [service]="settingService" (upload)="getTempName($event)" [image_url]="setting.logo"></file-upload>
+                    </div>
+                    <div class="col-md-6">
+                        <mat-form-field style="width: 100%">
+                            <input matInput name="name" type="text" #name="ngModel" required [(ngModel)]="setting.name" placeholder="Nombre de Empresa"
+                            />
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-6">
+                        <mat-form-field style="width: 100%">
+                            <input matInput name="rnc" type="text" #rnc="ngModel" [(ngModel)]="setting.rnc" placeholder="RNC" />
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-6">
+                        <mat-form-field style="width: 100%">
+                            <input matInput name="itbis" type="number" #itbis="ngModel" required [(ngModel)]="setting.itbis" placeholder="ITBis" />
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-6 no-padding">
+                        <div class="col-md-3">
+                            <mat-form-field style="width: 100%">
+                                <input matInput name="background_color" type="color" #background_color="ngModel" [(ngModel)]="setting.background_color" placeholder="Fondo"
+                                />
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-3">
+                            <mat-form-field style="width: 100%">
+                                <input matInput name="text_color" type="color" #text_color="ngModel" [(ngModel)]="setting.text_color" placeholder="Texto"
+                                />
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-3">
+                            <mat-form-field style="width: 100%">
+                                <input matInput name="primary_background_color" type="color" #primary_background_color="ngModel" [(ngModel)]="setting.primary_background_color" placeholder="Fondo primario"
+                                />
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-3">
+                            <mat-form-field style="width: 100%">
+                                <input matInput name="primary_text_color" type="color" #primary_text_color="ngModel" [(ngModel)]="setting.primary_text_color" placeholder="Texto primario"
+                                />
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-md-12 margin-top-md">
+                        <mat-form-field style="width: 100%">
+                            <input matInput name="description" type="text" #description="ngModel" required [(ngModel)]="setting.description" placeholder="Descripción"
+                            />
+                        </mat-form-field>
+                    </div>
+                </mat-tab>
+                <mat-tab label="Envio">
+                    <div class="col-md-6">
+                        <mat-form-field style="width: 100%">
+                            <input matInput name="free_shipping_order_value" type="number" step="any" #free_shipping_order_value="ngModel" [(ngModel)]="setting.free_shipping_order_value"
+                                placeholder="Envio gratis en orden mayor a" />
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-6">
+                        <mat-form-field style="width: 100%">
+                            <input matInput name="returned_arrare_days" type="number" step="any" #returned_arrare_days="ngModel" [(ngModel)]="setting.returned_arrare_days"
+                                placeholder="Dias para aceptar devolución" />
+                        </mat-form-field>
+                    </div>
+                </mat-tab>
+                <mat-tab label="Facturación">
+                    <div class="col-md-6" style="margin-top: 20px;">
+                        <mat-checkbox name="print_sale_point" [(ngModel)]="setting.print_sale_point">
+                            <span *ngIf="setting.print_sale_point">Impresión de punto de venta</span>
+                            <span *ngIf="!setting.print_sale_point">Impresion de escritorio</span>
+                        </mat-checkbox>
+                    </div>
+                    <div class="col-md-6">
+                        <mat-form-field style="width: 100%">
+                            <textarea matInput name="invoice_message" type="text" #invoice_message="ngModel" required [(ngModel)]="setting.invoice_message"
+                                placeholder="Mensage de facturas"></textarea>
+                        </mat-form-field>
+                    </div>
+                </mat-tab>
+                <mat-tab label="Notificación">
+                    <div class="col-md-6">
+                        <mat-form-field style="width: 100%">
+                            <input matInput name="min_product_notify" type="number" #min_product_notify="ngModel" [(ngModel)]="setting.min_product_notify"
+                                placeholder="Notificar productos con cantidad menor a" />
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-6">
+                        <mat-form-field style="width: 100%">
+                            <input matInput name="max_invoice_pending" type="number" #max_invoice_pending="ngModel" [(ngModel)]="setting.max_invoice_pending"
+                                placeholder="Notificar factura pendiente mayor a" />
+                        </mat-form-field>
+                    </div>
+                </mat-tab>
+                <mat-tab label="Representante">
+                    <div class="col-md-6">
+                        <mat-form-field style="width: 100%">
+                            <input matInput name="representant_name" type="text" #representant_name="ngModel" required [(ngModel)]="setting.representant_name"
+                                placeholder="Nombre del representante" />
+                        </mat-form-field>
+                    </div>
+                </mat-tab>
+                <mat-tab label="Contacto">
+                    <div class="col-md-6">
+                        <mat-form-field style="width: 100%">
+                            <input matInput name="phone" type="text" #phone="ngModel" required [(ngModel)]="setting.phone" placeholder="Teléfono" />
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-6">
+                        <mat-form-field style="width: 100%">
+                            <input matInput name="email" type="text" #email="ngModel" required [(ngModel)]="setting.email" placeholder="Correo Eléctronico"
+                            />
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-md-12 no-padding">
+                        <div class="col-md-6">
+                            <mat-form-field style="width: 100%">
+                                <input matInput name="facebook" type="text" #facebook="ngModel" [(ngModel)]="setting.facebook" placeholder="Facebook" />
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-6">
+                            <mat-form-field style="width: 100%">
+                                <input matInput name="instagram" type="text" #instagram="ngModel" [(ngModel)]="setting.instagram" placeholder="Instagram"
+                                />
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-6">
+                            <mat-form-field style="width: 100%">
+                                <input matInput name="twitter" type="text" #twitter="ngModel" [(ngModel)]="setting.twitter" placeholder="Twitter" />
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-6">
+                            <mat-form-field style="width: 100%">
+                                <input matInput name="whatsapp" type="text" #whatsapp="ngModel" [(ngModel)]="setting.whatsapp" placeholder="Numbero de Whatsapp"
+                                />
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <mat-form-field style="width: 100%">
+                            <textarea matInput name="address" type="text" #address="ngModel" required [(ngModel)]="setting.address" placeholder="Dirección"></textarea>
+                        </mat-form-field>
+                    </div>
+                </mat-tab>
+            </mat-tab-group>
+        </mat-card-content>
+        <mat-card-actions>
+            <button type="button" [routerLink]="['/admin/home/home']" mat-raised-button color="warn">
+                <mat-icon class="link">close</mat-icon> Cancelar</button>
+            <button type="subbmit" [disabled]="!connectionForm.valid" mat-raised-button color="primary">
+                Guardar
+                <mat-icon class="link">check</mat-icon>
+            </button>
+        </mat-card-actions>
+    </mat-card>
+</form>

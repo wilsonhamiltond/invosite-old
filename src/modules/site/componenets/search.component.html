@@ -1,0 +1,97 @@
+<!-- Products -->
+<section class="padding-top-40 padding-bottom-60">
+    <div class="container">
+        <loading></loading>
+        <div class="row">
+            <!-- Shop Side Bar -->
+            <div class="col-md-3">
+                <form #searchForm="ngForm" novalidate (ngSubmit)="search()">
+                    <div class="shop-side-bar">
+                        <!-- Categories -->
+                        <h6 *ngIf="!parent_category._id">Categorias</h6>
+                        <h6 *ngIf="parent_category._id">{{parent_category.name}}</h6>
+                        <div class="checkbox checkbox-primary" >
+                            <ul>
+                                <li *ngFor="let category of categories">
+                                    <a [routerLink]="['/site/search/'+ category._id + '/' + query]">{{category.name}}</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-12 no-padding" style="margin-bottom: 15px;">
+                            <show-field *ngFor="let field of fields" class="col-md-12 no-padding" [field]="field" [object]="{}" (change)="search()"></show-field>
+                        </div>
+                        <!-- Categories -->
+                        <h6>Price</h6>
+                        <!-- PRICE -->
+                        <div class="cost-price-content">
+                            <div id="price-range" class="price-range"></div>
+                            <span id="price-min" class="price-min">500</span>
+                            <span id="price-max" class="price-max">1500</span>
+                            <button type="button" (click)="search()" class="btn-round">Filtrar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Products -->
+            <div class="col-md-9">
+                <!-- Short List -->
+                <div class="short-lst">
+                    <h2>Listado de Productos</h2>
+                    <ul>
+                        <!-- Short List -->
+                        <li>
+                            <p>Mostrando {{(current_page -1) * filter.limit}}
+                                – {{ ((filter.skip / filter.limit) + filter.limit > size? size:
+                                     (filter.skip / filter.limit) + filter.limit) * current_page}}
+                                 de {{size | number}} Resultados</p>
+                        </li>
+                        <!-- Short  -->
+                        <li>
+                            <select name="limit" [(ngModel)]="filter.limit" (change)="search()" class="selectpicker">
+                                <option [value]="20">Mostrar 20 </option>
+                                <option [value]="40">Mostrar 40 </option>
+                                <option [value]="100">Mostrar 100 </option>
+                            </select>
+                        </li>
+                        <!-- by Default -->
+                        <li>
+                            <select name="sort" [(ngModel)]="filter.sort" (change)="search()" class="selectpicker">
+                                <option value='{ "name": 1}'>Producto Acen</option>
+                                <option value='{ "name": -1}'>Producto Dec</option>
+                                <option value='{ "value": 1}'>Precio Ace</option>
+                                <option value='{ "value": -1}'>Precio Dec</option>
+                            </select>
+                        </li>
+                        <!-- Grid Layer -->
+                        <li class="grid-layer"> 
+                            <a href="#."><i class="fa fa-list margin-right-10"></i></a>
+                            <a href="#."><i class="fa fa-th"></i></a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Items -->
+                <div class="col-list">
+                    <result-list *ngIf="product_mode == 'list'" [products]="products"></result-list>
+                    <!-- pagination -->
+                    <ul class="pagination">
+                        <li>
+                            <a (click)="current_page=current_page - 1; search()" aria-label="Anterior">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        </li>
+                        <li *ngFor="let page of pages">
+                            <a [ngClass]="{'active': page === current_page}" (click)="current_page = page; search()" >{{page}}</a>
+                        </li>
+                        <li>
+                            <a (click)="current_page = current_page+ 1; search()" aria-label="Next">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

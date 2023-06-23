@@ -1,0 +1,32 @@
+﻿<div class="col-md-12 no-padding button-container">
+    <div class="col-md-4 no-padding">
+        <div class="col-md-12 no-padding item cancel" (click)="cancel_invoice()">
+            <mat-icon class="link">close</mat-icon> <span>Cancelar</span>
+        </div>
+        <div class="col-md-12 no-padding item payment text-center" (click)="invoce()">
+            <mat-icon class="link">monetization_on</mat-icon><br/>
+            Facturar
+        </div>
+    </div>
+    <div class="col-md-8 no-padding">
+        <div class="col-md-3 no-padding item number" (click)="number(1)">1</div>
+        <div class="col-md-3 no-padding item number" (click)="number(2)">2</div>
+        <div class="col-md-3 no-padding item number" (click)="number(3)">3</div>
+        <div class="col-md-3 no-padding item" [ngClass]="{'active': action == 'quantity' }" (click)="action = 'quantity';parent=''">Cnt.</div>
+        <div class="col-md-3 no-padding item number" (click)="number(4)">4</div>
+        <div class="col-md-3 no-padding item number" (click)="number(5)">5</div>
+        <div class="col-md-3 no-padding item number" (click)="number(6)">6</div>
+        <div class="col-md-3 no-padding item" [ngClass]="{'active': action == 'itbis' }" (click)="action = 'itbis'; parent='category' ">ITBis</div>
+        <div class="col-md-3 no-padding item number" (click)="number(7)">7</div>
+        <div class="col-md-3 no-padding item number" (click)="number(8)">8</div>
+        <div class="col-md-3 no-padding item number" (click)="number(9)">9</div>
+        <div class="col-md-3 no-padding item" [ngClass]="{'active': action == 'value' }" (click)="action = 'value';parent=''">Prec.</div>
+        <div class="col-md-3 no-padding item" [ngClass]="{'increase': !!increase, 'decrease': !increase}" (click)="increase = !increase">
+            <span [ngClass]="{'active': !!increase}">+</span> 
+            <span [ngClass]="{'active': !increase}">-</span>
+        </div>
+        <div class="col-md-3 no-padding item number" (click)="number(10)">10</div>
+        <div class="col-md-3 no-padding item">.</div>
+        <div class="col-md-3 no-padding item" (click)="remove()">Del</div>
+    </div>
+</div>

@@ -1,0 +1,61 @@
+﻿<mat-card class="col-md-12">
+    <mat-card-content>
+        <loading></loading>
+        <div class="col-md-12">
+            <div class="col-md-6 no-padding">
+            </div>
+            <div class="col-md-6 no-padding">
+                <mat-form-field style="width: 100%">
+                    <input matInput type="search" [(ngModel)]="query" (keyup)="search($event)" placeholder='Filtrar' />
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="col-md-12 no-padding">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Caja</th>
+                        <th>Valor de Inicio</th>
+                        <th>Fecha</th>
+                        <th>Cajero</th>
+                        <th>Estado</th>
+                        <th class="action" *ngIf="module.edit || module.delete">Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let box of boxs">
+                        <td>{{box.start_value}}</td>
+                        <td>{{box.box.name}}</td>
+                        <td>{{box.create_date | date:'dd/MM/yyyy'}}</td>
+                        <td>{{box.create_user.account.name}}</td>
+                        <td>{{box.status}}</td>
+                        <td *ngIf="module.edit || module.delete">
+                            <mat-menu #appMenu="matMenu">
+                                <button mat-menu-item *ngIf="module.edit && box.status == status.open" [routerLink]="['/admin/box/close/' + box._id ]">
+                                    <mat-icon class="link">calendar_today</mat-icon> Cierre de caja
+                                </button>
+                                <button *ngIf="module.edit && box.status == status.open" mat-menu-item (click)="cancel(box)">
+                                    <mat-icon class="link">cancel</mat-icon> Cancelar
+                                </button>
+                                <button mat-menu-item *ngIf="box.status == status.closed" [routerLink]="['/admin/box/:_id/print']">
+                                    <mat-icon class="link">print</mat-icon> Imprimir Cierre
+                                </button>
+                            </mat-menu>
+                            <button class="action pull-right" mat-icon-button [matMenuTriggerFor]="appMenu">
+                                <mat-icon>more_vert</mat-icon>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="6">
+                            <mat-paginator [length]="size" [pageSize]="10" [pageSizeOptions]="[10, 20, 30, 40]" (page)="paginate()">
+                            </mat-paginator>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </mat-card-content>
+</mat-card>

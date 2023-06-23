@@ -1,0 +1,55 @@
+﻿<form #proudctForm="ngForm" novalidate (ngSubmit)="save()">
+    <div mat-dialog-title>AGREGAR PRODUCTO</div>
+    <mat-dialog-content>
+        <div class="col-lg-12">
+            <mat-form-field style="width: 100%">
+                <mat-select style="width: 100%" name="category" [(ngModel)]="category" (change)="filterByCategory($event)" placeholder="Categoria">
+                    <mat-option *ngFor="let category of categories" [value]="category"> {{category.name}} </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="col-md-12">
+            <mat-form-field style="width: 100%">
+                <input matInput type="text" name="product_field" #product_field="ngModel" required [(ngModel)]="product" value="{{product.name}}"
+                    (keyup)="filterProduct($event)" placeholder="Seleccione un producto" [matAutocomplete]="productAuto" />
+            </mat-form-field>
+            <mat-autocomplete #productAuto="matAutocomplete" [displayWith]="displayFn">
+                <mat-option (onSelectionChange)="changeProduct($event)" *ngFor="let p of filteredProducts" [value]="p">
+                    {{p.name}}
+                </mat-option>
+            </mat-autocomplete>
+        </div>
+        <div class="col-lg-12 no-padding">
+            <div class="col-md-6">
+                <mat-form-field style="width: 100%">
+                    <input matInput name="value" type="number" min="1" required #value="ngModel" [(ngModel)]="product.value" placeholder="Precio"
+                    />
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field style="width: 100%">
+                    <input matInput name="quantity" [max]="product.stock" [min]="1" required type="number" #quantity="ngModel" (change)="changeQuantity()"
+                        [(ngModel)]="product.quantity" placeholder="Cantidad" />
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field style="width: 100%">
+                    <input matInput name="itbis" required step="any" type="number" #itbis="ngModel" [(ngModel)]="product.category.itbis" placeholder="ITBis"
+                    />
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="col-md-12 no-padding" *ngIf="product.category && product.category.fields && product.category.fields.length > 0">
+            <show-field *ngFor="let field of category_fields" [ngClass]="{ 'col-lg-6':  field.type !='group', 'col-lg-12': field.type =='group'}"
+                [disabled]="field.show_on_create" [field]="field" [object]="product"></show-field>
+        </div>
+    </mat-dialog-content>
+    <div mat-dialog-actions>
+        <button class="margin-right-sm" type="button" (click)="close()" mat-raised-button color="warn">
+            <mat-icon class="link">close</mat-icon> Cancelar</button>
+        <button type="subbmit" [disabled]="!proudctForm.valid" mat-raised-button color="primary">
+            Guardar
+            <mat-icon class="link">check</mat-icon>
+        </button>
+    </div>
+</form>

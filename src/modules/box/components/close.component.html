@@ -1,0 +1,111 @@
+﻿<form #boxForm="ngForm" novalidate (ngSubmit)="save()">
+    <mat-card class="col-md-12">
+        <loading></loading>
+        <mat-card-content *ngIf="active_box">
+            <div class="col-md-12">
+                <div class="col-md-3">
+                    <b>Caja: </b> {{active_box.box.name}}
+                </div>
+                <div class="col-md-4">
+                    <mat-form-field style="width: 100%">
+                        <input name="end_date" #end_date="ngModel" [(ngModel)]="active_box.end_date" required matInput [matDatepicker]="end_date_picker"
+                            placeholder="Fecha de cierre">
+                        <mat-datepicker-toggle matSuffix [for]="end_date_picker"></mat-datepicker-toggle>
+                        <mat-datepicker #end_date_picker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-5 text-right">
+                    <mat-form-field style="width: 100%">
+                        <input matInput type="number" name="restant-value" required [disabled]="true" value="{{active_box.start_value}}" placeholder="Valor Inicial" />
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="col-md-12" *ngFor="let method of active_box.payment_methods">
+                <div class="col-md-12 no-padding" *ngFor="let ticket of method.tickets">
+                    <div class="col-md-3">
+                        <b>{{ticket.text}}: </b>
+                    </div>
+                    <div class="col-md-4">
+                        <show-field [field]="ticket" [object]="box" (change)="change_value($event, ticket, method)"></show-field>
+                    </div>
+                    <div class="col-md-5 text-right">
+                        <mat-form-field style="width: 100%">
+                            <input matInput type="number" name="value" [disabled]="true" value="{{active_box.totals[method._id][ticket._id]}}"  placeholder="Total {{ticket.text}}" />
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col-md-12 no-padding">
+                    <div class="col-md-3">
+                        <b>{{method.name}} Digitado: </b>
+                    </div>
+                    <div class="col-md-4">
+                    </div>
+                    <div class="col-md-5 text-right">
+                        <mat-form-field style="width: 100%">
+                            <input matInput type="number" name="{{method._id}}-value" required [disabled]="method.tickets.length > 0" [(ngModel)]="active_box.totals[method._id].value"  value="{{active_box.totals[method._id].value}}"  placeholder="Total {{method.name}}"
+                            />
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-3">
+                    <b>Total Digitado: </b>
+                </div>
+                <div class="col-md-4">
+                </div>
+                <div class="col-md-5 text-right">
+                    <mat-form-field style="width: 100%">
+                        <input matInput type="number" name="digited-value" required [disabled]="true" value="{{active_box.totals['digited']}}"  />
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-3">
+                    <b>Total Pagado: </b>
+                </div>
+                <div class="col-md-4">
+                </div>
+                <div class="col-md-5 text-right">
+                    <mat-form-field style="width: 100%">
+                        <input matInput type="number" name="payed-value" required [disabled]="true" value="{{active_box.totals['payed']}}" />
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-3">
+                    <b>Total Cobrado: </b>
+                </div>
+                <div class="col-md-4">
+                </div>
+                <div class="col-md-5 text-right">
+                    <mat-form-field style="width: 100%">
+                        <input matInput type="number" name="charged-value" required [disabled]="true" value="{{active_box.totals['charged']}}" 
+                        />
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-3">
+                    <b>Total General: </b>
+                </div>
+                <div class="col-md-4">
+                </div>
+                <div class="col-md-5 text-right">
+                    <mat-form-field style="width: 100%">
+                        <input matInput type="number" name="restant-value" required [disabled]="true" value="{{active_box.totals['total']}}" 
+                        />
+                    </mat-form-field>
+                </div>
+            </div>
+        </mat-card-content>
+        <mat-card-actions>
+            <button type="button" [routerLink]="['/admin/box/list']" mat-raised-button color="warn">
+                <mat-icon class="link">close</mat-icon> Cancelar</button>
+            <button *ngIf="m.edit || m.add" type="subbmit" [disabled]="!boxForm.valid" mat-raised-button color="primary">
+                Guardar
+                <mat-icon class="link">check</mat-icon>
+            </button>
+        </mat-card-actions>
+    </mat-card>
+</form>

@@ -1,0 +1,117 @@
+﻿<mat-card class="col-md-12 no-padding">
+    <mat-card-content>
+      <loading #loading></loading>
+        <div class="margin-bottom-xs col-md-12 no-print">
+            <div class="col-md-12 no-padding">
+                <div  class="col-md-3  no-padding-xs">
+                    <mat-form-field  style="width: 100%">
+                        <input
+                            name="start_date"
+                            #start_date="ngModel"
+                            [(ngModel)]="filter.start_date"
+                            [max]="filter.end_date"
+                            matInput [matDatepicker]="start_date_picker" placeholder="Fecha de inicio">
+                            <mat-datepicker-toggle matSuffix [for]="start_date_picker"></mat-datepicker-toggle>
+                            <mat-datepicker #start_date_picker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-3 no-padding-xs">
+                    <mat-form-field  style="width: 100%">
+                        <input
+                            name="end_date"
+                            #end_date="ngModel"
+                            [(ngModel)]="filter.end_date"
+                            [min]="filter.start_date"
+                            matInput [matDatepicker]="end_date_picker" placeholder="Fecha fin">
+                            <mat-datepicker-toggle matSuffix [for]="end_date_picker"></mat-datepicker-toggle>
+                            <mat-datepicker #end_date_picker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-3 no-padding-xs" style="margin-bottom: 20px;">
+                    <mat-form-field  style="width: 100%">
+                        <input matInput
+                            type="text"
+                            name="client"
+                            #client="ngModel"
+                            [(ngModel)]="filter.client"
+                            value="{{client}}"
+                            (keyup)="filterClient($event)"
+                            placeholder="Cliente" [matAutocomplete]="auto" />
+                    </mat-form-field>
+                    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                        <mat-option *ngFor="let client of filteredClients" [value]="client">
+                            {{client.name}} {{client.last_name}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </div>
+                <div class="col-md-3 no-padding-xs" style="margin-bottom: 20px;">
+                    <mat-form-field  style="width: 100%">
+                        <input matInput
+                            type="text"
+                            name="provider"
+                            #provider="ngModel"
+                            [(ngModel)]="filter.provider"
+                            value="{{provider}}"
+                            (keyup)="filterProvider($event)"
+                            placeholder="Proveedor" [matAutocomplete]="autoProvider" />
+                    </mat-form-field>
+                    <mat-autocomplete #autoProvider="matAutocomplete" [displayWith]="displayFn">
+                        <mat-option *ngFor="let provider of filteredProviders" [value]="provider">
+                            {{provider.name}} {{provider.last_name}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </div>
+            </div>
+            <div class="col-md-12 no-padding">
+                <button  mat-raised-button (click)="printList()" class="margin-right-sm">
+                    <mat-icon class="md-16">print</mat-icon> Imprimir
+                </button>
+                <button mat-raised-button color="primary" (click)="load()">
+                    Filtrar <mat-icon >filter_list</mat-icon>
+                </button>
+            </div>
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Fecha</th>
+                    <th>Factura</th>
+                    <th>Compra</th>
+                    <th style="min-width: 20% !important;">Cliente</th>
+                    <th style="min-width: 20% !important;">Proveedor</th>
+                    <th class="text-right">Total Cobrado</th>
+                    <th class="text-right">Total Pagado</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let payment of payments">
+                <td><a [routerLink]="['/admin/report/payment/'+ payment._id +'/details']">ver</a></td>
+                    <td>{{payment.payment_date | date:'dd/MM/yyyy'}}</td>
+                    <td> <span *ngFor="let invoice of payment.invoices" >#{{invoice.number}} </span></td>
+                    <td> <span *ngFor="let purchase of payment.purchases" >#{{purchase.number}} </span></td>
+                    <td style="min-width: 20% !important;">
+                        <span *ngIf="payment.client"> {{payment.client.name}} {{payment.client.last_name}}</span>
+                    </td>
+                    <td style="min-width: 20% !important;">
+                        <span *ngIf="payment.provider"> {{payment.provider.name}} {{payment.provider.last_name}}</span>
+                    </td>
+                    <td class="text-right"><span *ngIf="payment.client">{{payment.value| currency:'':'$':'1.2-2'}}</span></td>
+                    <td class="text-right"><span *ngIf="!payment.client">{{payment.value| currency:'':'$':'1.2-2'}}</span></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr >
+                    <th>{{payments.length}}</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th class="text-right">{{total_payment | currency:'':'$':'1.2-2'}}</th>
+                    <th class="text-right">{{total_payed | currency:'':'$':'1.2-2'}}</th>
+                </tr>
+            </tfoot>
+        </table>
+    </mat-card-content>
+</mat-card>

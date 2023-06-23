@@ -1,0 +1,44 @@
+﻿<loading #loading></loading>
+<div class="col-md-12 no-padding">
+    <mat-tab-group [selectedIndex]="current_tab" (selectedIndexChange)="change($event)">
+        <mat-tab *ngFor="let invoice of invoices; let i = index">
+            <ng-template mat-tab-label>
+                {{invoice.number}}
+            </ng-template>
+            <ng-template matTabContent>
+                <div class="col-md-4 no-padding" style="height: 100%;">
+                    <div class="col-md-12 no-padding" style="max-height: 50%; overflow-x: auto; height: 50%;">
+                        <invoice-details class="invoice-details" #invoice_details [invoice]="invoice" (product_change)="product_change($event)"></invoice-details>
+                    </div>
+                    <div class="col-md-12 no-padding text-center" style="margin-top: 10px; margin-bottom: 10px;">
+                        <div class="col-md-6 no-padding">
+                            <button mat-raised-button (click)="update_invoice(invoice)">
+                                <mat-icon>border_color</mat-icon> Datos de Factura</button>
+                        </div>
+                        <div class="col-md-6 no-padding">
+                            <button mat-raised-button [disabled]="!invoice.client" (click)="update_client(invoice)">
+                                <mat-icon>perm_identity</mat-icon> Modificar Cliente</button>
+                        </div>
+                    </div>
+                    <div class="col-md-12 hide text-center margin-bottom-xs">
+                        <button mat-raised-button style="width: 100%;">
+                            <mat-icon>label</mat-icon> Agregar Nota</button>
+                    </div>
+                    <div class="col-md-12 no-padding">
+                        <product-calculate #product_calculate (cancel)="cancel(i)" (delete)="remove($event)" (change)="change_product($event)" (save)="save(invoice, i)"></product-calculate>
+                    </div>
+                </div>
+                <div class="col-md-8 no-padding">
+                    <product-list-widget (change)="change_product($event)"></product-list-widget>
+                </div>
+            </ng-template>
+        </mat-tab>
+        <mat-tab disabled>
+            <ng-template mat-tab-label>
+                <button mat-icon-button (click)="add()">
+                    <mat-icon>add_circle</mat-icon>
+                </button>
+            </ng-template>
+        </mat-tab>
+    </mat-tab-group>
+</div>

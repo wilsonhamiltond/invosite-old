@@ -1,0 +1,39 @@
+<link rel="stylesheet" type="text/css" href="/assest/css/settings.css" media="screen" />
+
+<!-- StyleSheets -->
+<link rel="stylesheet" href="/assest/css/ionicons.min.css">
+<link rel="stylesheet" href="/assest/css/font-awesome.min.css">
+<link rel="stylesheet" href="/assest/css/site-main.css">
+<link rel="stylesheet" href="/assest/css/style.css">
+<link rel="stylesheet" href="/assest/css/responsive.css">
+
+<div style="height: 100%;" *ngIf="!loaded">
+    <div class="loading">
+        <img src="assest/images/loading_spinner.gif" />
+    </div>
+</div>
+<!-- Page Wrapper -->
+<div id="wrap" class="layout-1">
+    <!-- HEADER -->
+    <site-header *ngIf="setting" [setting]="setting"></site-header>
+    <!-- HEADER -->
+    <!-- Content -->
+    <div class="linking">
+        <div class="container">
+            <ol class="breadcrumb">
+                <li *ngFor="let breadcrumb of breadcrumbs" [ngClass]="{'active': breadcrumb.active}">
+                    <a [routerLink]="[breadcrumb.link]" *ngIf="!breadcrumb.active">{{breadcrumb.label}}</a>
+                    <span *ngIf="breadcrumb.active" >{{breadcrumb.label}}</span>
+                </li>
+            </ol>
+        </div>
+    </div>
+    <div id="content">
+        <router-outlet></router-outlet>
+    </div>
+    <!-- End Content -->
+    <!-- FOOTER -->
+    <site-footer *ngIf="setting" [setting]="setting"></site-footer>
+    <!-- FOOTER -->
+</div>
+<!-- End Page Wrapper -->

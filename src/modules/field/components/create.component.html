@@ -1,0 +1,104 @@
+<form #fieldForm="ngForm" novalidate (ngSubmit)="save()">
+    <mat-card class="col-md-12">
+        <mat-card-content *ngIf="field">
+            <div class="col-md-12 no-padding">
+                <div class="col-md-6">
+                    <mat-form-field style="width: 100%">
+                        <input matInput name="text" #natextme="ngModel" required [(ngModel)]="field.text" placeholder="Texto" />
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field style="width: 100%">
+                        <input matInput name="instruction" #instruction="ngModel" required [(ngModel)]="field.instruction" placeholder="Instrucciones"
+                        />
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="col-md-12 no-padding">
+                <div class="col-md-6">
+                    <mat-form-field style="width: 100%">
+                        <input matInput name="order" #order="ngModel" required value="0" [(ngModel)]="field.order" placeholder="Orden" />
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field style="width: 100%">
+                        <mat-select style="width: 100%" name="type" #type="ngModel" required [(ngModel)]="field.type" placeholder="Tipo campo">
+                            <mat-option [value]="'number'">Numérico</mat-option>
+                            <mat-option [value]="'text'">Carácteres</mat-option>
+                            <mat-option [value]="'date'">Fecha</mat-option>
+                            <mat-option [value]="'time'">Hora</mat-option>
+                            <mat-option [value]="'select'">Selección con Lista</mat-option>
+                            <mat-option [value]="'radio'">Selección con Radio</mat-option>
+                            <mat-option [value]="'checkbox'">Selección con Caja</mat-option>
+                            <mat-option [value]="'group'">Grupo de Campos</mat-option>
+                            <mat-option [value]="'file'">Archivo Adjunto</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="col-md-12 no-padding">
+                <div class="col-md-6">
+                    <mat-form-field style="width: 100%">
+                        <mat-select style="width: 100%" name="type" #type="ngModel" [(ngModel)]="field.parent_field_id"
+                            placeholder="Campo Padre">
+                            <mat-option *ngFor="let fd of fields" [value]="fd._id"  (onSelectionChange)="changeField($event)">{{fd.text}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field style="width: 100%" *ngIf="selected_field">
+                        <mat-select style="width: 100%" name="parent_field_value" [(ngModel)]="field.parent_field_value" placeholder="{{selected_field.text}}">
+                            <mat-option *ngFor="let option of selected_field.options" [value]="option.value">{{option.label}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <div class="col-md-6" *ngIf="!field.is_calculate">
+                        <mat-checkbox name="multiple_instance" [(ngModel)]="field.multiple_instance">
+                            Multiple
+                        </mat-checkbox>
+                    </div>
+                    <div class="col-md-6" *ngIf="field.type == 'number'">
+                        <mat-checkbox name="is_calculate" [(ngModel)]="field.is_calculate">
+                            Calculado
+                        </mat-checkbox>
+                    </div>
+                    <div class="col-md-6">
+                        <mat-checkbox name="show_on_create" [(ngModel)]="field.show_on_create">
+                            Creación
+                        </mat-checkbox>
+                    </div>
+                    <div class="col-md-6">
+                        <mat-checkbox name="show_on_invoice" [(ngModel)]="field.show_on_invoice">
+                            Facturación
+                        </mat-checkbox>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 no-padding" *ngIf="field.type == 'file'">
+                <div class="col-md-6" style="margin-top: 15px; margin-bottom: 10px;">
+                    <mat-form-field style="width: 100%">
+                        <mat-select style="width: 100%" name="file_type" #file_type="ngModel" required [(ngModel)]="field.file_type" placeholder="Tipo Archivo">
+                            <mat-option [value]="'image/*'">Imagen</mat-option>
+                            <mat-option [value]="'application/pdf'">PDF</mat-option>
+                            <mat-option [value]="'application/vnd.ms-excel'">EXCEL</mat-option>
+                            <mat-option [value]="'application/msword'">World</mat-option>
+                            <mat-option [value]="'all'">Todos</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+            <calculate-field *ngIf="field.is_calculate && field.type == 'number'" [field]="field" class="col-md-12 no-padding"></calculate-field>
+            <group-field class="col-md-12 no-padding" *ngIf="field.type == 'group'" [field]="field"></group-field>
+            <option-field class="col-md-12 no-padding" *ngIf="field.type == 'select' || field.type == 'radio' || field.type == 'checkbox'"
+                [field]="field" [parent]="field.parent_field_value"></option-field>
+        </mat-card-content>
+        <mat-card-actions>
+            <button type="button" [routerLink]="['/admin/field/list']" mat-raised-button color="warn">
+                <mat-icon class="link">close</mat-icon> Cancelar</button>
+            <button *ngIf="m.edit || m.add" type="subbmit" [disabled]="!fieldForm.valid" mat-raised-button color="primary">
+                Guardar
+                <mat-icon class="link">check</mat-icon>
+            </button>
+        </mat-card-actions>
+    </mat-card>
+</form>

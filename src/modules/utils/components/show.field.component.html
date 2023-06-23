@@ -1,0 +1,112 @@
+<div class="col-md-12 no-padding" *ngIf="field.type == 'group'">
+    <div class="col-md-12 no-padding" *ngIf="!field.multiple_instance">
+        <show-field class="col-lg-6" *ngFor="let field of field.fields" [field]="field"></show-field>
+    </div>
+    <div class="col-md-12 no-padding" *ngIf="field.multiple_instance">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th *ngFor="let fd of field.fields; let i = index">{{fd.text}}</th>
+                    <th style="width: 64px;">
+                        <button type="button" class="action" mat-button color="success" (click)="add()">
+                            <mat-icon class="md-16">add_box</mat-icon>
+                        </button>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let value of field.value; let i = index">
+                    <td *ngFor="let fd of field.fields; let i = index">{{value[fd._id]}}</td>
+                    <td>
+                        <button type="button" class="action" mat-button color="accent" (click)="add(i)">
+                            <mat-icon class="md-16">create</mat-icon>
+                        </button>
+                        <button type="button" class="action" mat-button color="warn" (click)="delete(i)">
+                            <mat-icon class="md-16">delete</mat-icon>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="col-md-12 no-padding" *ngIf="field.multiple_instance && field.type != 'group'">
+    <show-field class="col-md-12" [ngClass]="{'col-md-3': field.type == 'file'}" *ngFor="let instance of field.instances; let i = index"
+        [index]="i" [field]="instance" [parent_field]="field"></show-field>
+</div>
+
+<div class="no-padding" *ngIf="field.type != 'group' && show" [ngClass]="{'col-md-12': !parent_field.multiple_instance && parent_field.type =='file', 'col-md-11': parent_field.multiple_instance && parent_field.type !='file'}">
+    <div class="col-md-12 no-padding" *ngIf="field.type == 'number'">
+        <mat-form-field style="width: 100%">
+            <input matInput type="number" [disabled]="disabled" [name]="'custom_field' + field._id" [(ngModel)]="field.value" (blur)="changeValue()"
+                placeholder="{{field.text}}" />
+        </mat-form-field>
+    </div>
+    <div class="col-md-12 no-padding" *ngIf="field.type == 'text'">
+        <mat-form-field style="width: 100%">
+            <input matInput type="text" [disabled]="field.is_calculate || disabled" [name]="'custom_field' + field._id" [(ngModel)]="field.value"
+                (blur)="changeValue()" placeholder="{{field.text}}" />
+        </mat-form-field>
+    </div>
+    <div class="col-md-12 no-padding" *ngIf="field.type == 'time'">
+        <mat-form-field style="width: 100%">
+            <input matInput type="time" [disabled]="field.is_calculate || disabled" [name]="'custom_field' + field._id" [(ngModel)]="field.value"
+                (blur)="changeValue()" placeholder="{{field.text}}" />
+        </mat-form-field>
+    </div>
+    <div class="col-md-12 no-padding" *ngIf="field.type == 'date'">
+        <mat-form-field style="width: 100%">
+            <input matInput [disabled]="field.is_calculate || disabled" [name]="'custom_field' + field._id" [(ngModel)]="field.value"
+            (change)="changeValue()" placeholder="{{field.text}}" [matDatepicker]="field_picker" >
+            <mat-datepicker-toggle matSuffix [for]="field_picker"></mat-datepicker-toggle>
+            <mat-datepicker #field_picker></mat-datepicker>
+        </mat-form-field>
+    </div>
+    <div class="col-md-12 no-padding" *ngIf="field.type == 'select'">
+        <mat-form-field style="width: 100%">
+            <mat-select style="width: 100%" [disabled]="disabled" [name]="'custom_field' + field._id" [(ngModel)]="field.value" (selectionChange)="selectChangeValue($event)"
+                placeholder="{{field.text}}">
+                <mat-option *ngFor="let option of field.options" [value]="option.value"> {{option.label}} </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div class="col-md-12 no-padding" *ngIf="field.type == 'radio'">
+        <label>{{field.text}}</label>
+        <mat-radio-group [disabled]="disabled" [(ngModel)]="field.value" (change)="changeValue()">
+            <mat-radio-button *ngFor="let option of field.options" [value]="option.value" class="col-md-12 no-padding"> {{option.label}}
+            </mat-radio-button>
+        </mat-radio-group>
+    </div>
+    <div class="col-md-12 no-padding" *ngIf="field.type == 'checkbox'">
+        <label>{{field.text}}</label>
+        <section *ngFor="let option of field.options; let oi = index">
+            <mat-checkbox [disabled]="disabled" [name]="'custom_field' + field._id + oi" [checked]="isChecked(option.value)" (change)="changeValue(option.value)">{{option.label}}</mat-checkbox>
+        </section>
+    </div>
+    <div class="col-md-12 no-padding" *ngIf="field.type == 'file' && index >= 0">
+        <label *ngIf="index == 0">{{field.text}}</label>
+        <br/>
+        <input type="file" class="hidden" [name]="'custom_field' + field._id" type="file" accept="field.file_type" #file (change)="changeFile($event)"
+        />
+        <div class="col-md-12 no-padding image">
+            <img class="field-image" [src]="field.value" onerror="this.src='assest/images/empty.png';" />
+            <button type="button" class="field-image-delete" (click)="delete_instance()">
+                <mat-icon class="icon">close</mat-icon>
+            </button>
+        </div>
+        <button *ngIf="!field.value" class="edit-logo" mat-mini-fab type="button" (click)="file.click()" color="success">
+            <mat-icon class="link">file_upload</mat-icon>
+        </button>
+    </div>
+</div>
+<div class="col-md-1 no-padding" *ngIf="parent_field && parent_field.type != 'group' && parent_field.type != 'file' && parent_field.multiple_instance">
+    <button type="button" class="action" mat-raised-button color="accent" (click)="delete_instance()">
+        <mat-icon class="md-16">delete</mat-icon>
+    </button>
+</div>
+<div class="col-md-12 margin-bottom-sm margin-top-xs" *ngIf="field.multiple_instance && field.type != 'group'">
+    <button type="button" class="action" mat-raised-button color="success" (click)="add_instance( )">
+        <mat-icon class="md-16">add_box</mat-icon>
+    </button>
+</div>

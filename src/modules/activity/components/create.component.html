@@ -1,0 +1,45 @@
+﻿<form #activityForm="ngForm" novalidate (ngSubmit)="save()">
+    <loading></loading>
+    <mat-card class="col-md-12" *ngIf="activity">
+        <mat-card-content *ngIf="activity">
+            <div class="col-md-12 no-padding" *ngIf="!activity_type">
+                <div class="col-md-6">
+                    <mat-form-field style="width: 100%">
+                        <input matInput type="text" required name="name" #name="ngModel" [(ngModel)]="activity.name" placeholder="Nombre" />
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field style="width: 100%">
+                        <input name="date" #date="ngModel" [(ngModel)]="activity.date" required matInput [matDatepicker]="date_picker" placeholder="Fecha de la actividad"
+                        />
+                        <mat-datepicker-toggle matSuffix [for]="date_picker"></mat-datepicker-toggle>
+                        <mat-datepicker #date_picker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="col-md-12" *ngIf="!activity_type">
+                <mat-form-field style="width: 100%">
+                    <input matInput type="text" name="type" #type="ngModel" required [(ngModel)]="activity.type" (keyup)="filterActivityType($event)"
+                        value="{{activity.type.description}}" placeholder="Tipo de Actividad" [matAutocomplete]="typeAuto" />
+                </mat-form-field>
+                <mat-autocomplete #typeAuto="matAutocomplete" [displayWith]="displayFn">
+                    <mat-option *ngFor="let ct of filteredActivity_types" [value]="ct">
+                        {{ct.description}}
+                    </mat-option>
+                </mat-autocomplete>
+            </div>
+            <div class="col-md-12 no-padding" *ngIf="activity.type && activity.type.fields && activity.type.fields.length > 0">
+                <show-field *ngFor="let field of sortFields(activity.type.fields)" [ngClass]="{ 'col-lg-6':  field.type !='group', 'col-lg-12': field.type =='group'}"
+                    [field]="field" [object]="activity"></show-field>
+            </div>
+        </mat-card-content>
+        <mat-card-actions>
+            <button type="button" (click)="go_back()" mat-raised-button color="warn">
+                <mat-icon class="link">close</mat-icon> Cancelar</button>
+            <button *ngIf="module.add || module.edit" type="subbmit" [disabled]="!activityForm.valid" mat-raised-button color="primary">
+                Guardar
+                <mat-icon class="link">check</mat-icon>
+            </button>
+        </mat-card-actions>
+    </mat-card>
+</form>

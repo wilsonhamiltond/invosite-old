@@ -1,0 +1,8 @@
+﻿<loading #loading></loading>
+<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 no-padding">
+    <div class="col-md-4 col-lg-4 col-sm-4 col-xs-6" *ngFor="let ct of activity_types">
+        <button class="ct-btn" type="button" [routerLink]="['/admin/activity/type/'+ ct._id +'/create/0' ]" mat-raised-button color="primary">
+            <mat-icon class="link">{{ct.icon}}</mat-icon>
+            <br/> {{ct.description}}</button>
+    </div>
+</div>

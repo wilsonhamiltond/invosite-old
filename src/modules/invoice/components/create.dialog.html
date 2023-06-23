@@ -1,0 +1,104 @@
+﻿<form #invoiceForm="ngForm" novalidate (ngSubmit)="save()">
+    <div mat-dialog-title>MODIFICAR DATOS DE FACTURA</div>
+    <mat-dialog-content>
+        <loading></loading>
+        <div class="col-md-12 no-padding">
+            <div class="col-md-6">
+                <mat-form-field style="width: 100%">
+                    <input name="invoice_date" #invoice_date="ngModel" [(ngModel)]="invoice.invoice_date" required matInput [matDatepicker]="invoice_date_picker"
+                        placeholder="Fecha de la factura">
+                    <mat-datepicker-toggle matSuffix [for]="invoice_date_picker"></mat-datepicker-toggle>
+                    <mat-datepicker #invoice_date_picker></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div class="col-lg-6">
+                <mat-form-field style="width: 100%">
+                    <input matInput type="text" name="client" #client="ngModel" required [(ngModel)]="invoice.client" (keyup)="filterClient($event)"
+                        value="{{client.name}}" placeholder="Cliente" [matAutocomplete]="clientAuto" />
+                </mat-form-field>
+                <mat-autocomplete #clientAuto="matAutocomplete" [displayWith]="displayFn">
+                    <mat-option (onSelectionChange)="changeClient($event)" *ngFor="let client of filteredClients" [value]="client">
+                        {{client.name}} {{client.last_name}}
+                    </mat-option>
+                </mat-autocomplete>
+                <input type="hidden" name="selectedCliente" [(ngModel)]="selectedCliente" required />
+            </div>
+        </div>
+        <div class="col-md-12 no-padding">
+            <div class="col-md-6">
+                <mat-form-field style="width: 100%">
+                    <input matInput type="text" name="office" #office="ngModel" required [disabled]="offices.length == 1" [(ngModel)]="invoice.office"
+                        value="{{office.name}}" placeholder="Sucursal" [matAutocomplete]="officeAuto" />
+                </mat-form-field>
+                <mat-autocomplete #officeAuto="matAutocomplete" [displayWith]="displayOffice">
+                    <mat-option *ngFor="let office of offices" [value]="office">
+                        {{office.name}}
+                    </mat-option>
+                </mat-autocomplete>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field style="width: 100%">
+                    <mat-select style="width: 100%" name="payment_type" #payment_type="ngModel" required [(ngModel)]="invoice.payment_type" placeholder="Condición de Pago">
+                        <mat-option [value]="'Credito'"> Credito </mat-option>
+                        <mat-option [value]="'Contado'"> Contado </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="col-md-12" style="margin-top: 10px;">
+            <mat-form-field style="width: 100%">
+                <mat-select style="width: 100%" name="ncf_type" required [(ngModel)]="invoice.ncf_type" placeholder="Tipo de Comprobante">
+                    <mat-option *ngFor="let type of types" [value]="type.value"> {{type.label}} </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="col-md-12 no-padding">
+            <div class="col-md-12 no-padding" style="margin-bottom: 10px;">
+                <div class="col-md-6">
+                    <mat-form-field style="width: 100%">
+                        <mat-select style="width: 100%" name="taxes" [(ngModel)]="tax" placeholder="Retencioens e impuestos" (selectionChange)="addTax($event)">
+                            <mat-option *ngFor="let tax of taxes" [value]="tax"> {{tax.name}} </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-chip-set style="margin-bottom: 10px;width: 100%;
+                        display: block;">
+                        <mat-chip *ngFor="let tax of invoice.taxes; let i = index">
+                            {{tax.name}}
+                            <mat-icon class="link" style="font-size: 18px;top: 5px;position: relative;" (click)="deleteTax(i)">close</mat-icon>
+                        </mat-chip>
+                    </mat-chip-set>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field *ngIf="employees.length > 0" style="width: 100%;">
+                        <input matInput type="text" name="employee" [(ngModel)]="employee" placeholder="Vendedores" [matAutocomplete]="employeeAuto"
+                            [disabled]="invoice.acknowledment_ids && invoice.acknowledment_ids.length > 0" (keyup)="filterEmployee($event)"
+                        />
+                    </mat-form-field>
+                    <mat-autocomplete #employeeAuto="matAutocomplete" [displayWith]="displayEmployee">
+                        <mat-option (onSelectionChange)="addEmployee($event)" *ngFor="let emplo of filterEmployees" [value]="emplo">
+                            {{emplo.name}} {{emplo.last_name}}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <mat-chip-set>
+                        <mat-chip *ngFor="let emp of invoice.employees">{{emp.name}} {{emp.last_name}}
+                            <mat-icon class="link" style="font-size: 18px;top: 5px;position: relative;" (click)="removeEmployee(emp)">close</mat-icon>
+                        </mat-chip>
+                    </mat-chip-set>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <mat-form-field style="width: 100%">
+                <textarea matInput name="note" rows="4" #note="ngModel" [(ngModel)]="invoice.note" placeholder="Nota"></textarea>
+            </mat-form-field>
+        </div>
+    </mat-dialog-content>
+    <div mat-dialog-actions>
+        <button class="margin-right-sm" type="button" (click)="close()" mat-raised-button color="warn">
+            <mat-icon class="link">close</mat-icon> Cancelar</button>
+        <button type="subbmit" [disabled]="!invoiceForm.valid " mat-raised-button color="primary">
+            Guardar
+            <mat-icon class="link">check</mat-icon>
+        </button>
+    </div>
+</form>

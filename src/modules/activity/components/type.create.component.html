@@ -1,0 +1,41 @@
+﻿<form #typeForm="ngForm" novalidate (ngSubmit)="save()">
+    <mat-card>
+        <loading></loading>
+        <mat-card-content *ngIf="type">
+            <div class="col-md-6">
+                <mat-form-field style="width: 100%">
+                    <input matInput name="description" #description="ngModel" [(ngModel)]="type.description" required placeholder="Descripción"/>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6" style=" margin-bottom: 10px;">
+                <mat-form-field style="width: 100%">
+                    <mat-select style="width: 100%" name="icon" #icon="ngModel" [(ngModel)]="type.icon" placeholder="Icono">
+                        <mat-option [value]="'supervised_user_circle'">Cliente</mat-option>
+                        <mat-option [value]="'visibility'">Visita</mat-option>
+                        <mat-option [value]="'how_to_reg'">Plan</mat-option>
+                        <mat-option [value]="'contact_support'">Sugerencia</mat-option>
+                        <mat-option [value]="'person_add'">person_add</mat-option>
+                        <mat-option [value]="'how_to_reg'">how_to_reg</mat-option>
+                        <mat-option [value]="'people'">people</mat-option>
+                        <mat-option [value]="'group_add'">group_add</mat-option>
+                        <mat-option [value]="'fitness_center'">fitness_center</mat-option>
+                        <mat-option [value]="'local_offer'">local_offer</mat-option>
+                        <mat-option [value]="'contact_mail'">contact_mail</mat-option>
+                        <mat-option [value]="'contact_phone'">contact_phone</mat-option>
+                        <mat-option [value]="'contacts'">contacts</mat-option>
+                        <mat-option [value]="'touch_app'">touch_app</mat-option>
+                        <mat-option [value]="'today'">today</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </mat-card-content>
+        <mat-card-actions>
+            <button type="button" [routerLink]="['/admin/activity/type/list']" mat-raised-button color="warn">
+                <mat-icon class="link">close</mat-icon> Cancelar</button>
+            <button *ngIf="m.edit || m.add" type="subbmit" [disabled]="!typeForm.valid" mat-raised-button color="primary">
+                Guardar
+                <mat-icon class="link">check</mat-icon>
+            </button>
+        </mat-card-actions>
+    </mat-card>
+</form>

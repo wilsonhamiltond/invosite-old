@@ -1,0 +1,102 @@
+﻿<mat-card class="col-md-12 no-padding">
+    <mat-card-content>
+        <loading></loading>
+        <div class="margin-bottom-xs col-md-12 no-print">
+            <form #form="ngForm" novalidate (ngSubmit)="invoice()">
+                <div class="col-md-12 no-padding">
+                    <div class="col-md-3  no-padding-xs">
+                        <mat-form-field style="width: 100%">
+                            <input name="start_date" #start_date="ngModel" [(ngModel)]="filter.start_date" [max]="filter.end_date" matInput [matDatepicker]="start_date_picker"
+                                required placeholder="Fecha de inicio">
+                            <mat-datepicker-toggle matSuffix [for]="start_date_picker"></mat-datepicker-toggle>
+                            <mat-datepicker #start_date_picker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3 no-padding-xs">
+                        <mat-form-field style="width: 100%">
+                            <input name="end_date" #end_date="ngModel" [(ngModel)]="filter.end_date" [min]="filter.start_date" matInput [matDatepicker]="end_date_picker"
+                                required placeholder="Fecha fin">
+                            <mat-datepicker-toggle matSuffix [for]="end_date_picker"></mat-datepicker-toggle>
+                            <mat-datepicker #end_date_picker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3 no-padding-xs" style="margin-bottom: 20px;">
+                        <mat-form-field style="width: 100%">
+                            <input matInput type="text" name="client" #client="ngModel" [(ngModel)]="filter.client" value="{{client}}" (keyup)="filterClient($event)"
+                                required placeholder="Cliente" [matAutocomplete]="auto" />
+                        </mat-form-field>
+                        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                            <mat-option (onSelectionChange)="changeClient($event)" *ngFor="let client of filteredClients" [value]="client">
+                                {{client.name}} {{client.last_name}}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </div>
+                    <div class="col-md-3 no-padding-xs" style="margin-bottom: 10px;">
+                        <mat-form-field style="width: 100%">
+                            <mat-select style="width: 100%" name="status" #status="ngModel" required [(ngModel)]="filter.status" placeholder="Estado del acuse">
+                                <mat-option *ngFor="let status of statuses" [value]="status">
+                                    {{ status }}
+                                </mat-option>
+                            </mat-select>
+
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col-md-12 no-padding text-ceter">
+                    <button type="button" mat-raised-button (click)="printList()" class="margin-right-sm">
+                        <mat-icon class="md-16">print</mat-icon> Imprimir
+                    </button>
+                    <button type="button" mat-raised-button color="primary" (click)="load()" class="margin-right-sm">
+                        Filtrar
+                        <mat-icon>filter_list</mat-icon>
+                    </button>
+                    <button  *ngIf="module.add || module.edit" [disabled]="!form.valid" mat-raised-button color="success">
+                        Facturar
+                        <mat-icon>insert_drive_file</mat-icon>
+                    </button>
+                </div>
+            </form>
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th class="no-print" style="padding-left: 8px;" *ngIf="filter.client">
+                        <mat-checkbox name="added" [(ngModel)]="filter.added" (change)="select_all()"></mat-checkbox>
+                    </th>
+                    <th>No.</th>
+                    <th>Fecha</th>
+                    <th>Cliente</th>
+                    <th>Sucursal</th>
+                    <th>Estado</th>
+                    <th>Valor</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let acknowledgment of acknowledgments">
+                    <td class="no-print" *ngIf="filter.client">
+                        <mat-checkbox name="added" [(ngModel)]="acknowledgment.added"></mat-checkbox>
+                    </td>
+                    <td>{{acknowledgment.number}}</td>
+                    <td>{{acknowledgment.date | date:'dd MMM yyyy hh:mm a'}}</td>
+                    <td>{{acknowledgment.client.name}} {{acknowledgment.client.last_name}}</td>
+                    <td>{{acknowledgment.office.name}} </td>
+                    <td>{{acknowledgment.status}} </td>
+                    <td>{{acknowledgment.value | currency:'':'$':'1.2-2'}}</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th class="no-print" style="padding-left: 8px;" *ngIf="filter.client">
+                        <mat-checkbox name="added" [(ngModel)]="filter.added" (change)="select_all()"></mat-checkbox>
+                    </th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th>{{total_acknowledgment | currency:'':'$':'1.2-2'}}</th>
+                </tr>
+            </tfoot>
+        </table>
+    </mat-card-content>
+</mat-card>

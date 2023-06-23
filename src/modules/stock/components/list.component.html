@@ -1,0 +1,53 @@
+﻿<mat-card class="col-md-12">
+    <mat-card-content>
+        <loading></loading>
+        <div class="col-md-12">
+            <div class="col-md-6 no-padding">
+                <button *ngIf="module.add" mat-raised-button color="success" [routerLink]="['/admin/product/0/stock' ]">
+                    <mat-icon class="md-16">add_box</mat-icon> Ajuste del almacén</button>
+            </div>
+            <div class="col-md-6 no-padding">
+                <mat-form-field style="width: 100%">
+                    <input matInput type="search" [(ngModel)]="query" (keyup)="search($event)" placeholder='Filtrar' />
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="col-md-12 no-padding">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Producto</th>
+                        <th>Almacén</th>
+                        <th>Cantidad</th>
+                        <th>Comentario</th>
+                        <th>Personal</th>
+                        <th>Fecha</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let stock of stocks">
+                        <td>
+                            <mat-icon matTooltip="Entrada al almacen" class="md-16 in" *ngIf="stock.type == 'in'">file_download</mat-icon>
+                            <mat-icon matTooltip="Salida al almacen" class="md-16 out" *ngIf="stock.type == 'out'">file_upload</mat-icon>
+                        </td>
+                        <td>{{stock.product.name}}</td>
+                        <td>{{stock.office?stock.office.name: '*'}}</td>
+                        <td>{{stock.quantity}}</td>
+                        <td>{{stock.note}}</td>
+                        <td>{{stock.create_user.account.name}} {{stock.create_user.account.last_name}}</td>
+                        <td>{{stock.create_date | date:'dd/MM/yyyy hh:mm a'}}</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="7">
+                            <mat-paginator [length]="size" [pageSize]="20" [pageSizeOptions]="[20, 50, 100, 150]" (page)="onPage($event)">
+                            </mat-paginator>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </mat-card-content>
+</mat-card>

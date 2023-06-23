@@ -1,0 +1,35 @@
+{
+    "dbConfig":{
+        "host": "127.0.0.1",
+        "port": "27800",
+        "dbName": "is_lareal",
+        "user": "sa",
+        "password": "Aa@123456"
+    },
+    "port":"9000",
+    "online_shop": false,
+    "is_saas": false,
+    "invoice_generattion_hour": 8,
+    "invoice_generattion_minute": 20,
+    "max_file_size": "2mb",
+    "sessionConfig": {
+        "secret": "is-a@123456-lareal",
+        "resave": false,
+        "saveUninitialized": true,
+        "cookie": { 
+            "path": "/",
+            "httpOnly": true,
+            "secure": false,
+            "maxAge": 900000
+        }
+    },
+    "mail_config": {
+        "host": "smtp.gmail.com",
+        "port": 465,
+        "secure": true,
+        "auth": {
+            "user": "wilsonhamiltond@gmail.com",
+            "pass": "DruHamilton1987"
+        }
+    }
+}

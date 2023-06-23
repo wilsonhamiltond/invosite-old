@@ -1,0 +1,116 @@
+﻿header{
+    padding: 10px;
+    border-bottom: 1px solid #d5d5d5;
+    box-shadow: 0px 0px 4px 0px #bdbdbd;
+}
+header .logo, mat-sidenav .logo{
+    font-size: 28px;
+    padding-right: 50px;
+    padding-left: 70px;
+    margin-top: 10px;
+}
+header mat-icon{
+    padding: 5px 10px;
+}
+mat-sidenav{
+    width: 300px;
+}
+mat-sidenav .logo{
+    display: block;
+    padding-left: 70px;
+    margin-top: 5px;
+}
+section{
+    padding: 20px;
+}
+ul.menu mat-icon.link{
+    color: #ededed;
+}
+ul.menu{
+    list-style: none;
+    margin-top: 10px;
+    padding: 0;
+}
+ul.menu li label{
+    width: 100%;
+    padding-bottom: 5px;
+    margin-bottom: 0;
+    border-top: solid 1px;
+}
+ul.menu li label mat-icon.down, ul.menu li label mat-icon.right{
+    display: none;
+    float: right;
+}
+ul.menu li.open label mat-icon.down{
+    display: inline-block;
+}
+ul.menu li.open label mat-icon.right{
+    display: none;
+}
+ul.menu li label mat-icon.right{
+    display: inline-block;
+}
+ul.menu li ul.sub-menu{
+   display:none;
+}
+ul.menu li.open ul.sub-menu{
+    display:block;
+}
+ul.sub-menu{
+    list-style: none;
+    padding-left: 0;
+}
+ul.sub-menu li{
+    font-size: 9pt;
+    padding: 3px 10px 3px 15px;
+    border-top: solid 1px #d8d8d8;
+}
+ul.sub-menu li:hover{
+    background: #eeeeee;
+    cursor:pointer;
+}
+ul li:focus{
+    outline: none;
+}
+ul.sub-menu li a mat-icon{
+    font-size: 15pt;
+}
+ul.menu > li{
+    font-size: 11pt;
+    font-weight: bold;
+}
+
+ul.menu > li mat-icon{
+    position: relative;
+    top: 5px;
+    padding-left: 5px;
+    font-size: 14pt;
+}
+
+header nav b{
+    position: relative;
+    top: -6px;
+}
+.logo img{
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 32px;
+    width: 48px;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+mat-sidenav{
+    border-right: solid 1px #d7d7d7;
+}
+img.avatar{
+    height: 32px;
+    padding-right: 10px;
+}
+.mobil-menu{
+    width: 48px;
+    position: absolute;
+    right: 0;
+    top: 15px;
+    z-index: 2;
+}

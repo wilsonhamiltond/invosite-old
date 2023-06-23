@@ -1,0 +1,66 @@
+﻿<mat-card class="col-md-12 no-padding">
+    <mat-card-content>
+        <loading></loading>
+        <div class="margin-bottom-xs col-md-12">
+            <div class="col-md-6 no-padding">
+                <button *ngIf="module.add" mat-raised-button color="success" [routerLink]="['/admin/acknowledgment/create/0']">
+                    <mat-icon class="md-16">add_box</mat-icon> Nuevo</button>
+            </div>
+            <div class="col-md-6 no-padding">
+                <mat-form-field style="width: 100%">
+                    <input matInput type="search" [(ngModel)]="query" (keyup)="search($event)" placeholder='Filtrar'
+                    />
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="margin-bottom-xs col-md-12 no-padding">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Fecha</th>
+                        <th>Cliente</th>
+                        <th class="hidden-xs">Sucursal</th>
+                        <th class="hidden-xs">Productos</th>
+                        <th>Valor</th>
+                        <th class="text-right" *ngIf="module.edit || module.delete">Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let acknowledgment of acknowledgments">
+                        <td>{{acknowledgment.number}}</td>
+                        <td>{{acknowledgment.date | date:'dd MMM yyyy hh:mm a'}}</td>
+                        <td>{{acknowledgment.client.name}} {{acknowledgment.client.last_name}}</td>
+                        <td class="hidden-xs"> {{acknowledgment.office.name}} </td>
+                        <td class="hidden-xs">{{acknowledgment.productQuantity | number}}</td>
+                        <td>{{acknowledgment.value | currency:'':'$':'1.2-2'}}</td>
+                        <td *ngIf="module.edit || module.delete">
+                            <mat-menu #appMenu="matMenu">
+                                <button mat-menu-item *ngIf="module.delete" (click)="cancel(acknowledgment)">
+                                    <mat-icon class="link">cancel</mat-icon> Cancelar
+                                </button>
+                                <button mat-menu-item *ngIf="module.edit" (click)="update_client(acknowledgment)">
+                                    <mat-icon class="link">person</mat-icon> Modificar cliente
+                                </button>
+                                <button *ngIf="module.print" mat-menu-item [routerLink]="['/admin/acknowledgment/' + acknowledgment._id + '/print']">
+                                    <mat-icon class="link">print</mat-icon> Imprimir
+                                </button>
+                            </mat-menu>
+                            <button class="action pull-right" mat-icon-button [matMenuTriggerFor]="appMenu">
+                                <mat-icon>more_vert</mat-icon>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="7">
+                            <mat-paginator [length]="size" [pageSize]="10" [pageSizeOptions]="[10, 25, 50, 100]" (page)="onPage($event)">
+                            </mat-paginator>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </mat-card-content>
+</mat-card>

@@ -1,0 +1,95 @@
+<!-- Newslatter -->
+<section class="newslatter">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h3>Suscribete 
+                    <span>para obtener las
+                        <strong>Ofertas </strong> y <strong>novedades</strong>!</span>
+                </h3>
+            </div>
+            <div class="col-md-6">
+                <form>
+                    <input type="email" placeholder="Ingresa tu correo eléctronico...">
+                    <button type="submit">Subscribete!</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+
+            <!-- Contact -->
+            <div class="col-md-4">
+                <h4>Comunicate con {{setting.name}}!</h4>
+                <p>{{setting.address}}</p>
+                <p *ngIf="setting.phone">Teléfono(s): {{setting.phone}}</p>
+                <p *ngIf="setting.email">Email: {{setting.email}}</p>
+                <div class="social-links">
+                    <a *ngIf="setting.facebook" target="__blank" href="https://www.facebook.com/{{setting.facebook}}">
+                        <i class="fa fa-facebook"></i>
+                    </a>
+                    <a *ngIf="setting.twitter" target="__blank" href="https://twitter.com/{{setting.twitter}}">
+                        <i class="fa fa-twitter"></i>
+                    </a>
+                    <a *ngIf="setting.instagram" target="__blank" href="https://www.instagram.com/{{setting.instagram}}">
+                        <i class="fa fa-instagram"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Categories -->
+            <div class="col-md-4">
+                <h4>Categories</h4>
+                <ul class="links-footer">
+                    <li *ngFor="let category of categories">
+                        <a [routerLink]="['/site/search/'+ category._id +'/ ']">{{category.name}}</a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Categories -->
+            <div class="col-md-4">
+                <h4>Enlaces</h4>
+                <ul class="links-footer">
+                    <li>
+                        <a href="#/">Inicio</a>
+                    </li>
+                    <li>
+                        <a href="#/site/search"> Productos</a>
+                    </li>
+                    <li>
+                        <a href="#/site/search"> Categorias</a>
+                    </li>
+                    <li>
+                        <a href="#/site/about"> Información</a>
+                    </li>
+                    <li>
+                        <a href="#/site/contact"> Contactos </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Rights -->
+<div class="rights">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6">
+                <p>Copyright © {{year}} {{setting.name}}</p>
+            </div>
+            <div class="col-sm-6 text-right">
+                <img *ngIf="setting.logo" style="height: 50px;" [src]="setting.logo" /> </div>
+        </div>
+    </div>
+</div>
+
+<a href="#" class="cd-top">
+    <i class="fa fa-angle-up"></i>
+</a>
+<!-- GO TO TOP End -->

@@ -1,0 +1,134 @@
+﻿<mat-card class="col-md-12 no-padding">
+    <mat-card-content>
+        <div class="col-md-12 no-padding">
+            <h4 class="col-md-12">FACTURAS
+                <small>{{invoices.length}} encontradas.</small>
+            </h4>
+            <table class="table" *ngIf="invoices.length > 0">
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Fecha</th>
+                        <th>Cliente</th>
+                        <th class="hidden-xs">Sucursal</th>
+                        <th class="hidden-xs">Productos</th>
+                        <th>Valor</th>
+                        <th>Estado</th>
+                        <th class="text-right" *ngIf="module.edit || module.delete">Acciรณn</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let invoice of invoices">
+                        <td>{{invoice.number}}</td>
+                        <td>{{invoice.invoice_date | date:'dd MMM yyyy hh:mm a'}}</td>
+                        <td>{{invoice.client.name}} {{invoice.client.last_name}}</td>
+                        <td class="hidden-xs"> {{invoice.office.name}} </td>
+                        <td class="hidden-xs">{{invoice.productQuantity}}</td>
+                        <td>{{invoice.value | currency:'':'$':'1.2-2'}}</td>
+                        <td>{{invoice.status}}</td>
+                        <td *ngIf="module.edit || module.delete">
+                            <mat-menu #appMenu="matMenu">
+                                <button *ngIf="invoice.status == 'Creada'" mat-menu-item [routerLink]="['/admin/invoice/' + invoice._id + '/payments']">
+                                    <mat-icon class="link">monetization_on</mat-icon> Pagos
+                                </button>
+                                <button mat-menu-item *ngIf="invoice.status == 'Pre-Factura'" [routerLink]="['/admin/invoice/create/' + invoice._id]">
+                                    <mat-icon class="link">create</mat-icon> Modificar
+                                </button>
+                                <button mat-menu-item *ngIf="module.delete" >
+                                    <mat-icon class="link">cancel</mat-icon> Cancelar
+                                </button>
+                                <button *ngIf="invoice.status == 'Creada' && module.delete" mat-menu-item >
+                                    <mat-icon class="link">assignment_return</mat-icon> Devoluciรณn
+                                </button>
+                                <button *ngIf="invoice.status == 'Creada' && module.print" mat-menu-item [routerLink]="['/admin/invoice/print/' + invoice._id + '/a4']">
+                                    <mat-icon class="link">print</mat-icon> Imprimir
+                                </button>
+                            </mat-menu>
+                            <button class="action pull-right" mat-icon-button [matMenuTriggerFor]="appMenu">
+                                <mat-icon>more_vert</mat-icon>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="col-md-12 no-padding">
+            <h4 class="col-md-12">PRODUCTOS
+                <small>{{products.length}} encontrados.</small>
+            </h4>
+            <table class="table" *ngIf="products.length > 0">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Categoria</th>
+                        <th>Precio</th>
+                        <th>ITBis</th>
+                        <th>Cantidad</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let product of products">
+                        <td>{{product.name}}</td>
+                        <td>{{product.category.name}}</td>
+                        <td>{{product.value | currency:'':'$':'1.2-2'}}</td>
+                        <td>{{product.category.itbis}}</td>
+                        <td>
+                            {{product.category.unlimited? '' : product.stock}}
+                        </td>
+                        <td>
+                            <a target="__blank" href="#/site/product/{{product._id}}/details" class="action pull-right" mat-icon-button >
+                                    <mat-icon>assignment</mat-icon>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-12 no-padding">
+            <h4 class="col-md-12">COTIZACIONES
+                <small>{{quotations.length}} encontrados.</small>
+            </h4>
+            <table class="table" *ngIf="quotations.length > 0">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Cliente</th>
+                        <th class="hidden-xs">Sucursal</th>
+                        <th class="hidden-xs">Productos</th>
+                        <th>Valor</th>
+                        <th>Estado</th>
+                        <th class="text-right" *ngIf="module.edit">Acciรณn</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let quotation of quotations">
+                        <td>{{quotation.quotation_date | date:'dd MMM yyyy hh:mm a'}}</td>
+                        <td>{{quotation.client.name}} {{quotation.client.last_name}}</td>
+                        <td class="hidden-xs"> {{quotation.office.name}} </td>
+                        <td class="hidden-xs">{{quotation.productQuantity}}</td>
+                        <td>{{quotation.value | currency:'':'$':'1.2-2'}}</td>
+                        <td>{{quotation.status}}</td>
+                        <td *ngIf="module.edit || module.delete">
+                            <mat-menu #appMenu="matMenu">
+                                <button *ngIf="quotation.status == 'Creada' && module.edit" mat-menu-item [routerLink]="['/admin/quotation/create/' + quotation._id]">
+                                    <mat-icon class="link">create</mat-icon> Modificar
+                                </button>
+                                <button *ngIf="quotation.status == 'Creada' && module.delete" mat-menu-item >
+                                    <mat-icon class="link">insert_drive_file</mat-icon> Facturar
+                                </button>
+                                <button mat-menu-item *ngIf="module.print" [routerLink]="['/admin/quotation/print/' + quotation._id ]">
+                                    <mat-icon class="link">print</mat-icon> Imprimir
+                                </button>
+                            </mat-menu>
+                            <button class="action pull-right" mat-icon-button [matMenuTriggerFor]="appMenu">
+                                <mat-icon>more_vert</mat-icon>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </mat-card-content>
+</mat-card>

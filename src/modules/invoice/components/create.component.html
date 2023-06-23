@@ -1,0 +1,227 @@
+﻿<form #invoiceForm="ngForm" novalidate (ngSubmit)="save()">
+    <mat-card class="col-md-12">
+        <loading></loading>
+        <mat-card-content *ngIf="invoice">
+            <div class="col-md-12 no-padding">
+                <div class="col-md-6">
+                    <mat-form-field style="width: 100%">
+                        <input name="invoice_date" #invoice_date="ngModel" [(ngModel)]="invoice.invoice_date" required matInput [matDatepicker]="invoice_date_picker" placeholder="Fecha de la factura">
+                        <mat-datepicker-toggle matSuffix [for]="invoice_date_picker"></mat-datepicker-toggle>
+                        <mat-datepicker #invoice_date_picker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="col-lg-6">
+                    <mat-form-field style="width: 100%">
+                        <input matInput type="text" name="client" #client="ngModel" required [(ngModel)]="invoice.client" (keyup)="filterClient($event)"
+                            value="{{client.name}}" placeholder="Cliente" [matAutocomplete]="clientAuto" />
+                    </mat-form-field>
+                    <mat-autocomplete #clientAuto="matAutocomplete" [displayWith]="displayFn">
+                        <mat-option (onSelectionChange)="changeClient($event)" [value]=""> Crear Nuevo Cliente </mat-option>
+                        <mat-option (onSelectionChange)="changeClient($event)" *ngFor="let client of filteredClients" [value]="client">
+                            {{client.name}} {{client.last_name}}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <input type="hidden" name="selectedCliente" [(ngModel)]="selectedCliente" required />
+                </div>
+            </div>
+            <div class="col-md-12 no-padding">
+                <div class="col-md-6">
+                    <mat-form-field style="width: 100%">
+                        <input matInput type="text" name="office" #office="ngModel" required [disabled]="offices.length == 1" [(ngModel)]="invoice.office"
+                            value="{{office.name}}" placeholder="Sucursal" [matAutocomplete]="officeAuto" />
+                    </mat-form-field>
+                    <mat-autocomplete #officeAuto="matAutocomplete" [displayWith]="displayOffice">
+                        <mat-option *ngFor="let office of offices" [value]="office">
+                            {{office.name}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field style="width: 100%">
+                        <mat-select style="width: 100%" name="payment_type" #payment_type="ngModel" required [(ngModel)]="invoice.payment_type" placeholder="Condición de Pago">
+                            <mat-option [value]="'Credito'"> Credito </mat-option>
+                            <mat-option [value]="'Contado'"> Contado </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="col-md-12" style="margin-top: 10px;">
+                <mat-form-field style="width: 100%">
+                    <mat-select style="width: 100%" name="ncf_type" [(ngModel)]="invoice.ncf_type" placeholder="Tipo de Comprobante">
+                        <mat-option [value]=""> No usar NCF</mat-option>
+                        <mat-option *ngFor="let type of types" [value]="type.value"> {{type.label}} </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-md-12 no-padding">
+                <div class="col-md-12 no-padding" style="margin-bottom: 10px;">
+                    <div class="col-md-6">
+                        <mat-form-field style="width: 100%">
+                            <mat-select style="width: 100%" name="taxes" [(ngModel)]="tax" placeholder="Retencioens e impuestos" (selectionChange)="addTax($event)" >
+                                <mat-option *ngFor="let tax of taxes" [value]="tax"> {{tax.name}} </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-chip-set style="margin-bottom: 10px;width: 100%;
+                        display: block;">
+                            <mat-chip *ngFor="let tax of invoice.taxes; let i = index">
+                                {{tax.name}}
+                                <mat-icon class="link" style="font-size: 18px;top: 5px;position: relative;" (click)="deleteTax(i)">close</mat-icon>
+                            </mat-chip>
+                        </mat-chip-set>
+                    </div>
+                    <div class="col-md-6">
+                        <mat-form-field *ngIf="employees.length > 0" style="width: 100%;">
+                            <input matInput type="text" name="employee" [(ngModel)]="employee" placeholder="Vendedores" [matAutocomplete]="employeeAuto" [disabled]="invoice.acknowledment_ids && invoice.acknowledment_ids.length > 0"
+                                (keyup)="filterEmployee($event)" />
+                        </mat-form-field>
+                        <mat-autocomplete #employeeAuto="matAutocomplete" [displayWith]="displayEmployee">
+                            <mat-option (onSelectionChange)="addEmployee($event)" *ngFor="let emplo of filterEmployees" [value]="emplo">
+                                {{emplo.name}} {{emplo.last_name}}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <mat-chip-set>
+                            <mat-chip *ngFor="let emp of invoice.employees">{{emp.name}} {{emp.last_name}}
+                                <mat-icon class="link" style="font-size: 18px;top: 5px;position: relative;" (click)="removeEmployee(emp)">close</mat-icon>
+                            </mat-chip>
+                        </mat-chip-set>
+                    </div>
+                </div>
+                <form #pForm="ngForm" novalidate (ngSubmit)="insert()">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Producto</th>
+                                <th class="hidden-xs" *ngFor="let field of field_names">{{field}}</th>
+                                <th>Cantidad</th>
+                                <th>Precio</th>
+                                <th>Sub Total</th>
+                                <th>ITBis</th>
+                                <th>Total</th>
+                                <th *ngIf="module.edit || module.delete || module.add">
+                                    <button *ngIf="module.add && (!invoice.acknowledment_ids || invoice.acknowledment_ids.length <= 0)" [disabled]="!invoice.office" type="button" mat-raised-button color="success" (click)="edit()">
+                                        <mat-icon class="md-16">add_box</mat-icon> Producto
+                                    </button>
+                                </th>
+                            </tr>
+                            <tr *ngIf="invoice.office && (!invoice.acknowledment_ids || invoice.acknowledment_ids.length <= 0)">
+                                <td>
+                                    <mat-form-field style="width: 100%">
+                                        <input matInput type="text" name="product_field" #product_field="ngModel" required [(ngModel)]="product" value="{{product.name}}"
+                                            (keyup)="filterProduct($event)" placeholder="Seleccione un producto" [matAutocomplete]="productAuto"
+                                        />
+                                    </mat-form-field>
+                                    <mat-autocomplete #productAuto="matAutocomplete" [displayWith]="displayProductFn">
+                                        <mat-option (onSelectionChange)="changeProduct($event)" *ngFor="let p of filteredProducts" [value]="p">
+                                            {{p.code? p.code + ' - ': ''}}{{p.name}}
+                                        </mat-option>
+                                    </mat-autocomplete>
+                                </td>
+                                <td>
+                                    <mat-form-field style="width: 100%" *ngIf="product">
+                                        <input matInput name="quantity" min="1" required type="number" #quantity="ngModel" (change)="changeQuantity()" [(ngModel)]="product.quantity"
+                                            placeholder="Cantidad" />
+                                    </mat-form-field>
+                                </td>
+                                <td colspan="2">
+                                    <mat-form-field style="width: 100%" *ngIf="product">
+                                        <input matInput name="value" type="number" min="1" required #value="ngModel" [(ngModel)]="product.value" placeholder="Precio"
+                                        />
+                                    </mat-form-field>
+                                </td>
+                                <td colspan="2">
+                                    <mat-form-field style="width: 100%" *ngIf="product && product.category">
+                                        <input matInput name="itbis" required step="any" type="number" #itbis="ngModel" [(ngModel)]="product.category.itbis" placeholder="ITBis"
+                                        />
+                                    </mat-form-field>
+                                </td>
+                                <td class="text-right">
+                                    <button [disabled]="!pForm.valid" class="action" mat-button type="submit" color="primary" style="min-width: 50px;" (click)="insert()">
+                                        <mat-icon class="md-16">check</mat-icon>
+                                    </button>
+                                    <button type="reset" class="action" mat-button color="accent" style="min-width: 50px;">
+                                        <mat-icon class="md-16">close</mat-icon>
+                                    </button>
+                                </td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let product of invoice.products; let i = index">
+                                <td>{{product.name}}</td>
+                                <td class="hidden-xs" *ngFor="let field of field_names">{{product[field] || ''}}</td>
+                                <td>{{product.value | currency:'':'$':'1.2-2'}}</td>
+                                <td>{{product.quantity | number}}</td>
+                                <td>{{product.total_value | currency:'':'$':'1.2-2'}}</td>
+                                <td>{{product.total_itbis | currency:'':'$':'1.2-2'}}</td>
+                                <td>{{(product.total_value + product.total_itbis) | currency:'':'$':'1.2-2'}}</td>
+                                <td class="text-right" *ngIf="module.edit || module.delete || module.add">
+                                    <button type="button" class="action" mat-button *ngIf="module.edit && (!invoice.acknowledment_ids || invoice.acknowledment_ids.length <= 0)" color="accent" (click)="edit(i, product)">
+                                        <mat-icon class="md-16">create</mat-icon>
+                                    </button>
+                                    <button type="button" class="action" mat-button *ngIf="module.delete && (!invoice.acknowledment_ids || invoice.acknowledment_ids.length <= 0)" color="warn" (click)="delete(i)">
+                                        <mat-icon class="md-16">delete</mat-icon>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot class="colored">
+                            <tr>
+                                <td></td>
+                                <td class="hidden-xs" *ngFor="let field of field_names"></td>
+                                <td></td>
+                                <td>{{ invoice.total_quantity | number }}</td>
+                                <td></td>
+                                <td class="text-right">Total: </td>
+                                <td>{{ invoice.value | currency:'':'$':'1.2-2'}}</td>
+                                <td *ngIf="module.edit || module.delete"></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td class="hidden-xs" *ngFor="let field of field_names"></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td class="text-right">ITbis: </td>
+                                <td>{{ invoice.total_itbis | currency:'':'$':'1.2-2'}}</td>
+                                <td *ngIf="module.edit || module.delete"></td>
+                            </tr>
+                            <tr *ngFor="let tax of invoice.taxes">
+                                <td></td>
+                                <td class="hidden-xs" *ngFor="let field of field_names"></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td class="text-right">{{tax.name}}: </td>
+                                <td>{{ tax.total_value | currency:'':'$':'1.2-2'}}</td>
+                                <td *ngIf="module.edit || module.delete"></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td class="hidden-xs" *ngFor="let field of field_names"></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>{{ invoice.total_value | currency:'':'$':'1.2-2'}}</td>
+                                <td *ngIf="module.edit || module.delete"></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </form>
+            </div>
+            <div class="col-md-12">
+                <mat-form-field style="width: 100%">
+                    <textarea matInput name="note" rows="4" #note="ngModel" [(ngModel)]="invoice.note" placeholder="Nota"></textarea>
+                </mat-form-field>
+            </div>
+        </mat-card-content>
+        <mat-card-actions>
+            <button type="button" [routerLink]="['/admin/invoice/list']" mat-raised-button color="warn">
+                <mat-icon class="link">close</mat-icon> Cancelar</button>
+            <button *ngIf="module.add || module.edit" type="subbmit" [disabled]="!invoiceForm.valid || invoice.products.length < 1" mat-raised-button
+                color="primary">
+                Guardar
+                <mat-icon class="link">check</mat-icon>
+            </button>
+        </mat-card-actions>
+    </mat-card>
+</form>

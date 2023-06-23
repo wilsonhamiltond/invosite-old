@@ -1,0 +1,34 @@
+﻿<form #activeBoxForm="ngForm" novalidate (ngSubmit)="save()">
+    <div mat-dialog-title>ABRIR CAJA</div>
+    <mat-dialog-content>
+        <div class="col-md-12 no-padding">
+            <loading></loading>
+            <div class="col-md-6">
+                <mat-form-field style="width: 100%">
+                    <input matInput autocomplete="off" #boxFilter name="box" placeholder="Caja"
+                        [matAutocomplete]="boxAuto" />
+                </mat-form-field>
+                <mat-autocomplete #boxAuto="matAutocomplete" [displayWith]="display.bind(this, 'name' )">
+                    <mat-option *ngFor="let box of boxs | filter: 'name': boxFilter.value" [value]="box"
+                    (onSelectionChange)="select_box($event)" >
+                        {{box.name}}
+                    </mat-option>
+                </mat-autocomplete>
+                <input *ngIf="!active_box.box" type="hidden" name="selected_box" required />
+            </div>
+            <div class="col-md-6">
+                <mat-form-field style="width: 100%">
+                    <input type="number" matInput name="start_value" #start_value="ngModel" required [(ngModel)]="active_box.start_value" placeholder="Monto inicial" />
+                </mat-form-field>
+            </div>
+        </div>
+    </mat-dialog-content>
+    <div mat-dialog-actions>
+        <button class="margin-right-sm" type="button" (click)="close()" mat-raised-button color="warn">
+            <mat-icon class="link">close</mat-icon> Cancelar</button>
+        <button type="subbmit" [disabled]="!activeBoxForm.valid" mat-raised-button color="primary">
+            Guardar
+            <mat-icon class="link">check</mat-icon>
+        </button>
+    </div>
+</form>

@@ -1,0 +1,33 @@
+﻿<form #boxForm="ngForm" novalidate (ngSubmit)="save()">
+    <mat-card class="col-md-12">
+        <loading></loading>
+        <mat-card-content *ngIf="box">
+            <div class="col-md-12">
+                <div class="col-lg-6">
+                    <mat-form-field style="width: 100%">
+                        <input matInput name="name" #name="ngModel" required [(ngModel)]="box.name" placeholder="Nombre" />
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field style="width: 100%">
+                        <input matInput type="text" name="office" #office="ngModel" required [disabled]="offices.length == 1" [(ngModel)]="box.office"
+                            value="{{office.name}}" placeholder="Sucursal" [matAutocomplete]="officeAuto" />
+                    </mat-form-field>
+                    <mat-autocomplete #officeAuto="matAutocomplete" [displayWith]="displayOffice">
+                        <mat-option *ngFor="let office of offices" [value]="office">
+                            {{office.name}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </div>
+            </div>
+        </mat-card-content>
+        <mat-card-actions>
+            <button type="button" [routerLink]="['/admin/box/list']" mat-raised-button color="warn">
+                <mat-icon class="link">close</mat-icon> Cancelar</button>
+            <button *ngIf="m.edit || m.add" type="subbmit" [disabled]="!boxForm.valid" mat-raised-button color="primary">
+                Guardar
+                <mat-icon class="link">check</mat-icon>
+            </button>
+        </mat-card-actions>
+    </mat-card>
+</form>

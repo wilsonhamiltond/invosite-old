@@ -1,0 +1,45 @@
+﻿<form #clientForm="ngForm" novalidate (ngSubmit)="save()">
+    <loading></loading>
+    <mat-card class="col-md-12" *ngIf="client">
+        <mat-card-content *ngIf="client">
+            <div class="col-md-12" style="margin-top: 15px; margin-bottom: 10px;">
+                <mat-form-field style="width: 100%">
+                    <input matInput type="text" [disabled]="!!client_type" name="type" #type="ngModel" required
+                        [(ngModel)]="client.type" (keyup)="filterClientType($event)" value="{{client.type.name}}"
+                        placeholder="Tipo de Cliente" [matAutocomplete]="typeAuto" />
+                </mat-form-field>
+                <mat-autocomplete #typeAuto="matAutocomplete" [displayWith]="displayFn">
+                    <mat-option *ngFor="let ct of filteredClient_types" [value]="ct" (onSelectionChange)="change_type($event)">
+                        {{ct.name}}
+                    </mat-option>
+                </mat-autocomplete>
+            </div>
+            <div class="col-md-12 no-padding">
+                <div class="col-md-6">
+                    <mat-form-field style="width: 100%">
+                        <input matInput name="name" #name="ngModel" required [(ngModel)]="client.name" placeholder="Nombre" />
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field style="width: 100%">
+                        <input matInput name="last_name" #last_name="ngModel" required [(ngModel)]="client.last_name"
+                            placeholder="Apellido" />
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="col-md-12 no-padding" *ngIf="client.type && client.type.fields && client.type.fields.length > 0">
+                <show-field class="col-lg-6" *ngFor="let field of sort_fields" [field]="field" [object]="client"></show-field>
+            </div>
+        </mat-card-content>
+        <mat-card-actions>
+            <button type="button" (click)="go_back()" mat-raised-button color="warn">
+                <mat-icon class="link">close</mat-icon> Cancelar
+            </button>
+            <button *ngIf="module.add || module.edit" type="subbmit" [disabled]="!clientForm.valid" mat-raised-button
+                color="primary">
+                Guardar
+                <mat-icon class="link">check</mat-icon>
+            </button>
+        </mat-card-actions>
+    </mat-card>
+</form>

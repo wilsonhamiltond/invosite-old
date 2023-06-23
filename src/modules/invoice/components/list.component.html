@@ -1,0 +1,84 @@
+﻿<mat-card class="col-md-12 no-padding">
+    <mat-card-content>
+        <loading></loading>
+        <div class="margin-bottom-xs col-md-12">
+            <div class="col-md-6 no-padding">
+                <button *ngIf="module.add" mat-raised-button color="success" [routerLink]="['/admin/invoice/create/0']">
+                    <mat-icon class="md-16">add_box</mat-icon> Nuevo</button>
+                <mat-radio-group class="pull-right" [(ngModel)]="payment_method" (change)="search()" style="margin-top: 15px;" >
+                    <mat-radio-button value='["Contado"]' style="padding-right: 15px;">Contado</mat-radio-button>
+                    <mat-radio-button value='["Credito"]' style="padding-right: 15px;">Credito</mat-radio-button>
+                    <mat-radio-button value='["Contado", "Credito"]' style="padding-right: 15px;">Totas</mat-radio-button>
+                </mat-radio-group>
+            </div>
+            <div class="col-md-6 no-padding">
+                <mat-form-field style="width: 100%">
+                    <input matInput type="search" [(ngModel)]="query" (keyup)="search($event)" placeholder='Filtrar'
+                    />
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="margin-bottom-xs col-md-12 no-padding">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Fecha</th>
+                        <th>Cliente</th>
+                        <th>Condición</th>
+                        <th>Estado</th>
+                        <th class="hidden-xs">Sucursal</th>
+                        <th class="hidden-xs">Productos</th>
+                        <th>Valor</th>
+                        <th class="text-right" *ngIf="module.edit || module.delete">Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let invoice of invoices">
+                        <td>{{invoice.number}}</td>
+                        <td>{{invoice.invoice_date | date:'dd MMM yyyy hh:mm a'}}</td>
+                        <td>{{invoice.client.name}} {{invoice.client.last_name}}</td>
+                        <td>{{invoice.payment_type}}</td>
+                        <td>{{invoice.status}}</td>
+                        <td class="hidden-xs"> {{invoice.office.name}} </td>
+                        <td class="hidden-xs">{{invoice.productQuantity}}</td>
+                        <td>{{invoice.value | currency:'':'$':'1.2-2'}}</td>
+                        <td *ngIf="module.edit || module.delete">
+                            <mat-menu #appMenu="matMenu">
+                                <button *ngIf="invoice.status != 'Pre-Factura'" mat-menu-item [routerLink]="['/admin/invoice/' + invoice._id + '/payments']">
+                                    <mat-icon class="link">monetization_on</mat-icon> Pagos
+                                </button>
+                                <button mat-menu-item *ngIf="invoice.status == 'Pre-Factura'" [routerLink]="['/admin/invoice/create/' + invoice._id]">
+                                    <mat-icon class="link">create</mat-icon> Modificar
+                                </button>
+                                <button mat-menu-item *ngIf="module.edit" (click)="update_client(invoice)">
+                                    <mat-icon class="link">person</mat-icon> Modificar cliente
+                                </button>
+                                <button mat-menu-item *ngIf="module.delete" (click)="cancel_invoice(invoice)">
+                                    <mat-icon class="link">cancel</mat-icon> Cancelar
+                                </button>
+                                <button *ngIf="invoice.status != 'Pre-Factura' && module.delete" mat-menu-item (click)="return_invoice(invoice)">
+                                    <mat-icon class="link">assignment_return</mat-icon> Devolución
+                                </button>
+                                <button *ngIf="invoice.status != 'Pre-Factura' && module.print" mat-menu-item [routerLink]="['/admin/invoice/print/' + invoice._id + '/a4']">
+                                    <mat-icon class="link">print</mat-icon> Imprimir
+                                </button>
+                            </mat-menu>
+                            <button class="action pull-right" mat-icon-button [matMenuTriggerFor]="appMenu">
+                                <mat-icon>more_vert</mat-icon>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="9">
+                            <mat-paginator [length]="size" [pageSize]="10" [pageSizeOptions]="[10, 25, 50, 100]" (page)="onPage($event)">
+                            </mat-paginator>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </mat-card-content>
+</mat-card>

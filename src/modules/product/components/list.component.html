@@ -1,0 +1,62 @@
+﻿<mat-card class="col-md-12">
+    <mat-card-content>
+        <loading></loading>
+        <div class="col-md-12">
+            <div class="col-md-6 no-padding">
+                <button *ngIf="module.add" mat-raised-button color="success" [routerLink]="['/admin/product/create/0']">
+                    <mat-icon class="md-16">add_box</mat-icon> Nuevo</button>
+            </div>
+            <div class="col-md-6 no-padding">
+                <mat-form-field style="width: 100%">
+                    <input matInput type="search" [(ngModel)]="query" (keyup)="search($event)" placeholder='Filtrar' />
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="col-md-12 no-padding">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Nombre</th>
+                        <th class="hidden-xs">Categoria</th>
+                        <th class="hidden-xs">Precio</th>
+                        <th class="hidden-xs">% de Descuento</th>
+                        <th class="hidden-xs">ITBis</th>
+                        <th class="hidden-xs">Inventario</th>
+                        <th *ngIf="module.edit || module.delete">Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let product of products">
+                        <td>{{product.code}}</td>
+                        <td>{{product.name}}</td>
+                        <td class="hidden-xs">{{product.category.name}}</td>
+                        <td class="hidden-xs">{{product.value | currency:'':'$':'1.2-2'}}</td>
+                        <td class="hidden-xs">{{product.discount_percen | number}}</td>
+                        <td class="hidden-xs">{{product.category.itbis}}</td>
+                        <td class="text-center hidden-xs">
+                            <button *ngIf="!product.category.unlimited && module.edit" mat-button class="action" matTooltip="Actualizar inventario."
+                                color="primary" [routerLink]="['/admin/product/' + product._id + '/stock' ]">
+                                <mat-icon class="md-16">featured_play_list</mat-icon>
+                            </button>
+                        </td>
+                        <td *ngIf="module.edit || module.delete">
+                            <button matTooltip="Modificar" class="action" mat-button *ngIf="module.edit" color="accent" [routerLink]="['/admin/product/create/' + product._id]"><mat-icon
+                                    class="md-16">create</mat-icon></button>
+                            <button matTooltip="Borrar" class="action" mat-button *ngIf="module.delete" color="warn" (click)="delete(product)"><mat-icon
+                                    class="md-16">delete</mat-icon></button>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="8">
+                            <mat-paginator [length]="size" [pageSize]="10" [pageSizeOptions]="[10, 25, 50, 100]" (page)="onPage($event)">
+                            </mat-paginator>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </mat-card-content>
+</mat-card>

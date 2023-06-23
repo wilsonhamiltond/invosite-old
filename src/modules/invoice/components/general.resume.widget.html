@@ -1,0 +1,49 @@
+﻿<div class="col-md-12 no-padding">
+    <mat-toolbar>
+        <div class="col-md-6">
+            ESTADO DE CUENTA
+        </div>
+        <div class="col-md-6 text-right">
+            <mat-form-field style="width: 100%" [floatLabel]="'auto'">
+                <mat-select style="width: 100%" name="period" required [(ngModel)]="filter.period"
+                    placeholder="Periodo">
+                    <mat-option (onSelectionChange)="load_totals($event)" [value]="1"> Mensual </mat-option>
+                    <mat-option (onSelectionChange)="load_totals($event)" [value]="3"> Trimestral </mat-option>
+                    <mat-option (onSelectionChange)="load_totals($event)" [value]="6"> Semestral </mat-option>
+                    <mat-option (onSelectionChange)="load_totals($event)" [value]="12"> Anual </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+    </mat-toolbar>
+    <div class="col-md-12" style="padding: 10px;">
+        <loading></loading>
+        <div class="col-md-3 no-padding">
+            <div class="col-md-12 box green">
+                <mat-icon>assignment_turned_in</mat-icon>
+                <h3 class="text-right title">Cobrado</h3>
+                <label class="count">{{ payment| currency:'':'$':'1.2-2'}}</label>
+            </div>
+        </div>
+        <div class="col-md-3 no-padding-xs">
+            <div class="col-md-12 box orange">
+                <mat-icon>featured_play_list</mat-icon>
+                <h3 class="text-right title">Restante</h3>
+                <label class="count">{{ pending | currency:'':'$':'1.2-2'}}</label>
+            </div>
+        </div>
+        <div class="col-md-3 no-padding-xs">
+            <div class="col-md-12 box blue">
+                <mat-icon>monetization_on</mat-icon>
+                <h3 class="text-right title">Facturado</h3>
+                <label class="count">{{ total| currency:'':'$':'1.2-2'}}</label>
+            </div>
+        </div>
+        <div class="col-md-3 no-padding">
+            <div class="col-md-12 box orange">
+                <mat-icon>monetization_on</mat-icon>
+                <h3 class="text-right title">Por Pagar</h3>
+                <label class="count">{{ to_pay| currency:'':'$':'1.2-2'}}</label>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,84 @@
+﻿<mat-card class="col-md-12 no-padding">
+    <loading></loading>
+    <mat-card-content *ngIf="service">
+        <div class="margin-bottom-xs col-md-12 no-padding">
+            <div class="margin-bottom-xs col-md-12 no-print">
+                <div class="col-md-6 no-padding">
+                    <button mat-button [routerLink]="['/admin/service/list']">
+                        <mat-icon class="md-16">keyboard_return</mat-icon> Ir a listado</button>
+                </div>
+                <div class="col-md-6 no-padding text-right">
+                    <button *ngIf="module.print" mat-raised-button (click)="printList()">
+                        <mat-icon class="md-16">print</mat-icon> Imprimir</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12 ">
+            <span class="col-md-2 no-padding">Cliente:</span>
+            <label class="col-md-10 no-padding">{{service.client.name}} {{service.client.last_name}}</label>
+        </div>
+        <div class="margin-bottom-xs col-md-12 no-padding">
+            <div class="col-md-6">
+                <span class="col-md-4 no-padding">Frecuencia de pago:</span>
+                <label class="col-md-8 no-padding">{{service.frequency_type}}</label>
+            </div>
+            <div class="col-md-6">
+                <span class="col-md-4 no-padding">Dia del Pago:</span>
+                <label class="col-md-8 no-padding">{{next_payment_date | date:'dd MMM, yyyy' }}</label>
+            </div>
+        </div>
+        <div class="margin-bottom-xs col-md-12 no-padding">
+            <div class="col-md-6">
+                <span class="col-md-4 no-padding">Total Pagado:</span>
+                <label class="col-md-8 no-padding">{{total_payment | currency:'':'$':'1.2-2'}}</label>
+            </div>
+            <div class="col-md-6">
+                <span class="col-md-4 no-padding">Total Pendiente:</span>
+                <label class="col-md-8 no-padding">{{ (total - total_payment) | currency:'':'$':'1.2-2'}}</label>
+            </div>
+        </div>
+
+        <div class="margin-bottom-xs col-md-12 no-padding">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Factura</th>
+                        <th>Fecha</th>
+                        <th class="text-right">Estado</th>
+                        <th class="text-right">Monto</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let invoice of invoices; let i = index">
+                        <td>{{i + 1 | number}}</td>
+                        <td><a target="__blank" [routerLink]="['/admin/invoice/print/' + invoice._id + '/a4']" >{{ invoice.number | number }}</a></td>
+                        <td>{{ invoice.invoice_date | date:'dd MMM, yyyy' }}</td>
+                        <td class="text-right">{{ invoice.status }}</td>
+                        <td class="text-right">{{ invoice.total_value | currency:'':'$':'1.2-2' }}</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>{{ invoices.length | number }}</th>
+                        <th></th>
+                        <th></th>
+                        <th class="text-right"></th>
+                        <th class="text-right">{{ total | currency:'':'$':'1.2-2' }}</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        <div class="margin-bottom-xs col-md-12 no-print">
+            <div class="col-md-6 no-padding">
+                <button mat-button [routerLink]="['/admin/service/list']">
+                    <mat-icon class="md-16">keyboard_return</mat-icon> Ir a listado de prestamos</button>
+            </div>
+            <div class="col-md-6 no-padding text-right">
+                <button *ngIf="module.print" mat-raised-button (click)="printList()">
+                    <mat-icon class="md-16">print</mat-icon> Imprimir</button>
+            </div>
+        </div>
+    </mat-card-content>
+</mat-card>

@@ -1,0 +1,152 @@
+﻿<form #serviceForm="ngForm" novalidate (ngSubmit)="save()">
+    <mat-card class="col-md-12">
+        <loading></loading>
+        <mat-card-content *ngIf="service">
+            <div class="col-md-12 no-padding">
+                <div class="col-md-6">
+                    <mat-form-field style="width: 100%">
+                        <input matInput type="text" name="office" #office="ngModel" required [disabled]="offices.length == 1" [(ngModel)]="service.office"
+                            value="{{office.name}}" placeholder="Sucursal" [matAutocomplete]="officeAuto" />
+                    </mat-form-field>
+                    <mat-autocomplete #officeAuto="matAutocomplete" [displayWith]="displayOffice">
+                        <mat-option *ngFor="let office of offices" [value]="office">
+                            {{office.name}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </div>
+                <div class="col-lg-6">
+                    <mat-form-field style="width: 100%">
+                        <input matInput type="text" name="client" #client="ngModel" required [(ngModel)]="service.client" (keyup)="filterClient($event)"
+                            value="{{client.name}}" placeholder="Cliente" [matAutocomplete]="clientAuto" />
+                    </mat-form-field>
+                    <mat-autocomplete #clientAuto="matAutocomplete" [displayWith]="displayFn">
+                        <mat-option (onSelectionChange)="changeClient($event)" [value]=""> Crear Nuevo Cliente </mat-option>
+                        <mat-option (onSelectionChange)="changeClient($event)" *ngFor="let client of filteredClients" [value]="client">
+                            {{client.name}} {{client.last_name}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </div>
+            </div>
+            <div class="col-md-12 no-padding">
+                <div class="col-md-6">
+                    <mat-form-field style="width: 100%">
+                        <input name="start_date" #start_date="ngModel" [(ngModel)]="service.start_date" required matInput [matDatepicker]="start_date_picker"
+                            placeholder="Fecha de inicio">
+                        <mat-datepicker-toggle matSuffix [for]="start_date_picker"></mat-datepicker-toggle>
+                        <mat-datepicker #start_date_picker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field style="width: 100%">
+                        <input matInput type="text" name="service_type" #service_type="ngModel" [(ngModel)]="service.service_type" required placeholder="Tipo de servicio"
+                            (keyup)="filterClient($event)" value="{{client.name}}" [matAutocomplete]="typeAuto" />
+                    </mat-form-field>
+                    <mat-autocomplete #typeAuto="matAutocomplete" [displayWith]="displayFn">
+                        <mat-option *ngFor="let service_type of service_types" [value]="service_type">
+                            {{service_type.name}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </div>
+            </div>
+            <div class="col-md-12 no-padding">
+                <div class="col-md-6" style="margin-top: 20px;">
+                    <mat-checkbox name="recurent" [(ngModel)]="service.recurent">
+                        <span *ngIf="service.recurent">Facturación recurente</span>
+                        <span *ngIf="!service.recurent">Facturación no recurrente</span>
+                    </mat-checkbox>
+                </div>
+                <div class="col-md-6" style="margin-top: 15px;" *ngIf="service.recurent">
+                    <mat-form-field style="width: 100%">
+                        <input name="end_date" #end_date="ngModel" [(ngModel)]="service.end_date" matInput [matDatepicker]="end_date_picker" placeholder="Fecha de fin">
+                        <mat-datepicker-toggle matSuffix [for]="end_date_picker"></mat-datepicker-toggle>
+                        <mat-datepicker #end_date_picker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="col-md-12 no-padding" *ngIf="service.recurent">
+                <div class="col-md-6">
+                    <mat-form-field style="width: 100%">
+                        <mat-select style="width: 100%" name="frequency_type" #frequency_type="ngModel" required [(ngModel)]="service.frequency_type"
+                            placeholder="Tipo de Frecuencia">
+                            <mat-option value="Hora">Hora</mat-option>
+                            <mat-option value="Dia">Dia</mat-option>
+                            <mat-option value="Semana">Semana</mat-option>
+                            <mat-option value="Mes">Mes</mat-option>
+                            <mat-option value="Año">Año</mat-option>
+                        </mat-select>
+
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field style="width: 100%">
+                        <input matInput name="frequency_value" #frequency_value="ngModel" required [(ngModel)]="service.frequency_value" placeholder="Frecuencia"
+                        />
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="col-md-12 no-padding" *ngIf="service.service_type && service.service_type.fields && service.service_type.fields.length > 0">
+                <show-field *ngFor="let field of service.service_type.fields" class="{{field.type == 'group'? 'col-lg-12' : 'col-lg-6'}}"
+                    [field]="field" [object]="service"></show-field>
+            </div>
+            <div class="col-md-12 no-padding">
+                <div class="col-md-12 text-right margin-bottom-xs">
+                    <button type="button" *ngIf="module.add" mat-raised-button color="success" (click)="edit()">
+                        <mat-icon class="md-16">add_box</mat-icon> Agregar Producto
+                    </button>
+                </div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th class="hidden-xs" *ngFor="let field of field_names">{{field}}</th>
+                            <th>Sub Total</th>
+                            <th>ITBis</th>
+                            <th>Total</th>
+                            <th class="action" *ngIf="module.edit || module.delete">Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let product of service.products; let i = index">
+                            <td>{{product.name}}</td>
+                            <td class="hidden-xs" *ngFor="let field of field_names">{{product[field] || ''}}</td>
+                            <td>{{product.total_value | currency:'':'$':'1.2-2'}}</td>
+                            <td>{{product.total_itbis | currency:'':'$':'1.2-2'}}</td>
+                            <td>{{(product.total_value + product.total_itbis) | currency:'':'$':'1.2-2'}}</td>
+                            <td *ngIf="module.edit || module.delete">
+                                <button type="button" class="action" mat-button *ngIf="module.edit" color="accent" (click)="edit(i, product)">
+                                    <mat-icon class="md-16">create</mat-icon>
+                                </button>
+                                <button type="button" class="action" mat-button *ngIf="module.delete" color="warn" (click)="delete(i)">
+                                    <mat-icon class="md-16">delete</mat-icon>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot class="colored">
+                        <tr>
+                            <td></td>
+                            <td class="hidden-xs" *ngFor="let field of field_names"></td>
+                            <td>{{ totalValue | currency:'':'$':'1.2-2'}}</td>
+                            <td>{{ total_itbis | currency:'':'$':'1.2-2'}}</td>
+                            <td>{{ total_general | currency:'':'$':'1.2-2'}}</td>
+                            <td *ngIf="module.edit || module.delete"></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+
+            <div class="col-md-12">
+                <mat-form-field style="width: 100%">
+                    <textarea matInput name="note" rows="4" #note="ngModel" [(ngModel)]="service.note" placeholder="Nota"></textarea>
+                </mat-form-field>
+            </div>
+        </mat-card-content>
+        <mat-card-actions>
+            <button type="button" [routerLink]="['/admin/service/list']" mat-raised-button color="warn">
+                <mat-icon class="link">close</mat-icon> Cancelar</button>
+            <button *ngIf="module.add || module.edit" type="subbmit" [disabled]="!serviceForm.valid || service.products.length < 1" mat-raised-button
+                color="primary">
+                Guardar <mat-icon class="link">check</mat-icon></button>
+        </mat-card-actions>
+    </mat-card>
+</form>

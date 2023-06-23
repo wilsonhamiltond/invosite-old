@@ -1,0 +1,84 @@
+<!-- Products -->
+<section class="padding-top-40 padding-bottom-60">
+    <div class="container">
+        <div class="row">
+            <div class="product-detail" *ngIf="product">
+                <div class="product">
+                    <div class="row">
+                        <!-- Slider Thumb -->
+                        <div class="col-xs-5">
+                            <article class="slider-item on-nav">
+                                <div class="thumb-slider">
+                                    <ul class="slides">
+                                        <li *ngFor="let image of images" [attr.data-thumb]="image">
+                                            <img [src]="image" onerror="this.src='assest/images/empty.png';" alt="">
+                                        </li>
+                                    </ul>
+                                </div>
+                            </article>
+                        </div>
+                        <!-- Item Content -->
+                        <div class="col-xs-7">
+                            <span class="tags">{{product.category.name}}</span>
+                            <h5>{{product.name}}</h5>
+                            <p class="rev hidden">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star-o"></i>
+                                <span class="margin-left-10">5 Review(s)</span>
+                            </p>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <span class="price">{{product.value | currency:'':'$':'1.2-2'}} </span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <p>Disponible en:
+                                        <span class="in-stock">Almacen</span>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 description" [innerHTML]="product.description">
+                                </div>
+                            </div>
+                            <a href="#." class="btn-round hidden">
+                                <i class="icon-basket-loaded margin-right-5"></i> Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Details Tab Section-->
+                <div class="item-tabs-sec">
+                    <ul class="nav" role="tablist">
+                        <li role="presentation" class="active">
+                            <a href="#pro-detil" role="tab" data-toggle="tab">Detalles del Producto</a>
+                        </li>
+                    </ul>
+
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane fade in active" id="pro-detil">
+                            <!-- List Details -->
+                            <div class="row">
+                                <h6>Especificaciones</h6>
+                                <div class="col-sm-6 no-padding" *ngFor="let field of product.category.fields">
+                                        <div class="col-sm-6" *ngIf="field.type != 'file'">{{field.text}}:</div>
+                                        <div class="col-sm-6" *ngIf="field.type != 'file'">{{field.value}}</div>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <h6>Descripcin</h6>
+                                <div class="col-sm-12" [innerHTML]="product.description">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

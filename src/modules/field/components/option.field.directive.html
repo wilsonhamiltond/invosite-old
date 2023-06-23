@@ -1,0 +1,26 @@
+﻿<div class="col-md-12 col-sm-12" *ngFor="let option of show_options(); let i = index">
+    <div class="col-md-4 col-sm-4">
+        <mat-form-field style="width: 100%">
+            <input matInput name="option_label_{{i}}" required (blur)="option.value = option.label" [(ngModel)]="option.label"
+                placeholder="Texto" />
+        </mat-form-field>
+    </div>
+    <div class="col-md-4 col-sm-4">
+        <mat-form-field style="width: 100%">
+            <input matInput name="option_value_{{i}}" required [(ngModel)]="option.value" placeholder="Vaor" />
+        </mat-form-field>
+    </div>
+    <div class="col-md-4 col-sm-4">
+        <button [disabled]="!option.label && !option.value" type="button" mat-raised-button color="success" (click)="add()">
+            <mat-icon class="md-16">add_box</mat-icon>
+        </button>
+        <button type="button" mat-raised-button color="warn" (click)="delete(i)">
+            <mat-icon class="md-16">delete</mat-icon>
+        </button>
+    </div>
+</div>
+<div class="col-md-12" *ngIf="show_options().length <= 0">
+    Este grupo de campos esta vacio, click aqui <button type="button" mat-raised-button color="success" (click)="add()">
+        <mat-icon class="md-16">add_box</mat-icon>
+    </button> para agregar campos.
+</div>

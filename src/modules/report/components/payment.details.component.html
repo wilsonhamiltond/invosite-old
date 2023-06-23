@@ -1,0 +1,89 @@
+﻿<mat-card class="col-md-12 col-lg-12 col-sm-12 col-xs-12 no-padding print">
+    <loading></loading>
+    <mat-card-content *ngIf="payment">
+        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 no-print">
+            <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6 no-padding">
+                <button mat-button (click)="go_back()">
+                    <mat-icon class="md-16">keyboard_return</mat-icon> Regresar</button>
+            </div>
+            <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6 no-padding text-right">
+                <button *ngIf="module.print" mat-raised-button (click)="print()">
+                    <mat-icon class="md-16">print</mat-icon> Imprimir</button>
+            </div>
+        </div>
+        <div class="margin-bottom-xs col-md-12 col-lg-12 col-sm-12 col-xs-12 no-padding">
+            <div class="col-md-col-md-12 col-lg-12 col-sm-12 col-xs-12 no-padding text-center">
+                <img src="{{setting.logo}}" style="height: 64px; width: 64px" />
+            </div>
+            <h3 style="margin: 0;" class="col-md-12 col-lg-12 col-sm-12 col-xs-12 no-padding m-0 text-center">{{setting.name}}</h3>
+            <p class="text-center col-md-12 col-lg-12 col-sm-12 col-xs-12 no-padding m-0">{{setting.description}}</p>
+            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 no-padding text-center margin-bottom-xs">
+                <p *ngIf="setting.rnc">RNC:{{setting.rnc}}</p>
+                <p *ngIf="setting.phone">Tel.: {{setting.phone}}</p>
+                <p *ngIf="setting.email">Email: {{setting.email}}</p>
+                <p *ngIf="setting.address">Dirección: {{setting.address}}</p>
+            </div>
+            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 no-padding margin-bottom-sm">
+                <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12 no-padding">
+                    <p>Cliente: {{payment.client.name}} {{payment.client.last_name}}</p>
+                </div>
+                <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12 no-padding text-right">
+                    <p>Fecha: {{payment.payment_date | date:'dd/MM/yyyy'}}</p>
+                    <div *ngFor="let cf of client_fields">
+                        <p *ngIf="payment.method[cf]" class="col-xs-12 no-padding">
+                            {{cf}}: {{payment.method[cf]}}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 no-padding">
+                <table class="table" style="margin-bottom: 0px;">
+                    <thead>
+                        <tr>
+                            <th>Factura</th>
+                            <th class="number_column">Valor</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let invoice of invoices">
+                            <td>{{invoice.number | number}} <br/>
+                                {{invoice.invoice_date | date:'dd/MM/yyyy'}}
+                            </td>
+                            <td class="number_column">{{invoice.total_value}}</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td class="number_column text-right">Total pagado: </td>
+                            <td class="number_column">{{payment.value | currency:'':'$':'1.2-2' }}</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 no-padding margin-bottom-xs">
+            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 no-padding">
+                <p class="col-md-12 col-lg-12 col-sm-6 col-xs-12 no-padding" *ngIf="payment.concept">Nota: {{payment.concept}}
+                    <b *ngIf="!payment.concept || setting.purchase_message">
+                        <br/> {{setting.purchase_message}}</b>
+                </p>
+                <p class="col-md-12 col-lg-12 col-sm-6 col-xs-12 no-padding">
+                    Entregado Por:
+                    <b>{{payment.create_user.account.name}} {{payment.create_user.account.last_name}}</b>
+                </p>
+            </div>
+        </div>
+        <div class="margin-bottom-xs col-md-12 col-lg-12 col-sm-12 col-xs-12 no-print">
+            <div class="col-md-6 no-padding">
+                <button mat-button (click)="go_back()">
+                    <mat-icon class="md-16">keyboard_return</mat-icon>
+                    Ir a listado de prestamos
+                </button>
+            </div>
+            <div class="col-md-6 no-padding text-right">
+                <button *ngIf="module.print" mat-raised-button (click)="print()">
+                    <mat-icon class="md-16">print</mat-icon> Imprimir</button>
+            </div>
+        </div>
+    </mat-card-content>
+</mat-card>

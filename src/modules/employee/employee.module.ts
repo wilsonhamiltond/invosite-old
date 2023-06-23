@@ -1,0 +1,53 @@
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { RouterModule } from "@angular/router";
+
+import { MatCardModule } from "@angular/material/card";
+import { MatCheckboxModule } from "@angular/material/checkbox";
+import { MatIconModule } from "@angular/material/icon";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatDatepickerModule } from "@angular/material/datepicker";
+import { MatInputModule } from "@angular/material/input";
+import { MatAutocompleteModule } from "@angular/material/autocomplete";
+import { MatPaginatorModule } from "@angular/material/paginator";
+import { MatButtonModule } from "@angular/material/button";
+import { MatSnackBarModule } from "@angular/material/snack-bar";
+import { MatTabsModule } from "@angular/material/tabs";
+
+import { UtilsModule } from "../utils/utils.module";
+
+import { EmployeeCreateComponent } from "./components/create.component";
+import { EmployeeListComponent } from "./components/list.component";
+import { CommisionProductComponent } from "./components/commision.product.component";
+
+import { EmployeeRouting } from "./employee.route";
+import { NotifyService } from "../../services/utils/notify.service";
+@NgModule({
+  imports: [
+    MatSnackBarModule,
+    MatAutocompleteModule,
+    MatDatepickerModule,
+    MatTabsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatCheckboxModule,
+    MatIconModule,
+    MatCardModule,
+    MatPaginatorModule,
+    CommonModule,
+    EmployeeRouting,
+    UtilsModule,
+    FormsModule,
+    RouterModule,
+    ReactiveFormsModule,
+  ],
+  providers: [NotifyService],
+  declarations: [
+    EmployeeCreateComponent,
+    EmployeeListComponent,
+    CommisionProductComponent,
+  ],
+})
+export class EmployeeModule {}
